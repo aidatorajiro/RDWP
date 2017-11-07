@@ -18,7 +18,7 @@ page = mainWidget $ do
   tickcnt <- getTickCount
 
   initGen <- liftIO getStdGen
-  (rnd, gen) <- randomRDyn (1 :: Int, 800) initGen $ updated tickcnt
+  (rnd, gen) <- randomRDyn (1 :: Int, 800) initGen (updated tickcnt)
   style <- foldDynMaybe (\r _ -> case r of
     400 -> Just "text-align: center;"
     255 -> Just "color: #FFFFFF;"
