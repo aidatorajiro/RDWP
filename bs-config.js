@@ -12,7 +12,8 @@
  |
  */
 
-historyApiFallback = require('connect-history-api-fallback')
+let historyApiFallback = require('connect-history-api-fallback')
+let base = __dirname + "/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0_ghcjs/build/RDWP-exe/RDWP-exe.jsexe/"
 
 module.exports = {
     "ui": {
@@ -21,7 +22,7 @@ module.exports = {
             "port": 8080
         }
     },
-    "files": "*",
+    "files": [base + "out.js"],
     "watchEvents": [
         "change"
     ],
@@ -29,7 +30,7 @@ module.exports = {
         "ignoreInitial": true
     },
     "server": {
-      "baseDir": ".stack-work/dist/x86_64-osx/Cabal-1.24.2.0_ghcjs/build/RDWP-exe/RDWP-exe.jsexe/",
+      "baseDir": base,
       "index": "index.html",
       "middleware": [ historyApiFallback() ],
     },
