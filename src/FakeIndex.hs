@@ -11,4 +11,4 @@ import Util (getTickCount)
 page :: IO ()
 page = mainWidget $ do
   tickcnt <- getTickCount
-  dynText $ T.pack . show <$> tickcnt
+  dynText $ T.pack . ( ++ "frames" ) . show <$> tickcnt
