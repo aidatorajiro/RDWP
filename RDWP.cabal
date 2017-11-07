@@ -12,7 +12,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     LibMain,
+  exposed-modules:     Util,
+                       LibMain,
                        Location,
                        FakeIndex,
                        Index,
