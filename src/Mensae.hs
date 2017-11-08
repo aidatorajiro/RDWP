@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Error404 ( page ) where
+module Mensae ( page ) where
 
 import Reflex.Dom
 
