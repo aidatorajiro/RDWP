@@ -16,3 +16,13 @@ Please modify the variable "base" in bs-config.js so that it will match with you
 3. browser-sync start --config ./bs-config.js
 
 This procedure will launch the http server which will take all of the connections to the generated index.html, since this web app is a Single Page Application.
+
+## Source
+Elements.hs - HTML element templates
+Error404.hs - routing fallback
+FakeIndex.hs - routed to "/" and ""
+Index.hs - routed to "index"
+LibMain.hs - router settings and app's main function
+Location.hs - path settings and functions about location
+Util.hs - misc utilities
+other files - individual pages
