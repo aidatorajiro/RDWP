@@ -1,4 +1,4 @@
-module Location ( location, move, path ) where
+module Location ( location, move, asset ) where
 
 import Data.JSString ( JSString, unpack, pack )
 

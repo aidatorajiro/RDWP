@@ -2,13 +2,18 @@
 
 module FakeIndex ( page ) where
 
+import qualified Data.ByteString as B
 import qualified Data.Text as T
+import qualified Data.Map as M
 
 import Reflex.Dom
+import Elements (h1ID)
 
-import Util (getTickCount)
+css :: B.ByteString
+css = "\
+\#heading {\
+\  \
+\}"
 
 page :: IO ()
-page = mainWidget $ do
-  tickcnt <- getTickCount
-  dynText $ T.pack . ( ++ "frames" ) . show <$> tickcnt
+page = mainWidgetWithCss css $ h1ID "heading" "R.D.W.P."
