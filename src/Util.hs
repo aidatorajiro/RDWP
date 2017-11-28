@@ -5,6 +5,9 @@ module Util where
 import Control.Monad.Trans (liftIO)
 import Data.Time
 import System.Random
+import Data.FileEmbed (embedFile)
+
+import qualified Data.ByteString as B
 
 import Reflex.Dom
 

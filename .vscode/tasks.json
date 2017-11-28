@@ -4,13 +4,18 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "taskName": "stack build",
+      "label": "stack build",
       "type": "shell",
       "command": "stack build",
       "group": {
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "browser-sync",
+      "type": "shell",
+      "command": "browser-sync start --config ./bs-config.js"
     }
   ]
 }

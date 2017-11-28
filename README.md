@@ -7,6 +7,16 @@
 4. stack setup
 5. stack build
 
+## Libraries
+- dependent-sum-template
+- ghcjs-dom
+- ghcjs-dom-jsffi
+- jsaddle
+- prim-uniq
+- ref-tf
+- zenc
+- file-embed
+
 ## Run
 
 Please modify the variable "base" in bs-config.js so that it will match with your operation system and cabal version.
