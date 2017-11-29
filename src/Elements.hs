@@ -15,7 +15,7 @@ elID tagname id = elAttr tagname (M.fromList [("id", id)])
 h1 :: MonadWidget t m => T.Text -> m ()
 h1 = el "h1" . text
 
--- h1 with given text and id
+-- h1 with given id and text
 h1ID :: MonadWidget t m => T.Text -> T.Text -> m ()
 h1ID id t = elID "h1" id (text t)
 

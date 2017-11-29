@@ -12,7 +12,7 @@ import Elements (elID, h1ID, spanAbsP)
 
 import Data.FileEmbed (embedFile)
 
-data SpanType = Dollar | BindL | BindR 
+data SpanType = Dollar | BindL | BindR
 
 spanText :: SpanType -> T.Text
 spanText Dollar = "$"
