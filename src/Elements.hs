@@ -9,7 +9,7 @@ import Reflex.Dom
 
 -- an element with given id and widget
 elID :: MonadWidget t m => T.Text -> T.Text -> m a -> m a
-elID tagname id = elAttr tagname (M.fromList [("id", id)])
+elID tagname = elAttr tagname . M.singleton "id"
 
 -- h1 with given text
 h1 :: MonadWidget t m => T.Text -> m ()
@@ -22,15 +22,11 @@ h1ID id t = elID "h1" id (text t)
 -- span element with absolute pixel position
 spanAbs :: MonadWidget t m => T.Text -> Double -> Double -> m ()
 spanAbs t x y = elAttr "span"
-  (M.fromList
-    [("style",
-      T.pack $ "position: absolute; top: " ++ show x ++ "px; left: " ++ show y ++ "px;")]
-  ) (text t)
+  (M.singleton "style" $ T.pack $ "position: absolute; top: " ++ show x ++ "px; left: " ++ show y ++ "px;")
+  (text t)
 
 -- span element with absolute percentage position
 spanAbsP :: MonadWidget t m => T.Text -> Double -> Double -> m ()
 spanAbsP t x y = elAttr "span"
-  (M.fromList
-    [("style",
-      T.pack $ "position: absolute; top: " ++ show x ++ "%; left: " ++ show y ++ "%;")]
-  ) (text t)
+  (M.singleton "style" $ T.pack $ "position: absolute; top: " ++ show x ++ "%; left: " ++ show y ++ "%;")
+  (text t)
