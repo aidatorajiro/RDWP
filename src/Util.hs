@@ -18,7 +18,7 @@ getTickCount = do
   tickev <- tickLossy 0.01 now
   count tickev
 
--- dynamic random number and number generator with given range
+-- dynamic random number and random number generator with given range and initial generator
 randomRDyn :: (Random a, RandomGen g, MonadWidget t m) => (a, a) -> g -> Event t b -> m (Dynamic t a, Dynamic t g)
 randomRDyn range initGen ev = splitDynPure <$> foldDyn (\_ (_, g) -> randomR range g) (randomR range initGen) ev
 
