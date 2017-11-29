@@ -11,8 +11,7 @@ import System.Random
 
 import Reflex.Dom
 
-import Util ( randomRDyn, getTickCount )
-import Location ( move )
+import Util ( randomRDyn, getTickCount, moveWhenEvent )
 
 page :: IO ()
 page = mainWidget $ do
@@ -34,13 +33,7 @@ page = mainWidget $ do
       attr_h1 = (\s -> M.fromList [("style", s)]) <$> style
       attr_div = (\p -> M.fromList [("style", T.pack $ "height: 1em; width: " ++ show p ++ "%; background: black;")]) <$> percentage
 
-  dyn =<< foldDynMaybe
-    (\t _ ->
-      if t == 10000 then
-        Just (liftIO $ move "mensae")
-      else Nothing)
-    (return ())
-    (updated tickcnt)
+  moveWhenEvent (ffilter (== 10000) $ updated tickcnt) "mensae"
 
   elDynAttr "h1" attr_h1 $ text "Hello, world!"
   elDynAttr "div" attr_div blank
