@@ -8,9 +8,11 @@ import qualified Data.Text as T
 import qualified Data.Map as M
 
 import Reflex.Dom
-import Elements (elID, h1ID, spanAbsP)
+import Elements (elID, h1ID', spanAbsP)
 
 import Data.FileEmbed (embedFile)
+
+import Util (moveWhenEvent)
 
 data SpanType = Dollar | BindL | BindR
 
@@ -65,11 +67,19 @@ spanList = [
 css :: B.ByteString
 css = $(embedFile "assets/css/FakeIndex.css")
 
+-- PATH TO THE DEPTH
+-- worry skate notice member person slender indicate fun urge chalk foster fiber chunk inch popular
 page :: IO ()
 page = mainWidgetWithCss css $ elID "div" "wrapper" $ do
   mapM_ (\(t, x, y) -> spanAbsP (spanText t) x y) spanList
   spanAbsP "$" 10 10
-  h1ID "bind" "=<<"
-  h1ID "dollar" "$"
-  h1ID "fmap" "<$>"
-  h1ID "strict" "!"
+  
+  bind   <- h1ID' "bind" "=<<"
+  dollar <- h1ID' "dollar" "$"
+  fmap   <- h1ID' "fmap" "<$>"
+  strict <- h1ID' "strict" "!"
+  
+  moveWhenEvent (domEvent Click bind  ) ""
+  moveWhenEvent (domEvent Click dollar) ""
+  moveWhenEvent (domEvent Click fmap  ) ""
+  moveWhenEvent (domEvent Click strict) "worry"
