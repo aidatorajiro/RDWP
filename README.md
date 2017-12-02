@@ -22,6 +22,9 @@ There are few pages now.
 5. stack build
 
 ## Libraries
+- reflex
+- reflex-dom
+
 - dependent-sum-template
 - ghcjs-dom
 - ghcjs-dom-jsffi
