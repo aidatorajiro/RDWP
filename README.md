@@ -1,4 +1,18 @@
-# RDWP
+# RDWP (Reflex Deep Web Project)
+
+Reflex Deep Web Project is an implementation of mysterious website. The website looks like an adventure game. However, it is different from a game because there is no mission or meaning.
+
+The purpose of this project is to restore mysterious spaces in the Internet. With developed search engines and enormous users of the Internet and monetization, its closed and mysterious sanctuary have been decreasing these days.
+
+One of the most important features of this project is that the website is built using Reflex, a functional reactive programming framework for Haskell. Thanks to Reflex and Haskell, we can:
+- use interesting libraries and features in Haskell (e.g. dynamic type inference, Template Haskell)
+- feel the universe of functional system
+- make not only the website but also the source code mysterious and playful (e.g. strict sign to all functions in the source code)
+
+## Progress
+
+There are few pages now.
+
 ## Build
 
 1. Install The Haskell Tool Stack.
