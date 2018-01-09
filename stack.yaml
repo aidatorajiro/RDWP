@@ -10,25 +10,25 @@ setup-info:
 
 packages:
 - '.'
-- location:
-    git: https://github.com/reflex-frp/reflex.git
-    commit: 687b41474f1cacf26b93e981340c7e5c8fccc01d
-- location:
-    git: https://github.com/reflex-frp/reflex-dom.git
-    commit: 9a0a7d9dada8dcc452dc3b3a611a7d022ebd89b6
-  subdirs:
-  - reflex-dom-core
-  - reflex-dom
 
 extra-deps:
+- constraints-0.9.1
 - dependent-sum-template-0.0.0.6
+- file-embed-0.0.10.1
 - ghcjs-dom-0.9.2.0
 - ghcjs-dom-jsffi-0.9.2.0
 - jsaddle-0.9.4.0
+- parsec-3.1.11
 - prim-uniq-0.1.0.1
 - ref-tf-0.4.0.1
 - zenc-0.1.1
-- file-embed-0.0.10.1
+- git: https://github.com/reflex-frp/reflex.git
+  commit: 264b370a26f791eeab3cbea202d85d6fa26da09c
+- git: https://github.com/reflex-frp/reflex-dom.git
+  commit: 95f13b55044094883d98f01ff3e8971283b92dc3
+  subdirs:
+  - reflex-dom-core
+  - reflex-dom
 
 flags: {}
 

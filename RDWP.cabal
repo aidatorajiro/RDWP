@@ -1,42 +1,78 @@
-name:                RDWP
-version:             0.1.0.0
--- synopsis:
--- description:
-license:             MIT
-license-file:        LICENSE
-author:              Torajiro Aida
-copyright:           2017 Torajiro Aida
-category:            Web
-build-type:          Simple
-cabal-version:       >=1.10
+-- This file has been generated from package.yaml by hpack version 0.20.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 9e1288835b1e8c584a2160011268bbdc914f067d87721c1084dbca7b04e25c04
+
+name:           RDWP
+version:        0.1.0.0
+description:    Please see the README on Github at <https://github.com/aidatorajiro/RDWP#readme>
+homepage:       https://github.com/aidatorajiro/RDWP#readme
+bug-reports:    https://github.com/aidatorajiro/RDWP/issues
+author:         Torajiro Aida
+maintainer:     kawarusosu@zoho.com
+copyright:      2018 Torajiro Aida
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/aidatorajiro/RDWP
 
 library
-  hs-source-dirs:      src
-  exposed-modules:     Util,
-                       Elements,
-                       LibMain,
-                       Location,
-                       FakeIndex,
-                       Mensae,
-                       Index,
-                       Error404
-  build-depends:       base >= 4.7 && < 5,
-                       reflex,
-                       reflex-dom,
-                       random,
-                       time,
-                       mtl,
-                       containers,
-                       text,
-                       bytestring,
-                       ghcjs-base,
-                       file-embed
-  default-language:    Haskell2010
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , bytestring
+    , containers
+    , file-embed
+    , ghcjs-base
+    , mtl
+    , parsec
+    , random
+    , reflex
+    , reflex-dom
+    , text
+    , time
+  exposed-modules:
+      Elements
+      Error404
+      FakeIndex
+      Index
+      LibMain
+      Location
+      Mensae
+      Source
+      Util
+  other-modules:
+      Paths_RDWP
+  default-language: Haskell2010
 
 executable RDWP-exe
-  hs-source-dirs:      app
-  main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
-  build-depends:       base,
-                       RDWP
-  default-language:    Haskell2010
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      RDWP
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , file-embed
+    , ghcjs-base
+    , mtl
+    , parsec
+    , random
+    , reflex
+    , reflex-dom
+    , text
+    , time
+  other-modules:
+      Paths_RDWP
+  default-language: Haskell2010
