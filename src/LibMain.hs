@@ -11,13 +11,13 @@ import qualified FakeIndex
 import qualified Mensae
 import qualified Error404
 
-url :: Stream s m Char => String -> IO () -> ParsecT s u m (IO ())
-url x m = string x >> eof >> return m
+path :: Stream s m Char => String -> IO () -> ParsecT s u m (IO ())
+path x m = string x >> eof >> return m
 
 pathParser :: Stream s m Char => ParsecT s u m (IO ())
-pathParser   =   (url "index" Index.page)
-            <|>  (url "" FakeIndex.page)
-            <|>  (url "mensae" Mensae.page)
+pathParser   =   (path "index" Index.page)
+            <|>  (path "" FakeIndex.page)
+            <|>  (path "mensae" Mensae.page)
             <|>  (return Error404.page)
 
 router :: String -> IO ()
