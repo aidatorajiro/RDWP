@@ -6,7 +6,7 @@
     {
       "label": "stack build",
       "type": "shell",
-      "command": "stack build",
+      "command": "stack build --stack-yaml=stack-ghcjs.yaml",
       "group": {
         "kind": "build",
         "isDefault": true

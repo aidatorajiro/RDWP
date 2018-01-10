@@ -23,7 +23,6 @@ dependencies:
 - bytestring
 - containers
 - file-embed
-- ghcjs-base
 - mtl
 - parsec
 - random
@@ -31,6 +30,11 @@ dependencies:
 - reflex-dom
 - text
 - time
+
+when:
+  - condition: impl(ghcjs)
+    dependencies:
+    - ghcjs-base
 
 library:
   source-dirs: src

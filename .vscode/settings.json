@@ -1,0 +1,3 @@
+{
+  "haskell.ghcMod.executablePath": "ghc-mod"
+}

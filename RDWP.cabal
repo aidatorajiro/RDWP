@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9e1288835b1e8c584a2160011268bbdc914f067d87721c1084dbca7b04e25c04
+-- hash: 961aefafe6e61ef4800cf60552ad510821889007a30429f5303724ef916ff2f3
 
 name:           RDWP
 version:        0.1.0.0
@@ -32,7 +32,6 @@ library
     , bytestring
     , containers
     , file-embed
-    , ghcjs-base
     , mtl
     , parsec
     , random
@@ -40,6 +39,9 @@ library
     , reflex-dom
     , text
     , time
+  if impl(ghcjs)
+    build-depends:
+        ghcjs-base
   exposed-modules:
       Elements
       Error404
@@ -65,7 +67,6 @@ executable RDWP-exe
     , bytestring
     , containers
     , file-embed
-    , ghcjs-base
     , mtl
     , parsec
     , random
@@ -73,6 +74,9 @@ executable RDWP-exe
     , reflex-dom
     , text
     , time
+  if impl(ghcjs)
+    build-depends:
+        ghcjs-base
   other-modules:
       Paths_RDWP
   default-language: Haskell2010

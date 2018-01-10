@@ -1,5 +1,7 @@
+{-# LANGUAGE CPP #-}
 module Location ( location, move, asset ) where
 
+#ifdef ghcjs_HOST_OS
 import Data.JSString ( JSString, unpack, pack )
 
 foreign import javascript safe "var m = location.pathname.match('^/([^/]+)$'); if (m === null) { $r = '' } else { $r = m[1] };" locationJSString :: IO JSString
@@ -12,6 +14,14 @@ move = moveJSString . pack
 -- get current location
 location :: IO String
 location = unpack <$> locationJSString
+
+#else
+move :: String -> IO ()
+move = const $ return ()
+
+location :: IO String
+location = return ""
+#endif
 
 -- get asset path
 asset :: String -> String

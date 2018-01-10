@@ -18,8 +18,10 @@ There are few pages now.
 1. Install The Haskell Tool Stack.
 2. git clone http://github.com/aidatorajiro/RDWP
 3. cd RDWP
-4. stack setup
-5. stack build
+4. stack setup --stack-yaml=stack-ghcjs.yaml
+5. stack build --stack-yaml=stack-ghcjs.yaml
+
+The file `stack.yaml` is for GHC compiling.
 
 ## Libraries
 - reflex
