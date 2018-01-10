@@ -11,7 +11,7 @@ mkDerivation {
     base bytestring containers file-embed mtl
     parsec random reflex reflex-dom text time
     haskell-src-exts haskell-src-meta
-  ]);
+  ];
   configureFlags = [
     "-f-use-template-haskell"
   ];

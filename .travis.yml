@@ -8,8 +8,10 @@ matrix:
   include:
   - env: COMPILER=ghcjs
 
-script:
+before_script:
   - apt-get install libtinfo-dev
+
+script:
   - set -e
   - nix-build -E "with (import <nixpkgs> {}); pkgs.haskell.packages.$COMPILER.callPackage ./default.nix { }"
   - nix-collect-garbage -d # This is important to do right before 'script' ends so the cache gets GCed
