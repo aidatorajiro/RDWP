@@ -1,5 +1,5 @@
 { mkDerivation, ghc, base, bytestring, containers, file-embed
-, MemoTrie, parsec, random, reflex, reflex-dom
+, mtl, parsec, random, reflex, reflex-dom
 , text, time, useTemplateHaskell, stdenv ? true
 }:
 mkDerivation {
