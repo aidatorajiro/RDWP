@@ -1,7 +1,7 @@
 { mkDerivation, ghc, base, bytestring, containers, file-embed
 , haskell-src-exts, haskell-src-meta
 , mtl, parsec, random, reflex, reflex-dom
-, text, time, useTemplateHaskell, stdenv ? true
+, text, time, stdenv, useTemplateHaskell ? true
 }:
 mkDerivation {
   pname = "RDWP";
@@ -13,6 +13,7 @@ mkDerivation {
   ] ++ (if !useTemplateHaskell then [] else [
     haskell-src-exts haskell-src-meta
   ]);
+  testHaskellDepends = [];
   configureFlags = if useTemplateHaskell then [] else [
     "-f-use-template-haskell"
   ];
