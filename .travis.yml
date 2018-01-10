@@ -9,7 +9,8 @@ matrix:
   - env: COMPILER=ghcjs
 
 before_script:
-  - apt-get install libtinfo-dev
+  - sudo apt-get update
+  - sudo apt-get install libtinfo-dev
 
 script:
   - set -e
