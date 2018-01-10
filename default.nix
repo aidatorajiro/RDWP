@@ -1,4 +1,5 @@
 { mkDerivation, ghc, base, bytestring, containers, file-embed
+, haskell-src-exts, haskell-src-meta
 , mtl, parsec, random, reflex, reflex-dom
 , text, time, useTemplateHaskell, stdenv ? true
 }:
