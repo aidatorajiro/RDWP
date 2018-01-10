@@ -1,7 +1,7 @@
 { mkDerivation, ghc, base, bytestring, containers, file-embed
-, haskell-src-exts, haskell-src-meta
 , mtl, parsec, random, reflex, reflex-dom
-, text, time, stdenv, useTemplateHaskell ? true
+, text, time, stdenv
+, haskell-src-exts, haskell-src-meta
 }:
 mkDerivation {
   pname = "RDWP";
@@ -10,11 +10,9 @@ mkDerivation {
   libraryHaskellDepends = [
     base bytestring containers file-embed mtl
     parsec random reflex reflex-dom text time
-  ] ++ (if !useTemplateHaskell then [] else [
     haskell-src-exts haskell-src-meta
   ]);
-  testHaskellDepends = [];
-  configureFlags = if useTemplateHaskell then [] else [
+  configureFlags = [
     "-f-use-template-haskell"
   ];
   homepage = "https://github.com/aidatorajiro/RDWP";
