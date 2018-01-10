@@ -6,9 +6,6 @@ cache:
 
 matrix:
   include:
-  - env: COMPILER=ghc7103
-  - env: COMPILER=ghc821
-  - env: COMPILER=ghc802
   - env: COMPILER=ghcjs
 
 script:
