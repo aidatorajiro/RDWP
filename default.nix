@@ -1,6 +1,6 @@
 { mkDerivation, ghc, base, bytestring, containers, file-embed
 , MemoTrie, parsec, random, reflex, reflex-dom
-, text, time, useTemplateHaskell ? true
+, text, time, useTemplateHaskell, stdenv ? true
 }:
 mkDerivation {
   pname = "RDWP";
