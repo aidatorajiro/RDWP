@@ -1,5 +1,8 @@
 sudo: true
 language: generic
+cache:
+  directories:
+  - /nix
 before_install:
 - yes | head -c 100 | reflex-platform/try-reflex --command "exit 0"
 - . /home/travis/.nix-profile/etc/profile.d/nix.sh
