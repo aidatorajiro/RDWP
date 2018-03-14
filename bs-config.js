@@ -13,7 +13,7 @@
  */
 
 let historyApiFallback = require('connect-history-api-fallback')
-let base = __dirname + "/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0_ghcjs/build/RDWP-exe/RDWP-exe.jsexe/"
+let base = __dirname + "/result/ghcjs/frontend/bin/RDWP-exe.jsexe/"
 
 module.exports = {
     "ui": {

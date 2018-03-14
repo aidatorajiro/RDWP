@@ -15,30 +15,12 @@ There are few pages now.
 
 ## Build
 
-1. Install The Haskell Tool Stack.
-2. git clone http://github.com/aidatorajiro/RDWP
-3. cd RDWP
-4. stack setup --stack-yaml=stack-ghcjs.yaml
-5. stack build --stack-yaml=stack-ghcjs.yaml
+1. git clone --recursive http://github.com/aidatorajiro/RDWP
+2. cd RDWP
+3. reflex-platform/try-reflex
+4. nix-build
 
-The file `stack.yaml` is for GHC compiling.
-
-## Libraries
-- reflex
-- reflex-dom
-
-- dependent-sum-template
-- ghcjs-dom
-- ghcjs-dom-jsffi
-- jsaddle
-- prim-uniq
-- ref-tf
-- zenc
-- file-embed
-
-## Run
-
-Please modify the variable "base" in bs-config.js so that it will match with your operation system and cabal version.
+## Run Server
 
 1. Build this program (see above).
 2. npm install -g browser-sync connect-history-api-fallback
