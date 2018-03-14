@@ -1,7 +1,7 @@
 sudo: true
 language: generic
 before_install:
-- reflex-platform/try-reflex --command "exit 0"
+- yes | head -c 100 | reflex-platform/try-reflex --command "exit 0"
 - source /etc/bashrc
 install:
 - nix-build
