@@ -1,12 +1,8 @@
-sudo: true
-language: generic
+language: nix
 cache:
   directories:
   - /nix
-before_install:
-- yes | head -c 100 | reflex-platform/try-reflex --command "exit 0"
-- . /home/travis/.nix-profile/etc/profile.d/nix.sh
-install:
+script:
 - nix-build
 - zip -rj RDWP.zip ./result/ghcjs/frontend/bin/RDWP-exe.jsexe
 deploy:
