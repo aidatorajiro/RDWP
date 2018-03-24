@@ -3,6 +3,11 @@ language: generic
 cache:
   directories:
   - /nix
+  - /home/travis/.nix-profile
+  - /home/travis/.nix-defexpr
+  - /home/travis/.nix-channels
+  - /home/travis/.config/nixpkgs
+  - /etc/nix
 before_install:
 - yes | head -c 100 | reflex-platform/try-reflex --command "exit 0"
 - . /home/travis/.nix-profile/etc/profile.d/nix.sh
