@@ -9,7 +9,7 @@ cache:
   - /home/travis/.config/nixpkgs
   - /etc/nix
 before_install:
-- yes | head -c 100 | reflex-platform/try-reflex --command "exit 0"
+- if [[ ! -d /nix ]] ; then yes | head -c 100 | reflex-platform/try-reflex --command "exit 0" ; fi
 - . /home/travis/.nix-profile/etc/profile.d/nix.sh
 install:
 - nix-build
