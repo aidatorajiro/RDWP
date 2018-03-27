@@ -79,7 +79,7 @@ page = mainWidgetWithCss css $ elID "div" "wrapper" $ do
   fmap   <- h1ID' "fmap" "<$>"
   strict <- h1ID' "strict" "!"
   
-  moveWhenEvent (domEvent Click bind  ) ""
-  moveWhenEvent (domEvent Click dollar) ""
-  moveWhenEvent (domEvent Click fmap  ) ""
+  moveWhenEvent (domEvent Click bind  ) "nmnmnmnmn"
+  moveWhenEvent (domEvent Click dollar) "nazo"
+  moveWhenEvent (domEvent Click fmap  ) "harituke"
   moveWhenEvent (domEvent Click strict) "worry"
