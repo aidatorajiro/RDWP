@@ -11,7 +11,7 @@ cache:
 before_install:
 - if [[ ! -d /nix ]] ; then yes | head -c 100 | reflex-platform/try-reflex --command "exit 0" ; fi
 - . /home/travis/.nix-profile/etc/profile.d/nix.sh
-install:
+script:
 - nix-build
 - zip -rj RDWP.zip ./result/ghcjs/frontend/bin/RDWP-exe.jsexe
 deploy:
