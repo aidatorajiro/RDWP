@@ -79,9 +79,8 @@ page = elID "div" "wrapper" $ do
   fmap   <- h1ID' "fmap" "<$>"
   strict <- h1ID' "strict" "!"
   
-  return (
+  return $
     ("nmnmnmnmn" <$ domEvent Click bind) <>
     ("nazo"      <$ domEvent Click dollar) <>
     ("harituke"  <$ domEvent Click fmap) <>
     ("worry"     <$ domEvent Click strict)
-  )
