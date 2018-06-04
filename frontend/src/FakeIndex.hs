@@ -71,7 +71,7 @@ css = $(embedFile "assets/css/FakeIndex.css")
 
 -- PATH TO THE DEPTH
 -- worry skate notice member person slender indicate fun urge chalk foster fiber chunk inch popular
-page :: MonadWidget t m => m (Event t String)
+page :: MonadWidget t m => m (Event t T.Text)
 page = elID "div" "wrapper" $ do
   mapM_ (\(t, x, y) -> spanAbsP (spanText t) x y) spanList
   spanAbsP "$" 10 10

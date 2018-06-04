@@ -13,7 +13,7 @@ import Reflex.Dom
 
 import Util ( randomRDyn, getTickCount, moveWhenEvent )
 
-page :: MonadWidget t m => m (Event t String)
+page :: MonadWidget t m => m (Event t T.Text)
 page = do
   tickcnt <- getTickCount
 
