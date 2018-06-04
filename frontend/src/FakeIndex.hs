@@ -14,6 +14,8 @@ import Data.FileEmbed (embedFile)
 
 import Util (moveWhenEvent)
 
+import Data.Monoid(<>)
+
 data SpanType = Dollar | BindL | BindR
 
 spanText :: SpanType -> T.Text
