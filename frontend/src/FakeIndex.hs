@@ -69,8 +69,8 @@ css = $(embedFile "assets/css/FakeIndex.css")
 
 -- PATH TO THE DEPTH
 -- worry skate notice member person slender indicate fun urge chalk foster fiber chunk inch popular
-page :: IO ()
-page = mainWidgetWithCss css $ elID "div" "wrapper" $ do
+page :: MonadWidget t m => m (Event t String)
+page = elID "div" "wrapper" $ do
   mapM_ (\(t, x, y) -> spanAbsP (spanText t) x y) spanList
   spanAbsP "$" 10 10
   
@@ -79,7 +79,9 @@ page = mainWidgetWithCss css $ elID "div" "wrapper" $ do
   fmap   <- h1ID' "fmap" "<$>"
   strict <- h1ID' "strict" "!"
   
-  moveWhenEvent (domEvent Click bind  ) "nmnmnmnmn"
-  moveWhenEvent (domEvent Click dollar) "nazo"
-  moveWhenEvent (domEvent Click fmap  ) "harituke"
-  moveWhenEvent (domEvent Click strict) "worry"
+  return (
+    ("nmnmnmnmn" <$ domEvent Click bind) <>
+    ("nazo"      <$ domEvent Click dollar) <>
+    ("harituke"  <$ domEvent Click fmap) <>
+    ("worry"     <$ domEvent Click strict)
+  )

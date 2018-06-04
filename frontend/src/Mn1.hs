@@ -4,5 +4,5 @@ module Mn1 ( page ) where
 
 import Reflex.Dom
 
-page :: IO ()
-page = mainWidget $ return ()
+page :: MonadWidget t m => m (Event String)
+page = return never

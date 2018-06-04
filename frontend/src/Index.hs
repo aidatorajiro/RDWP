@@ -13,8 +13,8 @@ import Reflex.Dom
 
 import Util ( randomRDyn, getTickCount, moveWhenEvent )
 
-page :: IO ()
-page = mainWidget $ do
+page :: MonadWidget t m => m (Event String)
+page = do
   tickcnt <- getTickCount
 
   initGen <- liftIO getStdGen
@@ -32,8 +32,8 @@ page = mainWidget $ do
   let percentage = min 100 . ( * 0.01 ) <$> tickcnt
       attr_h1 = M.singleton "style" <$> style
       attr_div = (\p -> M.singleton "style" $ T.pack $ "height: 1em; width: " ++ show p ++ "%; background: black;") <$> percentage
-
-  moveWhenEvent (ffilter (== 10000) $ updated tickcnt) "mensae"
-
+  
   elDynAttr "h1" attr_h1 $ text "Hello, world!"
   elDynAttr "div" attr_div blank
+  
+  return $ "mensae" <$ (ffilter (== 10000) $ updated tickcnt)
