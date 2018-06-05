@@ -11,7 +11,7 @@ import System.Random
 
 import Reflex.Dom
 
-import Util ( randomRDyn, getTickCount, moveWhenEvent )
+import Util ( randomRDyn, getTickCount )
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
