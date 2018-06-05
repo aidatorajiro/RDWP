@@ -33,6 +33,7 @@ library
     , reflex-dom
     , text
     , time
+    , matrix
   if impl(ghcjs)
     build-depends:
         ghcjs-base
@@ -42,7 +43,6 @@ library
       FakeIndex
       Index
       LibMain
-      Location
       Mensae
       Source
       Util
@@ -61,16 +61,6 @@ executable RDWP-exe
   build-depends:
       RDWP
     , base >=4.7 && <5
-    , bytestring
-    , containers
-    , file-embed
-    , mtl
-    , parsec
-    , random
-    , reflex
-    , reflex-dom
-    , text
-    , time
   if impl(ghcjs)
     build-depends:
         ghcjs-base

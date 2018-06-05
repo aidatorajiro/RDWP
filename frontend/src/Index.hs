@@ -29,7 +29,7 @@ page = do
     111 -> Just ""
     _   -> Nothing) "" (updated rnd)
 
-  let percentage = min 100 . ( * 0.01 ) <$> tickcnt
+  let percentage = ( / 100 ) <$> tickcnt
       attr_h1 = M.singleton "style" <$> style
       attr_div = (\p -> M.singleton "style" $ T.pack $ "height: 1em; width: " ++ show p ++ "%; background: black;") <$> percentage
   

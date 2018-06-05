@@ -8,7 +8,7 @@ import qualified Data.Text as T
 import qualified Data.Map as M
 
 import Reflex.Dom
-import Elements (elID, h1ID', spanAbsP)
+import Elements (h1', spanAbsP)
 
 import Data.FileEmbed (embedFile)
 
@@ -70,14 +70,14 @@ css = $(embedFile "assets/css/FakeIndex.css")
 -- PATH TO THE DEPTH
 -- worry skate notice member person slender indicate fun urge chalk foster fiber chunk inch popular
 page :: MonadWidget t m => m (Event t T.Text)
-page = elID "div" "wrapper" $ do
+page = el "div" $ do
   mapM_ (\(t, x, y) -> spanAbsP (spanText t) x y) spanList
   spanAbsP "$" 10 10
   
-  bind   <- h1ID' "bind" "=<<"
-  dollar <- h1ID' "dollar" "$"
-  fmap   <- h1ID' "fmap" "<$>"
-  strict <- h1ID' "strict" "!"
+  bind   <- h1' "bind" "=<<"
+  dollar <- h1' "dollar" "$"
+  fmap   <- h1' "fmap" "<$>"
+  strict <- h1' "strict" "!"
   
   return $
     ("/nmnmnmnmn" <$ domEvent Click bind) <>
