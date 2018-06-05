@@ -38,15 +38,15 @@ h1 = el "h1" . text
 
 -- | h1 with given text
 h1' :: MonadWidget t m => T.Text -> m (Element EventResult (DomBuilderSpace m) t)
-h1' = el' "h1" . text
+h1' = fmap fst . el' "h1" . text
 
 -- | h1 with given id and text
 h1ID :: MonadWidget t m => T.Text -> T.Text -> m ()
-h1ID id t = elID "h1" id (text t)
+h1ID id = elID "h1" id . text
 
 -- | h1 with given id and text, returns element itself
 h1ID' :: MonadWidget t m => T.Text -> T.Text -> m (Element EventResult (DomBuilderSpace m) t)
-h1ID' id t = fst <$> elID' "h1" id (text t)
+h1ID' id = fmap fst . elID' "h1" id . text
 
 -- | span element with absolute pixel position
 spanAbs :: MonadWidget t m => T.Text -> Double -> Double -> m ()

@@ -12,4 +12,5 @@ page :: MonadWidget t m => m (Event t T.Text)
 page = do
   cnt <- getTickCount
   elStyle "span" "position: fixed; top: 0px; left: 0px;" $ display cnt
+  return never
   

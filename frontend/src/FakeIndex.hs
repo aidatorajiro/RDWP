@@ -74,10 +74,10 @@ page = el "div" $ do
   mapM_ (\(t, x, y) -> spanAbsP (spanText t) x y) spanList
   spanAbsP "$" 10 10
   
-  bind   <- h1' "bind" "=<<"
-  dollar <- h1' "dollar" "$"
-  fmap   <- h1' "fmap" "<$>"
-  strict <- h1' "strict" "!"
+  bind   <- h1' "=<<"
+  dollar <- h1' "$"
+  fmap   <- h1' "<$>"
+  strict <- h1' "!"
   
   return $
     ("/nmnmnmnmn" <$ domEvent Click bind) <>
