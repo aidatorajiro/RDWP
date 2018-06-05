@@ -33,6 +33,7 @@ startApp :: IO ()
 startApp = do
   init_loc <- getLocationPath
   mainWidget $ mdo
-    ev <- dyn $ (\l -> pushState l >> router l) <$> loc
-    loc <- holdDyn init_loc $ coincidence ev
+    ee <- dyn $ (\l -> pushState l >> router l) <$> loc
+    be <- hold never ee
+    loc <- holdDyn init_loc (switch be)
     return ()
