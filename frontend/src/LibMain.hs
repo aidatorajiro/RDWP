@@ -18,12 +18,12 @@ import qualified Mn1
 
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
 router s = case s of
-  "index" -> Index.page
-  "" -> FakeIndex.page
-  "mensae" -> Mensae.page
-  "nmnmnmnmn" -> Nami.page
-  "nazo" -> Nazo.page
-  "worry" -> Mn1.page
+  "/index" -> Index.page
+  "/" -> FakeIndex.page
+  "/mensae" -> Mensae.page
+  "/nmnmnmnmn" -> Nami.page
+  "/nazo" -> Nazo.page
+  "/worry" -> Mn1.page
   otherwise -> Error404.page
 
 pushState :: MonadWidget t m => T.Text -> m ()

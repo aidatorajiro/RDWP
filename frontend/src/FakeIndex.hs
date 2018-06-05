@@ -80,7 +80,7 @@ page = elID "div" "wrapper" $ do
   strict <- h1ID' "strict" "!"
   
   return $
-    ("nmnmnmnmn" <$ domEvent Click bind) <>
-    ("nazo"      <$ domEvent Click dollar) <>
-    ("harituke"  <$ domEvent Click fmap) <>
-    ("worry"     <$ domEvent Click strict)
+    ("/nmnmnmnmn" <$ domEvent Click bind) <>
+    ("/nazo"      <$ domEvent Click dollar) <>
+    ("/harituke"  <$ domEvent Click fmap) <>
+    ("/worry"     <$ domEvent Click strict)

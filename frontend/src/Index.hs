@@ -36,4 +36,4 @@ page = do
   elDynAttr "h1" attr_h1 $ text "Hello, world!"
   elDynAttr "div" attr_div blank
   
-  return $ "mensae" <$ (ffilter (== 10000) $ updated tickcnt)
+  return $ "/mensae" <$ (ffilter (== 10000) $ updated tickcnt)
