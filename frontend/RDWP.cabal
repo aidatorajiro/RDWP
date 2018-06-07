@@ -27,7 +27,6 @@ library
     , containers
     , file-embed
     , mtl
-    , parsec
     , random
     , reflex
     , reflex-dom

@@ -3,9 +3,7 @@
 module LibMain ( startApp ) where
 
 import Reflex.Dom
-import Text.Parsec
 import Reflex.Dom.Location ( getLocationPath )
-import Control.Monad ((>=>))
 import qualified Data.Text as T
 
 import qualified Index
