@@ -2,9 +2,10 @@ sudo: true
 language: nix
 cache:
   directories:
-    - /nix
+  - "/nix"
 script:
-- nix-build --option extra-binary-caches https://nixcache.reflex-frp.org --trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
+- nix-build --option extra-binary-caches https://nixcache.reflex-frp.org --trusted-public-keys
+  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
 - git clone https://${GH_TOKEN}@github.com/aidatorajiro/RDWP-dist
 - cd RDWP-dist
 - cp ../result/ghcjs/frontend/bin/RDWP-exe.jsexe/* ./
@@ -20,5 +21,6 @@ deploy:
   on:
     tags: true
     repo: aidatorajiro/RDWP
-GH_TOKEN:
-  secure: FSEu8yLpQHVrpPiwx31h/K/aZhhF4hYpOk3NzlAZp0eLXptLrBPiyEmlqyTtfI2zRd3xE/QCfTpr6uLAJWgrN4CPdiw8UfRzcnzL0GePnyZrJE7hlVn9tKoF+yOOkASDnoIgXCSCjPIbHABXRKYbSRzMfWeXclkaukSQ/haLP8OUpXG6m0qWmueQXfV8MSZmWLx1vMOhgx6zlLXkuM+/ZQeXPx4MUn7doxzARhxbXR33vCF22Rri3bTHZOHdlfWFhXRFUewpLNCwzPTuBokf8P2/D22VYYXUYOGOzmgwmaiPNqs0BP/3a5Iup0VoLBUfhI6F7toXbPw/VGPoWPkfM3dVmtGLLDbI9GBKVDjinvPytUk+7qw4yrrf6VsTgHGCbH19bCsMoevcQkdCyEwekHWi3zN9x6p2lgxDDDlqduHb312G0zAFKBfbgjoGyIy3bWqLm1qrC6bC+APdzxA4QD38MZ0aXZF3KFlH7+7JO7XJTvOg/Q6za5xEunkxldFoCfGB5M1dDNJgujvKQyhrRULLdQuMK6lCOdVwAonjm64IFjpcexvg5PcAadoHhlgrIi3+UHdDkCPA8Hem+CErLWHEi9R+vgADCu/8g1ZJ2FLoTpexfsPNebNPzYXHTNPMhwX9eQWaVLSvUwkYIqDgDBwjf2RILeZ0cvXSwCn+JPo=
+env:
+  global:
+    secure: O4dmXEbgshOLlUs7T1jImuUox3uEeMLaia0k37hd+yVkPeAV45wciCz04yugcpjQ4HSzRYodnUwRyzeAFQqM2ZRNPcAKLGMMmBK5pcLJ9auOZg1Jm+VESO+pia3+5JSVTD5F2P6FM0jXdJIiDe73Qq1Y6AGeFkg9po5tCsQO/rZMFBxCdmpAG32YqWQj7p6HlxAOUcn6Z9BHwSxlTwkaz3EDg11U4ueHHn3kHSiygzTiLHtKh3cnpUuWALbJSO0ToW1AkgLPqKRkZz0EUne9VEH9iS6Y8uaSNYTsWkXvVVg1/JHAkFnBHZsGHProP1gWXxQCFlo2y1KH6mb1M7/ez71L6WLlh8MAhJPIdLbeUqlnYas3sibFpiGgjARMqWDvPfiioLS3BzwAIkcLHNfLOs61Pr6Gy+MD1Vs5S4Hbmbc1CFj9OHY5LA3wUeJ5yjeKLCv/C1ZvvJmYajCOfGzlGo8yeXzv5yKNx0HluGnhaE9VW/teeNuXrmXFskH6LOYdbC+ITym98Q7C6G/ri0It4ckAKaoqDPfBsLszt3nAPDS7KaCv0aVOrn2LQ6cN7zWMlTb+VMqoa1nAdPwt2ZpimANoR0GmV4Eo1tr4C2nMhmQKksH61opDY7gzRgSnPrPOoflrK7q7BPdlNYOQdztn17u/Ux7iwdJ/yea+RoxSWmA=
