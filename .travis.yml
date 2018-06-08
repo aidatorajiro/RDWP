@@ -1,18 +1,7 @@
 sudo: true
-language: generic
-cache:
-  directories:
-  - /nix
-  - /home/travis/.nix-profile
-  - /home/travis/.nix-defexpr
-  - /home/travis/.nix-channels
-  - /home/travis/.config/nixpkgs
-  - /etc/nix
-before_install:
-- if [[ ! -d /nix ]] ; then yes | head -c 100 | reflex-platform/try-reflex --command "exit 0" ; fi
-- . /home/travis/.nix-profile/etc/profile.d/nix.sh
+language: nix
 script:
-- nix-build
+- nix-build --option extra-binary-caches https://nixcache.reflex-frp.org
 - zip -rj RDWP.zip ./result/ghcjs/frontend/bin/RDWP-exe.jsexe
 deploy:
   skip_cleanup: true
