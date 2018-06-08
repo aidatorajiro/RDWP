@@ -6,9 +6,10 @@ import Reflex.Dom
 import qualified Data.Map as M
 import qualified Data.Text as T
 import Data.Matrix
-import Util ( getTickCount )
+import Util ( getTickEv )
 import Elements
 import Data.Maybe ( fromMaybe )
+import Data.Foldable ( fold )
 
 -- | Apply laplacian filter to given array
 lapl :: Matrix Double -> Matrix Double
@@ -30,13 +31,23 @@ wave k l (v, x) =
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
-  cnt <- getTickCount
-  let pos = constDyn (50, 50)
-  stat <- foldDynM (\_ vh -> do
+  let n = 20
+      pos = constDyn (5, 5)
+      init_mat = matrix n n $ const 0
+  tickev <- getTickEv 0.5
+  state <- foldDynM (\_ vh -> do
       let (v, h) = wave 0.2 0.85 vh
       p <- sample (current pos)
-      return (v, setElem 1 p h)
-    ) (matrix 100 100 $ const 0, matrix 100 100 $ const 0) (updated cnt)
-  elStyle "span" "position: fixed; top: 0px; left: 0px;" $ display cnt
-  display stat
+      return (v, setElem 10 p h)
+    ) (init_mat, init_mat) tickev
+  dyn $
+    (\(v, h) ->
+      sequence $
+      matrix n n
+        (\(i, j) ->
+          let val = show (floor ((h ! (i, j)) * 100) :: Int) in
+          elStyle
+          "div"
+          (T.pack $ "top: " ++ show (i * 16) ++ "px; left: " ++ show (j * 16) ++ "px; background: rgb(" ++ val ++ ", " ++ val ++ ", " ++ val ++ "); position: absolute; width:15px; height: 15px;")
+          (return ()))) <$> state
   return never

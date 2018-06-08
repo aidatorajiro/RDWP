@@ -11,12 +11,11 @@ import System.Random
 
 import Reflex.Dom
 
-import Util ( randomRDyn, getTickCount )
+import Util ( randomRDyn, getTickEv )
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
-  tickcnt <- getTickCount
-
+  tickcnt <- count =<< getTickEv 0.01
   initGen <- liftIO getStdGen
   (rnd, gen) <- randomRDyn (1 :: Int, 800) initGen (updated tickcnt)
   style <- foldDynMaybe (\r _ -> case r of

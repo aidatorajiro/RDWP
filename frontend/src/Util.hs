@@ -10,11 +10,10 @@ import qualified Data.ByteString as B
 
 import Reflex.Dom
 
-getTickCount :: MonadWidget t m => m (Dynamic t Int)
-getTickCount = do
+getTickEv :: MonadWidget t m => NominalDiffTime -> m (Event t TickInfo)
+getTickEv d = do
   now <- liftIO getCurrentTime
-  tickev <- tickLossy 0.01 now
-  count tickev
+  tickLossy d now
 
 -- dynamic random number and random number generator with given range and initial generator
 randomRDyn :: (Random a, RandomGen g, MonadWidget t m) => (a, a) -> g -> Event t b -> m (Dynamic t a, Dynamic t g)

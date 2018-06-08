@@ -22,7 +22,7 @@ module.exports = {
             "port": 8080
         }
     },
-    "files": [base + "out.js"],
+    "files": [__dirname + "/results"],
     "watchEvents": [
         "change"
     ],
