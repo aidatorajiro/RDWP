@@ -2,7 +2,12 @@ sudo: true
 language: nix
 script:
 - nix-build --option extra-binary-caches https://nixcache.reflex-frp.org --trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
-- zip -rj RDWP.zip ./result/ghcjs/frontend/bin/RDWP-exe.jsexe
+- git clone https://github.com/aidatorajiro:${GH_TOKEN}@RDWP-dist
+- cd RDWP-dist
+- cp ../result/ghcjs/frontend/bin/RDWP-exe.jsexe/* ./
+- git add .
+- git commit -m 'travis build'
+- git push origin master
 deploy:
   skip_cleanup: true
   provider: releases
@@ -12,3 +17,5 @@ deploy:
   on:
     tags: true
     repo: aidatorajiro/RDWP
+GH_TOKEN:
+  secure: FSEu8yLpQHVrpPiwx31h/K/aZhhF4hYpOk3NzlAZp0eLXptLrBPiyEmlqyTtfI2zRd3xE/QCfTpr6uLAJWgrN4CPdiw8UfRzcnzL0GePnyZrJE7hlVn9tKoF+yOOkASDnoIgXCSCjPIbHABXRKYbSRzMfWeXclkaukSQ/haLP8OUpXG6m0qWmueQXfV8MSZmWLx1vMOhgx6zlLXkuM+/ZQeXPx4MUn7doxzARhxbXR33vCF22Rri3bTHZOHdlfWFhXRFUewpLNCwzPTuBokf8P2/D22VYYXUYOGOzmgwmaiPNqs0BP/3a5Iup0VoLBUfhI6F7toXbPw/VGPoWPkfM3dVmtGLLDbI9GBKVDjinvPytUk+7qw4yrrf6VsTgHGCbH19bCsMoevcQkdCyEwekHWi3zN9x6p2lgxDDDlqduHb312G0zAFKBfbgjoGyIy3bWqLm1qrC6bC+APdzxA4QD38MZ0aXZF3KFlH7+7JO7XJTvOg/Q6za5xEunkxldFoCfGB5M1dDNJgujvKQyhrRULLdQuMK6lCOdVwAonjm64IFjpcexvg5PcAadoHhlgrIi3+UHdDkCPA8Hem+CErLWHEi9R+vgADCu/8g1ZJ2FLoTpexfsPNebNPzYXHTNPMhwX9eQWaVLSvUwkYIqDgDBwjf2RILeZ0cvXSwCn+JPo=
