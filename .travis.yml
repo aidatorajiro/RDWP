@@ -2,7 +2,7 @@ sudo: true
 language: nix
 script:
 - nix-build --option extra-binary-caches https://nixcache.reflex-frp.org --trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
-- git clone https://github.com/aidatorajiro:${GH_TOKEN}@RDWP-dist
+- git clone https://aidatorajiro:${GH_TOKEN}@github.com/aidatorajiro/RDWP-dist
 - cd RDWP-dist
 - cp ../result/ghcjs/frontend/bin/RDWP-exe.jsexe/* ./
 - git add .
