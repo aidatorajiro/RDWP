@@ -1,5 +1,7 @@
 # RDWP (Reflex Deep Web Project)
 
+[![Build Status](https://travis-ci.org/aidatorajiro/RDWP.svg?branch=master)](https://travis-ci.org/aidatorajiro/RDWP)
+
 Reflex Deep Web Project is an implementation of mysterious website. The website looks like an adventure game. However, it is different from a game because there is no mission or meaning.
 
 The purpose of this project is to restore mysterious spaces in the Internet. With developed search engines and enormous users of the Internet and monetization, its closed and mysterious sanctuary have been decreasing these days.
