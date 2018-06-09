@@ -23,7 +23,7 @@ lapl x = matrix (nrows x) (ncols x) (\(i, j) ->
 
 -- | Run a wave equation. Steps one frame. Inputs are propagation speed, decay rate, current velocity, and current value. Output is a tuple of next velocity and value.
 wave :: Double -> Double -> (Matrix Double, Matrix Double) -> (Matrix Double, Matrix Double)
-wave k l (v, x) = 
+wave k l (v, x) =
   let v' = scaleMatrix l (scaleMatrix k (lapl x) + v)
       x' = v' + x
    in (v', x')
@@ -32,11 +32,13 @@ page :: MonadWidget t m => m (Event t T.Text)
 page = do
   let n = 20
       init_mat = matrix n n $ const 0
-  h_ev <- (<$) (-1,0) =<< button "←"
-  j_ev <- (<$) (0,1) =<< button "↓"
-  k_ev <- (<$) (0,-1) =<< button "↑"
-  l_ev <- (<$) (1,0) =<< button "→"
-  pos <- foldDyn (\(a, b) (c, d) -> (max 0 $ a + c, max 0 $ b + d)) (5, 5) (h_ev <> j_ev <> k_ev <> l_ev)
+
+  h_ev <- (<$) (1,0) <$> button "←"
+  j_ev <- (<$) (0,1) <$> button "↓"
+  k_ev <- (<$) (0,-1) <$> button "↑"
+  l_ev <- (<$) (1,0) <$> button "→"
+
+  pos <- foldDyn (\(a, b) (c, d) -> (max 0 $ a + c, max 0 $ b + d)) (5, 5) (leftmost [h_ev, j_ev, k_ev, l_ev])
   tickev <- getTickEv 0.5
   state <- foldDynM (\_ vh -> do
       let (v, h) = wave 0.2 0.85 vh
