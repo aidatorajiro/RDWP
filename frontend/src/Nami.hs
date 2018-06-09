@@ -9,7 +9,6 @@ import Data.Matrix
 import Util ( getTickEv )
 import Elements
 import Data.Maybe ( fromMaybe )
-import Data.Foldable ( fold )
 
 -- | Apply laplacian filter to given array
 lapl :: Matrix Double -> Matrix Double
