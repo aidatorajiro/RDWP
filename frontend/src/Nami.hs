@@ -33,10 +33,10 @@ page = do
   let n = 20
       init_mat = matrix n n $ const 0
 
-  h_ev <- (<$) (1,0) <$> button "←"
-  j_ev <- (<$) (0,1) <$> button "↓"
-  k_ev <- (<$) (0,-1) <$> button "↑"
-  l_ev <- (<$) (1,0) <$> button "→"
+  h_ev <- (<$) (0,1) <$> button "←"
+  j_ev <- (<$) (1,0) <$> button "↓"
+  k_ev <- (<$) (-1,0) <$> button "↑"
+  l_ev <- (<$) (0,1) <$> button "→"
 
   pos <- foldDyn (\(a, b) (c, d) -> (max 0 $ a + c, max 0 $ b + d)) (5, 5) (leftmost [h_ev, j_ev, k_ev, l_ev])
   tickev <- getTickEv 0.5
