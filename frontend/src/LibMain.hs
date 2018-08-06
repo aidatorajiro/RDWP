@@ -48,6 +48,6 @@ startApp = do
     ee <- dyn $
           (\l -> pushState l >> liftA2 mappend (router l) popState) <$>
           loc
-    de <- holdDyn never ee
-    loc <- holdDyn init_loc (switchDyn de) 
+    be <- hold never ee
+    loc <- holdDyn init_loc (switch be) 
     return ()
