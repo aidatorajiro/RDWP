@@ -47,7 +47,7 @@ startApp = do
   mainWidget $ mdo
     ee <- dyn $
           (\l -> pushState l >> liftA2 mappend (router l) popState) <$>
-	  loc
+	        loc
     de <- holdDyn never ee
     loc <- holdDyn init_loc (switchPromptlyDyn de) 
     return ()
