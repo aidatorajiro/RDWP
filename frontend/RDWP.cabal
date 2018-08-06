@@ -25,7 +25,9 @@ library
       base >=4.7 && <5
     , bytestring
     , containers
+    , ghcjs-dom-jsffi
     , file-embed
+    , jsaddle
     , mtl
     , random
     , reflex
