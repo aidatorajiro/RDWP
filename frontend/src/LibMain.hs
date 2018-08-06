@@ -2,6 +2,8 @@
 
 module LibMain ( startApp ) where
 
+import Control.Applicative
+
 import GHCJS.DOM ( currentWindowUnchecked )
 import GHCJS.DOM.EventM ( on )
 import GHCJS.DOM.Window ( getHistory )
@@ -43,7 +45,9 @@ startApp :: IO ()
 startApp = do
   init_loc <- getLocationPath
   mainWidget $ mdo
-    ee <- dyn $ (\l -> pushState l >> router l) <$> loc
+    ee <- dyn $
+          (\l -> pushState l >> liftA2 mappend (router l) popState) <$>
+	  loc
     de <- holdDyn never ee
     loc <- holdDyn init_loc (switchPromptlyDyn de) 
     return ()
