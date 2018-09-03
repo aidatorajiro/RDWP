@@ -43,11 +43,11 @@ popState = do
 
 startApp :: IO ()
 startApp = do
-  init_loc <- getLocationPath
+  initLoc <- getLocationPath
   mainWidget $ mdo
     ee <- dyn $
           (\l -> pushState l >> liftA2 mappend (router l) popState) <$>
           loc
     be <- hold never ee
-    loc <- holdDyn init_loc (switch be) 
+    loc <- holdDyn initLoc (switch be)
     return ()
