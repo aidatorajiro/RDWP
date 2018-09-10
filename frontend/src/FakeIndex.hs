@@ -64,7 +64,7 @@ spanList = [
   (BindL, 81, 68),
   (BindL, 72, 57)]
 
--{
+{-
 css :: B.ByteString
 css = $(embedFile "assets/css/FakeIndex.css")
 -}
@@ -81,8 +81,9 @@ page = el "div" $ do
   fmap   <- h1' "<$>"
   strict <- h1' "!"
   
-  return $
-    ("/nmnmnmnmn" <$ domEvent Click bind) <>
-    ("/nazo"      <$ domEvent Click dollar) <>
-    ("/harituke"  <$ domEvent Click fmap) <>
-    ("/worry"     <$ domEvent Click strict)
+  return $ leftmost [
+      "/nmnmnmnmn" <$ domEvent Click bind,
+      "/nazo"      <$ domEvent Click dollar,
+      "/harituke"  <$ domEvent Click fmap,
+      "/worry"     <$ domEvent Click strict
+    ]
