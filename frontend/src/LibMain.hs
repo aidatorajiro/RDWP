@@ -46,8 +46,11 @@ startApp = do
   initLoc <- getLocationPath
   mainWidget $ mdo
     ee <- dyn $
-          (\l -> pushState l >> liftA2 mappend (router l) popState) <$>
-          loc
+          (\l -> pushState l >> do
+            routerEv <- router l
+            browserEv <- popState
+            return $ leftmost [browserEv, routerEv]
+          ) <$> loc
     be <- hold never ee
     loc <- holdDyn initLoc (switch be)
     return ()
