@@ -8,30 +8,30 @@ import qualified Data.Text as T
 import qualified Data.Map as M
 import qualified Data.Tree
 import Data.Monoid ((<>))
+import Elements
 
-data Prop = NewProp T.Text | Apply T.Text Prop deriving (Eq, Show)
+data Func = NewFunc T.Text | Apply T.Text Func deriving (Eq, Show)
 
-selectProp :: MonadWidget t m => Prop -> m (Dynamic t Prop)
-selectProp p@(NewProp t) = el "span" (text t) >> return (constDyn p)
-selectProp a@(Apply t p) = mdo
-  (outerEl, innerDyn) <- elDynAttr' "span" (M.singleton "style" <$> color) $ do
+selectFunc :: MonadWidget t m => Func -> m (Dynamic t Func)
+selectFunc p@(NewFunc t) = do
+  (span, _) <- el' "span" $ text t
+  holdDyn p (p <$ domEvent Click span)
+
+selectFunc a@(Apply t p) = mdo
+  (outerEl, innerEv) <- elDynStyle' "span" $ do
     text t
-    text "("
-    d <- selectProp p
-    text ")"
-    return d
+    updated <$> selectFunc p
   let outerEv = domEvent Click outerEl
-  let innerEv = updated innerDyn
-  color <- holdDyn "background-color: #CCCCCC;" $ leftmost ["background-color: #FFFFFF;" <$ innerEv, "background-color: #CCCCCC;" <$ outerEv]
-  holdDyn a $ leftmost [p <$ innerEv, a <$ outerEv]
+  styleDyn <- holdDyn "background: #CCC;" $ leftmost ["background: transparent;" <$ innerEv, "background: #CCC;" <$ outerEv]
+  holdDyn a $ leftmost [innerEv, a <$ outerEv]
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
   let h2t = el "h2" . text
   h2t "toNat :: Prop → nat"
   h2t "toProp :: nat → Prop"
-  h2t "Proof n m := m is proof for (toNat n)"
+  h2t "Proof n m := m is proof for (toProp n)"
   h2t "Provable n := exists m. Proof n m"
-  p <- elAttr "p" (M.singleton "style" "font-size: 42px;") $ selectProp $ Apply "toNat" $ Apply "Provable" $ NewProp "P"
+  p <- elStyle "p" "font-size: 42px;" $ selectFunc $ Apply "toNat" $ Apply "Provable" $ Apply "toNat" $ NewFunc "P"
   display p
   return never
