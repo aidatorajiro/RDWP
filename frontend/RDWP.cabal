@@ -25,16 +25,17 @@ library
       base >=4.7 && <5
     , bytestring
     , containers
-    , ghcjs-dom-jsffi
     , file-embed
+    , ghcjs-dom-jsffi
     , jsaddle
+    , matrix
     , mtl
+    , parsec
     , random
     , reflex
     , reflex-dom
     , text
     , time
-    , matrix
   if impl(ghcjs)
     build-depends:
         ghcjs-base

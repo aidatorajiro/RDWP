@@ -2,8 +2,6 @@
 
 module LibMain ( startApp ) where
 
-import Control.Applicative
-
 import GHCJS.DOM ( currentWindowUnchecked )
 import GHCJS.DOM.EventM ( on )
 import GHCJS.DOM.Window ( getHistory )
@@ -12,6 +10,7 @@ import qualified GHCJS.DOM.WindowEventHandlers as WindowEventHandlers
 import Reflex.Dom
 import Reflex.Dom.Location ( getLocationPath )
 import qualified Data.Text as T
+import Text.Parsec
 
 import qualified Index
 import qualified FakeIndex
@@ -22,13 +21,12 @@ import qualified Nazo
 import qualified Mn1
 import qualified Ars
 
+parseOtherwise :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
 parseOtherwise = choice [
     do
-      string "ars"
+      string "/ars"
       n <- many digit
-      eof
-      return $ Ars.page $ read n,
-    return Error404.page
+      return $ Ars.page $ read n
   ]
 
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
@@ -39,7 +37,7 @@ router s = case s of
   "/nmnmnmnmn" -> Nami.page
   "/nazo" -> Nazo.page
   "/worry" -> Mn1.page
-  otherwise -> formRight $ runParser parseOtherwise () "LocationPath" s
+  _ -> either (const Error404.page) id (parse parseOtherwise "LocationPath" s)
 
 pushState :: MonadWidget t m => T.Text -> m ()
 pushState l = do

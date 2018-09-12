@@ -12,6 +12,7 @@ import Elements
 
 data Func = NewFunc T.Text | Apply T.Text Func deriving (Eq, Show)
 
+{-
 selectFunc :: MonadWidget t m => Func -> m (Dynamic t Func)
 selectFunc p@(NewFunc t) = do
   (span, _) <- el' "span" $ text t
@@ -24,6 +25,7 @@ selectFunc a@(Apply t p) = mdo
   let outerEv = domEvent Click outerEl
   styleDyn <- holdDyn "background: #CCC;" $ leftmost ["background: transparent;" <$ innerEv, "background: #CCC;" <$ outerEv]
   holdDyn a $ leftmost [innerEv, a <$ outerEv]
+-}
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
@@ -32,6 +34,6 @@ page = do
   h2t "toProp :: nat → Prop"
   h2t "Proof n m := m is proof for (toProp n)"
   h2t "Provable n := exists m. Proof n m"
-  p <- elStyle "p" "font-size: 42px;" $ selectFunc $ Apply "toNat" $ Apply "Provable" $ Apply "toNat" $ NewFunc "P"
-  display p
+  --p <- elStyle "p" "font-size: 42px;" $ selectFunc $ Apply "toNat" $ Apply "Provable" $ Apply "toNat" $ NewFunc "P"
+  --display p
   return never
