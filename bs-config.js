@@ -134,6 +134,7 @@ function getLogger(options) {
 */
 
 let base = __dirname + "/result/ghcjs/frontend/bin/RDWP-exe.jsexe/"
+let assets = __dirname + "/assets"
 
 module.exports = {
     "ui": {
@@ -142,7 +143,7 @@ module.exports = {
             "port": 8080
         }
     },
-    "files": [__dirname + "/results"],
+    "files": [base],
     "watchEvents": [
         "change"
     ],
