@@ -50,6 +50,7 @@ library
       Nami
       Nazo
       Mn1
+      Ars
   other-modules:
       Paths_RDWP
   default-language: Haskell2010

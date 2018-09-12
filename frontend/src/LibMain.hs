@@ -20,6 +20,16 @@ import qualified Error404
 import qualified Nami
 import qualified Nazo
 import qualified Mn1
+import qualified Ars
+
+parseOtherwise = choice [
+    do
+      string "ars"
+      n <- many digit
+      eof
+      return $ Ars.page $ read n,
+    return Error404.page
+  ]
 
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
 router s = case s of
@@ -29,7 +39,7 @@ router s = case s of
   "/nmnmnmnmn" -> Nami.page
   "/nazo" -> Nazo.page
   "/worry" -> Mn1.page
-  otherwise -> Error404.page
+  otherwise -> formRight $ runParser parseOtherwise () "LocationPath" s
 
 pushState :: MonadWidget t m => T.Text -> m ()
 pushState l = do
