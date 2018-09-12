@@ -24,4 +24,4 @@ page n = do
     1 -> message "Congratulations."
     2 -> message ""
     3 -> message ""
-  return ((T.pack $ "/ars" ++ show n) <$ ev)
+  return ((T.pack $ "/ars" ++ show (n + 1)) <$ ev)
