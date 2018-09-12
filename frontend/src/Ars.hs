@@ -11,18 +11,21 @@ message :: MonadWidget t m => T.Text -> m (Event t ())
 message txt = do
   tickCount <- count =<< getTickEv 0.1
   let dt = fmap (\n -> T.take n txt) tickCount
-  (e, _) <- elStyle' "div" "padding-top: 100px; font-size: 20px; height: 100%; width: 100%;" (dynText dt)
+  elStyle "div" "font-size:20px;width:500px;font-size:24px;margin:auto;" (dynText dt)
+  (e, _) <- elStyle' "div" "display:inline-block;margin-top:20px;" (text "↪︎")
   return (domEvent Click e)
 
 page :: MonadWidget t m => Int -> m (Event t T.Text)
-page n = do
+page n = elStyle "div" "transform:translateY(-50%);position:absolute;top:50%;width:100%;" $ do
   el "style" $ text "body { text-align: center; background: #821e0a; margin: 0; padding: 0; color: #ffffff; font-family: \"Times New Roman\", serif; }"
   ev <- case n of 
     0 -> do
-      elStyle "h1" "margin-top: 100px;" (text "Welcome To Arsnet")
+      el "h1" (text "Welcome To Arsnet")
       (e, _) <- elStyle' "h2" "margin-top: 100px; color: #F3C3C3;" (text "ENTER")
       return (domEvent Click e)
     1 -> message "Congratulations."
-    2 -> message ""
-    3 -> message ""
+    2 -> message "The October labor lottery is complete. Your name has pulled."
+    3 -> message "For immidiate placement, report to the Ministry of Transaction Verification at Grestia Interface."
+    4 -> message "An apartment will be provided for you and your family. Expect a Rank 5.948504344881964 dwelling."
+    5 -> message "Glory to Arsnet."
   return ((T.pack $ "/ars" ++ show (n + 1)) <$ ev)
