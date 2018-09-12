@@ -10,11 +10,12 @@ import Data.Tree
 import Data.Monoid ((<>))
 import Elements
 
-selectTree :: MonadWidget t m => Tree T.Text -> m (Event t (Tree T.Text))
-selectTree = foldTree (\txt evs -> do
+selectTree :: MonadWidget t m => Tree T.Text -> m (Event t T.Text)
+selectTree = foldr (\txt mev -> do
     (e, _) <- el' "span" (text txt)
-    leftmost ((txt <$ domEvent Click e) : evs)
-  )
+    ev <- mev
+    return $ leftmost [txt <$ domEvent Click e, ev]
+  ) (return never)
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
@@ -24,5 +25,4 @@ page = do
   h2t "Proof n m := m is proof for (toProp n)"
   h2t "Provable n := exists m. Proof n m"
   p <- elStyle "p" "font-size: 42px;" $ selectTree $ Node "Proof" [Node "toNat" [Node "P" []]]
-  trace p
   return never
