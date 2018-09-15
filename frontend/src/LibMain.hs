@@ -27,17 +27,17 @@ parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
 parseLocationPath =
   let l path widget = string path >> eof >> return widget
   in choice [
-    l "/index" Index.page,
-    l "/" FakeIndex.page,
-    l "/mensae" Mensae.page,
-    l "/nmnmnmnmn" Nami.page,
-    l "/nazo" Nazo.page,
-    l "/worry" Mn1.page,
-    l "/ars_g" ArsGame.page,
-    do
-      string "/ars"
-      n <- many digit
-      return $ Ars.page $ read n
+      l "/index" Index.page,
+      l "/" FakeIndex.page,
+      l "/mensae" Mensae.page,
+      l "/nmnmnmnmn" Nami.page,
+      l "/nazo" Nazo.page,
+      l "/worry" Mn1.page,
+      l "/ars_g" ArsGame.page,
+      do
+        string "/ars"
+        n <- many digit
+        return $ Ars.page $ read n
     ]
 
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
