@@ -21,23 +21,28 @@ import qualified Nazo
 import qualified Mn1
 import qualified Ars
 
-parseOtherwise :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
-parseOtherwise = choice [
+-- parse URL Location Path
+parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
+parseLocationPath =
+  let l path widget = do
+    string path
+    return widget
+  in choice [
+    l "/index" Index.page,
+    l "/" FakeIndex.page,
+    l "/mensae" Mensae.page,
+    l "/nmnmnmnmn" Nami.page,
+    l "/nazo" Nazo.page,
+    l "/worry" Mn1.page,
+    l "/ars_g" ArsGame.page,
     do
       string "/ars"
       n <- many digit
       return $ Ars.page $ read n
-  ]
+    ]
 
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
-router s = case s of
-  "/index" -> Index.page
-  "/" -> FakeIndex.page
-  "/mensae" -> Mensae.page
-  "/nmnmnmnmn" -> Nami.page
-  "/nazo" -> Nazo.page
-  "/worry" -> Mn1.page
-  _ -> either (const Error404.page) id (parse parseOtherwise "LocationPath" s)
+router s = either (const Error404.page) id (parse parseLocationPath "LocationPath" s)
 
 pushState :: MonadWidget t m => T.Text -> m ()
 pushState l = do
