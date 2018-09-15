@@ -20,6 +20,7 @@ import qualified Nami
 import qualified Nazo
 import qualified Mn1
 import qualified Ars
+import qualified ArsGame
 
 -- parse URL Location Path
 parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
