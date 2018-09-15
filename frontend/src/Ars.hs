@@ -11,7 +11,7 @@ message :: MonadWidget t m => T.Text -> m (Event t ())
 message txt = do
   tickCount <- count =<< getTickEv 0.1
   let dt = fmap (\n -> T.take n txt) tickCount
-  elStyle "div" "font-size:20px;width:500px;font-size:24px;margin:auto;" (dynText dt)
+  elStyle "div" "width:500px;font-size:24px;margin:auto;" (dynText dt)
   (e, _) <- elStyle' "div" "display:inline-block;margin-top:20px;" (text "↪︎")
   return (domEvent Click e)
 
