@@ -26,7 +26,7 @@ import qualified ArsGame
 parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
 parseLocationPath =
   let l path widget = string path >> eof >> return widget
-  in choice [
+  in choice $ map try [
       l "/index" Index.page,
       l "/" FakeIndex.page,
       l "/mensae" Mensae.page,
