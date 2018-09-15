@@ -28,4 +28,4 @@ page n = elStyle "div" "transform:translateY(-50%);position:absolute;top:50%;wid
     3 -> message "For immidiate placement, report to the Ministry of Transaction Verification at Grestia Interface."
     4 -> message "An apartment will be provided for you and your family. Expect a Rank 5.948504344881964 dwelling."
     5 -> message "Glory to Arsnet."
-  return ((T.pack $ "/ars" ++ show (n + 1)) <$ ev)
+  return ((if n == 5 then "/ars_g" else T.pack $ "/ars" ++ show (n + 1)) <$ ev)
