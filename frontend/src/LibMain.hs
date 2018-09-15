@@ -37,7 +37,8 @@ parseLocationPath =
       do
         string "/ars"
         n <- many digit
-        return $ Ars.page $ read n
+        return $ Ars.page $ read n,
+      return Error404.page
     ]
 
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
