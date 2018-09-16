@@ -32,13 +32,14 @@ page :: MonadWidget t m => m (Event t T.Text)
 page = do
   let n = 20
       init_mat = matrix n n $ const 0
+      sanitize = min (n - 1) . max 0
 
   h_ev <- (<$) (0,1) <$> button "←"
   j_ev <- (<$) (1,0) <$> button "↓"
   k_ev <- (<$) (-1,0) <$> button "↑"
   l_ev <- (<$) (0,1) <$> button "→"
 
-  pos <- foldDyn (\(a, b) (c, d) -> (max 0 $ a + c, max 0 $ b + d)) (5, 5) (leftmost [h_ev, j_ev, k_ev, l_ev])
+  pos <- foldDyn (\(a, b) (c, d) -> (sanitize (a + c), sanitize (b + d)) (5, 5) (leftmost [h_ev, j_ev, k_ev, l_ev])
   tickev <- getTickEv 0.5
   state <- foldDynM (\_ vh -> do
       let (v, h) = wave 0.2 0.85 vh
