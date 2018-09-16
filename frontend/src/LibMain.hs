@@ -22,10 +22,11 @@ import qualified Mn1
 import qualified Ars
 import qualified ArsGame
 
--- parse URL Location Path
+-- | parse URL Location Path
 parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
 parseLocationPath =
   let l path widget = string path >> eof >> return widget
+      ln path widget = string path >> fmap (widget . read) (many digit)
   in choice $ map try [
       l "/index" Index.page,
       l "/" FakeIndex.page,
@@ -34,25 +35,26 @@ parseLocationPath =
       l "/nazo" Nazo.page,
       l "/worry" Mn1.page,
       l "/ars_g" ArsGame.page,
-      do
-        string "/ars"
-        n <- many digit
-        return $ Ars.page $ read n
+      ln "/ars" Ars.page
     ]
 
+-- | route location paths to dom widgets
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
 router s = either (const Error404.page) id (parse parseLocationPath "LocationPath" s)
 
+-- | push browser history state
 pushState :: MonadWidget t m => T.Text -> m ()
 pushState l = do
   history <- getHistory =<< currentWindowUnchecked
   History.pushState history (0 :: Double) ("" :: T.Text) (Just l :: Maybe T.Text)
 
+-- | pop browser history state into events
 popState :: MonadWidget t m => m (Event t T.Text)
 popState = do
   window <- currentWindowUnchecked
   wrapDomEventMaybe window (`on` WindowEventHandlers.popState) (Just <$> getLocationPath)
 
+-- | start the app
 startApp :: IO ()
 startApp = do
   initLoc <- getLocationPath
