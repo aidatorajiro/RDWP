@@ -39,7 +39,7 @@ page = do
   k_ev <- (<$) (-1,0) <$> button "↑"
   l_ev <- (<$) (0,1) <$> button "→"
 
-  pos <- foldDyn (\(a, b) (c, d) -> (sanitize (a + c), sanitize (b + d)) (5, 5) (leftmost [h_ev, j_ev, k_ev, l_ev])
+  pos <- foldDyn (\(a, b) (c, d) -> (sanitize $ a + c, sanitize $ b + d)) (5, 5) (leftmost [h_ev, j_ev, k_ev, l_ev])
   tickev <- getTickEv 0.5
   state <- foldDynM (\_ vh -> do
       let (v, h) = wave 0.2 0.85 vh
