@@ -1,4 +1,4 @@
-{-# LANGUAGE RecursiveDo, OverloadedStrings, FlexibleContexts #-}
+{-# LANGUAGE RecursiveDo, OverloadedStrings, FlexibleContexts, CPP #-}
 
 module LibMain ( startApp ) where
 
@@ -30,6 +30,7 @@ parseLocationPath =
   in choice $ map try [
       l "/index" Index.page,
       l "/" FakeIndex.page,
+      l "" FakeIndex.page,
       l "/mensae" Mensae.page,
       l "/nmnmnmnmn" Nami.page,
       l "/nazo" Nazo.page,
@@ -48,7 +49,7 @@ pushState l = do
   history <- getHistory =<< currentWindowUnchecked
   History.pushState history (0 :: Double) ("" :: T.Text) (Just l :: Maybe T.Text)
 
--- | pop browser history state into events
+-- | pop browser history state into an event
 popState :: MonadWidget t m => m (Event t T.Text)
 popState = do
   window <- currentWindowUnchecked
@@ -57,13 +58,23 @@ popState = do
 -- | start the app
 startApp :: IO ()
 startApp = mainWidget $ mdo
-    initLoc <- getLocationPath
-    ee <- dyn $
-      (\l -> pushState l >> do
-        routerEv <- router l
-        browserEv <- popState
-        return $ leftmost [browserEv, routerEv]
-      ) <$> loc
-    be <- hold never ee
-    loc <- holdDyn initLoc (switch be)
-    return ()
+#ifdef ghcjs_HOST_OS
+  initLoc <- Right <$> getLocationPath
+
+  -- "Left" locations will be pushed to the browser state , while "Right" locations won't be.
+  ee <- dyn $ (either (\l -> pushState l >> router l) router) <$> loc
+
+  -- Using some magic to flatten an Event of Event.
+  be <- hold never ee
+
+  -- Get the broeser's popState Event
+  browserEv <- popState
+
+  -- Define the location :: Either (Event Text) (Event Text), then back to the loop.
+  loc <- holdDyn initLoc (leftmost [Left <$> switch be, Right <$> browserEv])
+#else
+  ee <- dyn $ router <$> loc
+  be <- hold never ee
+  loc <- holdDyn "/" (switch be)
+#endif
+  return ()
