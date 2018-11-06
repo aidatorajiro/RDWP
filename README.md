@@ -17,10 +17,20 @@ There are few pages now.
 
 ## Build
 
+### Nix
+
 1. git clone --recursive http://github.com/aidatorajiro/RDWP
 2. cd RDWP
 3. reflex-platform/try-reflex
 4. nix-build
+
+### Stack
+
+1. git clone --recursive http://github.com/aidatorajiro/RDWP
+2. cd RDWP
+3. stack build --stack-yaml=stack-ghcjs.yaml
+
+If you want to build from GHC, please just run `stack build`. This method may be helpful when you use IDE helpers like ghc-mod or GHCi.
 
 ## Run Server
 

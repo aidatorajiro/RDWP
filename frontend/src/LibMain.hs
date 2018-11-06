@@ -56,9 +56,8 @@ popState = do
 
 -- | start the app
 startApp :: IO ()
-startApp = do
-  initLoc <- getLocationPath
-  mainWidget $ mdo
+startApp = mainWidget $ mdo
+    initLoc <- getLocationPath
     ee <- dyn $
       (\l -> pushState l >> do
         routerEv <- router l

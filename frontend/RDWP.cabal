@@ -26,7 +26,6 @@ library
     , bytestring
     , containers
     , file-embed
-    , ghcjs-dom-jsffi
     , jsaddle
     , matrix
     , mtl
@@ -36,9 +35,11 @@ library
     , reflex-dom
     , text
     , time
+    , ghcjs-dom
   if impl(ghcjs)
     build-depends:
         ghcjs-base
+      , ghcjs-dom-jsffi
   exposed-modules:
       Elements
       Error404
