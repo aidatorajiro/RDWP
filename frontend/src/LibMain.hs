@@ -58,23 +58,22 @@ popState = do
 -- | start the app
 startApp :: IO ()
 startApp = mainWidget $ mdo
-#ifdef ghcjs_HOST_OS
-  initLoc <- Right <$> getLocationPath
+  -- Get current value of location.path.
+  initLoc <- getLocationPath
+  
+  -- Get an Event of Event which contains dynamically changing widget.
+  ee <- dyn $ router <$> loc
 
-  -- "Left" locations will be pushed to the browser state , while "Right" locations won't be.
-  ee <- dyn $ (either (\l -> pushState l >> router l) router) <$> loc
-
-  -- Using some magic to flatten an Event of Event.
-  be <- hold never ee
-
+  -- Using some magic to flatten an Event of Event to get a location update Event from the router.
+  routerEv <- switch <$> hold never ee
+  
   -- Get the broeser's popState Event
   browserEv <- popState
 
-  -- Define the location :: Either (Event Text) (Event Text), then back to the loop.
-  loc <- holdDyn initLoc (leftmost [Left <$> switch be, Right <$> browserEv])
-#else
-  ee <- dyn $ router <$> loc
-  be <- hold never ee
-  loc <- holdDyn "/" (switch be)
-#endif
+  -- Get a location update Event from the router.
+  
+  widgetHold (return ()) (pushState <$> routerEv)
+  
+  -- Define location, then back to the loop.
+  loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
   return ()
