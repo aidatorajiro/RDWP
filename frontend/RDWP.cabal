@@ -30,6 +30,7 @@ library
     , matrix
     , mtl
     , parsec
+    , raw-strings-qq
     , random
     , reflex
     , reflex-dom
