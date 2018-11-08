@@ -71,7 +71,7 @@ startApp = mainWidget $ mdo
   -- Get the broeser's popState Event
   browserEv <- popState
 
-  -- Get a location update Event from the router.
+  -- Push locations from the router Event to the browser history.
   widgetHold (return ()) (pushState <$> routerEv)
 
   -- Define location, then back to the loop.
