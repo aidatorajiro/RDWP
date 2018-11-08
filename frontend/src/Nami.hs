@@ -34,7 +34,7 @@ page = do
       init_mat = matrix n n $ const 0
       sanitize = min (n - 1) . max 0
 
-  h_ev <- (<$) (0,1) <$> button "←"
+  h_ev <- (<$) (0,-1) <$> button "←"
   j_ev <- (<$) (1,0) <$> button "↓"
   k_ev <- (<$) (-1,0) <$> button "↑"
   l_ev <- (<$) (0,1) <$> button "→"
