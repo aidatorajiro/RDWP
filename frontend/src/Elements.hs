@@ -8,6 +8,10 @@ import qualified Data.Map as M
 
 import Reflex.Dom
 
+-- | A style tag.
+style :: MonadWidget t m => T.Text -> m ()
+style = el "style" . text
+
 -- | an element with given css and widget
 elStyle :: MonadWidget t m => T.Text -> T.Text -> m a -> m a
 elStyle tagname = elAttr tagname . M.singleton "style"

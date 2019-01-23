@@ -17,7 +17,7 @@ message txt = do
 
 page :: MonadWidget t m => Int -> m (Event t T.Text)
 page n = elStyle "div" "transform:translateY(-50%);position:absolute;top:50%;width:100%;" $ do
-  el "style" $ text "body { text-align: center; background: #821e0a; margin: 0; padding: 0; color: #ffffff; font-family: \"Times New Roman\", serif; }"
+  style "body { text-align: center; background: #821e0a; margin: 0; padding: 0; color: #ffffff; font-family: \"Times New Roman\", serif; }"
   ev <- case n of 
     0 -> do
       el "h1" (text "Welcome To Arsnet")

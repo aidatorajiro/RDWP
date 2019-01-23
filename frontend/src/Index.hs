@@ -18,7 +18,7 @@ page = do
   tickcnt <- count =<< getTickEv 0.01
   initGen <- liftIO getStdGen
   (rnd, gen) <- randomRDyn (1 :: Int, 800) initGen (updated tickcnt)
-  style <- foldDynMaybe (\r _ -> case r of
+  styleAttr <- foldDynMaybe (\r _ -> case r of
     400 -> Just "text-align: center;"
     255 -> Just "color: #FFFFFF;"
     100 -> Just "visibility: hidden;"
@@ -29,7 +29,7 @@ page = do
     _   -> Nothing) "" (updated rnd)
 
   let percentage = flip div 100 <$> tickcnt
-      attr_h1 = M.singleton "style" <$> style
+      attr_h1 = M.singleton "style" <$> styleAttr
       attr_div = (\p -> M.singleton "style" $ T.pack $ "height: 1em; width: " ++ show p ++ "%; background: black;") <$> percentage
   
   elDynAttr "h1" attr_h1 $ text "Hello, world!"

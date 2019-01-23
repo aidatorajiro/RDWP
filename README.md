@@ -37,7 +37,7 @@ If you want to build from GHC, please just run `stack build`. This method may be
 1. Build this program (see above).
 2. browser-sync start --config ./bs-config.js
 
-This procedure will launch the http server which will take all of the connections to the generated index.html, since this web app is a Single Page Application.
+These commands will launch the http server which will take all of the connections to the generated index.html, since this web app is a Single Page Application.
 
 ## Source
 Elements.hs - HTML element templates  

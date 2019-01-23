@@ -9,7 +9,7 @@ import qualified Data.Map as M
 import Text.RawString.QQ
 
 import Reflex.Dom
-import Elements (h1ID', spanAbsP)
+import Elements
 
 import Data.Monoid ((<>))
 
@@ -114,7 +114,7 @@ spanList = [
 -- worry skate notice member person slender indicate fun urge chalk foster fiber chunk inch popular
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
-  el "style" $ text css
+  style css
   el "div" $ do
     mapM_ (\(t, x, y) -> spanAbsP (spanText t) x y) spanList
     spanAbsP "$" 10 10
