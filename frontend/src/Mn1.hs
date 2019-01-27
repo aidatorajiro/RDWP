@@ -23,5 +23,5 @@ page = do
     btnUp <- button "1"
     btnDown <- button "2"
     btnRight <- button "3"
-
+    
     return never
