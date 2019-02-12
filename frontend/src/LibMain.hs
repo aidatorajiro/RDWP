@@ -21,6 +21,7 @@ import qualified Nazo
 import qualified Mn1
 import qualified Ars
 import qualified ArsGame
+import qualified IClub
 
 -- | parse URL Location Path
 parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
@@ -36,7 +37,8 @@ parseLocationPath =
       l "/nazo" Nazo.page,
       l "/worry" Mn1.page,
       l "/ars_g" ArsGame.page,
-      ln "/ars" Ars.page
+      ln "/ars" Ars.page,
+      l "/iclub" IClub.page
     ]
 
 -- | route location paths to dom widgets

@@ -99,9 +99,9 @@ page = do
             if length out == 20 then
                 if and $ map (== 4) out then -- if all of output elements are 4 ( that is, input is an imaginary sequence in 5-adic number ),
                     if cnt == 0 then
-                        Just "/skate" -- if there is no mistakes, go to URA IClub. It is also a part of PATH TO THE DEPTH.
+                        Just "/skate" -- if there is no mistakes, go to the URA IClub. It is also a part of PATH TO THE DEPTH.
                     else
-                        Just "/iclub" -- if there is any mistakes, go to normal IClub.
+                        Just "/iclub" -- if there is any mistakes, go to the normal IClub.
                 else Nothing
             else Nothing
         )
