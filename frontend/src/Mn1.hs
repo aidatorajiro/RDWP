@@ -76,6 +76,7 @@ page = do
     ev3 <- button "3"
     ev4 <- button "4"
     ev_del <- button "DEL"
+    ev_del_count <- count ev_del
 
     input <- foldDyn (\n arr -> case n of
             5 -> drop 1 arr
@@ -94,6 +95,13 @@ page = do
     
     elClass "div" "output_num" (dyn_arr_to_widget output)
 
-    
-
-    return never
+    return $ fforMaybe (updated $ zipDyn output ev_del_count) (\(out, cnt) -> 
+            if length out == 20 then
+                if and $ map (== 4) out then -- if all of output elements are 4 ( that is, input is an imaginary sequence in 5-adic number ),
+                    if cnt == 0 then
+                        Just "/skate" -- if there is no mistakes, go to URA IClub. It is also a part of PATH TO THE DEPTH.
+                    else
+                        Just "/iclub" -- if there is any mistakes, go to normal IClub.
+                else Nothing
+            else Nothing
+        )
