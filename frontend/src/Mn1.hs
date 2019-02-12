@@ -37,6 +37,9 @@ body {
 .num4 {
     opacity: 0.9;
 }
+.input_num .output_num {
+    margin-top:12px;
+}
 |]
 
 -- | 5-adic arr to Integer
@@ -72,15 +75,25 @@ page = do
     ev2 <- button "2"
     ev3 <- button "3"
     ev4 <- button "4"
+    ev_del <- button "DEL"
 
-    input <- foldDyn (:) [] (leftmost [0 <$ ev0, 1 <$ ev1, 2 <$ ev2, 3 <$ ev3, 4 <$ ev4])
+    input <- foldDyn (\n arr -> case n of
+            5 -> drop 1 arr
+            _ -> n : arr
+        ) [] (leftmost [0 <$ ev0, 1 <$ ev1, 2 <$ ev2, 3 <$ ev3, 4 <$ ev4, 5 <$ ev_del])
 
     elClass "div" "input_num" (dyn_arr_to_widget input)
     elClass "div" "input_num" (dyn_arr_to_widget input)
 
     let input_num = arr_to_num <$> input
     let output_num = (^2) <$> input_num
+    let output = zipDynWith
+            (\inp out -> drop (length out - length inp) out)
+            input
+            (num_to_arr <$> output_num)
     
-    elClass "div" "output_num" (dyn_arr_to_widget $ num_to_arr <$> output_num)
+    elClass "div" "output_num" (dyn_arr_to_widget output)
+
+    
 
     return never
