@@ -13,5 +13,4 @@ page :: MonadWidget t m => m (Event t T.Text)
 page = do
     el "h1" $ text "虚数クラブへようこそ！"
     elClass "div" "i" $ text "i"
-
     return never
