@@ -94,6 +94,8 @@ page = do
             (num_to_arr <$> output_num)
     
     elClass "div" "output_num" (dyn_arr_to_widget output)
+    
+    elClass "div" "answer_num" (dyn_arr_to_widget (constDyn $ take 20 $ repeat 0))
 
     return $ fforMaybe (updated $ zipDyn output ev_del_count) (\(out, cnt) -> 
             if length out == 20 then
