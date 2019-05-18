@@ -40,6 +40,12 @@ body {
 .input_num .output_num {
     margin-top:12px;
 }
+.arrrrr {
+    color: white;
+}
+body {
+    text-align: center;
+}
 |]
 
 -- | 5-adic arr to Integer
@@ -94,6 +100,8 @@ page = do
             (num_to_arr <$> output_num)
     
     elClass "div" "output_num" (dyn_arr_to_widget output)
+
+    elClass "div" "arrrrr" (text "↓")
     
     elClass "div" "answer_num" (dyn_arr_to_widget (constDyn $ take 20 $ repeat 4))
 

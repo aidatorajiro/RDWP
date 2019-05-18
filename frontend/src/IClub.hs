@@ -11,6 +11,11 @@ import Text.RawString.QQ
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
+    style [r|
+.i {
+    position: relative;
+}
+|]
     el "h1" $ text "虚数クラブへようこそ！"
     elClass "div" "i" $ text "i"
     return never
