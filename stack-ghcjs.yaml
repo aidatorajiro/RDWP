@@ -1,30 +1,24 @@
-resolver: lts-14.7
-compiler: ghcjs-8.6.5
+resolver: lts-14.2
+compiler: ghcjs-8.6.0.1_ghc-8.6.5
 compiler-check: match-exact
 setup-info:
   ghcjs:
     source:
-      ghcjs-8.6.5:
+      ghcjs-0.2.0.9006030_ghc-7.10.3:
         url: https://github.com/ghcjs/ghcjs/archive/e87195eaa2bc7e320e18cf10386802bc90b7c874.zip
         sha256: 1376d672c51a921e33a93472e47f76bf600340a6c78cc06e5616a76bedc387ad
 
-allow-newer: true
-
 packages:
-- location: 'frontend'
-- location:
-    git:  https://github.com/reflex-frp/reflex.git
-    commit: 59ef31edc761109dbe1fc9489af6c620e6bea31e
-  extra-dep: true
-- location:
-    git: https://github.com/reflex-frp/reflex-dom.git
-    commit: 8bde2d72193369c92a995820ca1f56690d3c8ec3
-    subdirs:
-      - reflex-dom
-      - reflex-dom-core
-  extra-dep: true
+- 'frontend'
 
 extra-deps:
+- git:  https://github.com/reflex-frp/reflex.git
+  commit: 59ef31edc761109dbe1fc9489af6c620e6bea31e
+- git: https://github.com/reflex-frp/reflex-dom.git
+  commit: 8bde2d72193369c92a995820ca1f56690d3c8ec3
+  subdirs:
+    - reflex-dom
+    - reflex-dom-core
 - raw-strings-qq-1.1
 - monoidal-containers-0.4.0.0
 - dependent-sum-template-0.0.0.6
