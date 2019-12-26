@@ -54,5 +54,6 @@ Temporary Items
 
 node_modules
 package-lock.json
+stack-work*
 .stack-work
 result
