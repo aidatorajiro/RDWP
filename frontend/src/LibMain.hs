@@ -70,7 +70,7 @@ startApp = mainWidget $ mdo
   -- Get current value of location.path.
   initLoc <- getLocationPath
 
-  -- Get the broeser's popState Event
+  -- Get the browser's popState Event
   browserEv <- popState
 
   -- Push locations from the router Event to the browser history.
