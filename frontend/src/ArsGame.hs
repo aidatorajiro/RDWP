@@ -22,7 +22,7 @@ body {
 }
 |]
 
-messages = ["NOTIFICATION FOR ALL TRANSACTION VERIFICATORS: Transactions with exactly four outputs are now considered non-standard. Any transactions which contain exactly four outputs MUST NOT be uploaded to the downstream mempool. / トランザクションバリデーターに通告：４アウトプットを持つトランザクションは今後ノンスタンダードとなります。４アウトプットを持つトランザクションを下流メモリプールに放出することは禁止されます。"]
+messages = ["Transactions with exactly four outputs are now considered non-standard. Any transactions which contain exactly four outputs MUST NOT be uploaded to the downstream mempool. / トランザクションバリデーターに通告：４アウトプットを持つトランザクションは今後ノンスタンダードとなります。４アウトプットを持つトランザクションを下流メモリプールに放出することは禁止されます。"]
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do

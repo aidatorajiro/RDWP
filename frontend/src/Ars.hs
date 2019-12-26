@@ -24,7 +24,7 @@ page n = elStyle "div" "transform:translateY(-50%);position:absolute;top:50%;wid
       (e, _) <- elStyle' "h2" "margin-top: 100px; color: #F3C3C3;" (text "ENTER")
       return (domEvent Click e)
     1 -> message "Congratulations."
-    2 -> message "The October labor lottery is complete. Your name has pulled."
+    2 -> message "The Toravember decentralized lottery is complete. Your name has pulled."
     3 -> message "For immidiate placement, report to the Ministry of Transaction Verification at East Grestia Interface."
     4 -> message "An apartment will be provided for you and your family. Expect a rank 5.948504344881964 dwelling."
     5 -> message "Glory to Arsnet."

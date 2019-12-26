@@ -126,7 +126,7 @@ page = do
     
     return $ leftmost [
         "/nmnmnmnmn" <$ domEvent Click bind,
-        "/ars"      <$ domEvent Click dollar,
+        "/ars0"      <$ domEvent Click dollar,
         "/harituke"  <$ domEvent Click fmap,
         "/worry"     <$ domEvent Click strict
       ]
