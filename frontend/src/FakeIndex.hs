@@ -110,7 +110,6 @@ spanList = [
   (BindL, 81, 68),
   (BindL, 72, 57)]
 
--- PATH TO THE DEPTH
 -- worry skate notice member person slender indicate fun urge chalk foster fiber chunk inch popular
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
