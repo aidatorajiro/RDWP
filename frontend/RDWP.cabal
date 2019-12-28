@@ -55,6 +55,8 @@ library
       Mn1
       Ars
       IClub
+      Harituke
+      Gamen
   other-modules:
       Paths_RDWP
   default-language: Haskell2010

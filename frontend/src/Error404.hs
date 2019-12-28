@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 
-module Error404 ( page ) where
+module Error404 ( page, list404 ) where
 
 import Reflex.Dom
 import Elements
@@ -17,6 +17,9 @@ img {
     transform: translateY(-50%);
 }
 |]
+
+list404 :: [Int]
+list404 = [1, 2, 3, 4]
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
