@@ -20,7 +20,6 @@ import qualified Nami
 import qualified Nazo
 import qualified Mn1
 import qualified Ars
-import qualified ArsGame
 import qualified IClub
 import Elements
 import Text.RawString.QQ
@@ -148,7 +147,6 @@ parseLocationPath =
       l "/nmnmnmnmn" Nami.page,
       l "/nazo" Nazo.page,
       l "/worry" Mn1.page,
-      l "/ars_g" ArsGame.page,
       ln "/ars" Ars.page,
       l "/iclub" IClub.page
     ]

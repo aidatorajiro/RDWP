@@ -54,7 +54,6 @@ library
       Nazo
       Mn1
       Ars
-      ArsGame
       IClub
   other-modules:
       Paths_RDWP
