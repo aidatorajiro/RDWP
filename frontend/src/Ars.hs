@@ -33,4 +33,4 @@ page n = elStyle "div" "transform:translateY(-50%);position:absolute;top:50%;wid
     5 -> message 8717 "Glory to Arsnet."
     8717 -> message 8718 "Transactions with exactly four outputs are now considered non-standard. Any transactions which contain exactly four outputs MUST NOT be uploaded to the downstream mempool. / トランザクションバリデーターに通告：４アウトプットを持つトランザクションは今後ノンスタンダードとなります。４アウトプットを持つトランザクションを下流メモリプールに放出することは禁止されます。"
     _ -> message 0 "**** ****"
-  return $ (\n -> T.pack $ "/ars" ++ show n) <$> ev
+  return $ (\n -> T.pack $ "/ars" <> show n) <$> ev
