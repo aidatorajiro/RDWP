@@ -137,8 +137,12 @@ reset_css = [r|
 -- | parse URL Location Path
 parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
 parseLocationPath =
-  let l path widget = string path >> eof >> return widget
+  let -- ex. "/testes"
+      l path widget = string path >> eof >> return widget
+      -- ex. "/testes0", "/testes1", "/testes2", ...
       ln path widget = string path >> fmap (widget . read) (many digit)
+      -- ex. "/testes/a", "/testes/ksk", "/testes/tska", ...
+      ls path widget = string path >> char '/' >> fmap widget (many anyChar)
   in choice $ map try [
       l "/index" Index.page,
       l "/" FakeIndex.page,
