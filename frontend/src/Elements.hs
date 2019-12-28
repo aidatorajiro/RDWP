@@ -17,7 +17,7 @@ elStyle :: MonadWidget t m => T.Text -> T.Text -> m a -> m a
 elStyle tagname = elAttr tagname . M.singleton "style"
 
 -- | an element with given css and widget, also returns element itself
-elStyle' :: MonadWidget t m => MonadWidget t m => T.Text -> T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
+elStyle' :: MonadWidget t m => T.Text -> T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
 elStyle' tagname = elAttr' tagname . M.singleton "style"
 
 -- | an element with given dynamic style and widget.
@@ -63,3 +63,15 @@ spanAbsP :: MonadWidget t m => T.Text -> Double -> Double -> m ()
 spanAbsP t x y = elAttr "span"
   (M.singleton "style" $ T.pack $ "position: absolute; top: " ++ show x ++ "%; left: " ++ show y ++ "%;")
   (text t)
+
+-- relative URL to asset URL
+toAssetUrl :: T.Text -> T.Text
+toAssetUrl txt = txt
+
+-- | image object
+assetImg :: MonadWidget t m => T.Text -> m a -> m a
+assetImg = elAttr "img" . M.singleton "src" . toAssetUrl
+
+-- | image object
+assetImg' :: MonadWidget t m => T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
+assetImg' = elAttr' "img" . M.singleton "src" . toAssetUrl
