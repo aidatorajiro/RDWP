@@ -1,7 +1,8 @@
 sudo: true
 language: nix
 script:
-- nix-build -A ghcjs.frontend --option extra-binary-caches https://nixcache.reflex-frp.org --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
+- yes | reflex-platform/try-reflex
+- nix-build -A ghcjs.frontend
 - sudo cp result/ghcjs/frontend/bin/RDWP-exe.jsexe/index.html result/ghcjs/frontend/bin/RDWP-exe.jsexe/404.html
 deploy:
   provider: pages
