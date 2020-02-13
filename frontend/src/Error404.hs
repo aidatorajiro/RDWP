@@ -16,6 +16,9 @@ img {
     top: 50%;
     transform: translateY(-50%);
 }
+.link {
+    cursor: pointer;
+}
 |]
 
 list404 :: [Int]
@@ -25,4 +28,6 @@ page :: MonadWidget t m => m (Event t T.Text)
 page = do
     style css
     assetImg "4041.png" (return ())
-    return never
+    el "br" (return ())
+    (el, _) <- elAttr' "span" (M.singleton "class" "link") (text "★★★")
+    return ("/index" <$ (domEvent Click el))

@@ -12,10 +12,28 @@ import Text.RawString.QQ
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
     style [r|
+@font-face {
+	font-family: 'Untitled1';
+	src: url(marukaite.ttf);
+}
+body {
+    background: #20C0FF;
+    color: #301000;
+    overflow: scroll;
+}
 .i {
-    position: relative;
+    margin-left: 53px;
+}
+.kumi {
+    font-family: "Untitled1", serif;
+    font-size: 80px;
 }
 |]
     el "h1" $ text "虚数クラブへようこそ！"
-    elClass "div" "i" $ text "i"
+    elClass "div" "i" $ do
+        text "iiiiiii!"
+        mapM_ (\_ -> elClass "div" "kumi" $ do
+            text "abc"
+            assetImg "shori.png" (return ())
+            text "def") [1..10]
     return never

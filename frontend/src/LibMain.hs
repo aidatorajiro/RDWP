@@ -132,6 +132,26 @@ reset_css = [r|
 
   body {
     overflow: hidden;
+    font-size: 18px;
+  }
+
+  h1 {
+    font-size: 300%;
+  }
+  h2 {
+    font-size: 250%;
+  }
+  h3 {
+    font-size: 200%;
+  }
+  h4 {
+    font-size: 150%;
+  }
+  h5 {
+    font-size: 100%;
+  }
+  h6 {
+    font-size: 50%;
   }
 |]
 

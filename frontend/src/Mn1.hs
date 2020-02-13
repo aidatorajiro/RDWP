@@ -112,6 +112,6 @@ page = do
                         Just "/skate"
                     else
                         Just "/iclub"
-                else Nothing
+                else Just "/nannkahenndayo"
             else Nothing
         )
