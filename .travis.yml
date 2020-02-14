@@ -2,7 +2,7 @@ sudo: true
 language: nix
 script:
 - reflex-platform/try-reflex
-- nix-build -A ghcjs.frontend
+- nix-build -E '(import ./reflex-platform {}).ghcjs.callPackage ./. {}'
 - sudo cp result/ghcjs/frontend/bin/RDWP-exe.jsexe/index.html result/ghcjs/frontend/bin/RDWP-exe.jsexe/404.html
 deploy:
   provider: pages
