@@ -2,11 +2,11 @@ sudo: true
 language: nix
 script:
 - nix-build -E '(import ./reflex-platform {}).ghcjs.callPackage ./. {}' --option extra-binary-caches https://nixcache.reflex-frp.org --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
-- sudo cp result/ghcjs/frontend/bin/RDWP-exe.jsexe/index.html result/ghcjs/frontend/bin/RDWP-exe.jsexe/404.html
+- sudo cp dist/build/RDWP-exe/RDWP-exe.jsexe/index.html dist/build/RDWP-exe/RDWP-exe.jsexe/404.html
 deploy:
   provider: pages
   skip-cleanup: true
-  local-dir: result/ghcjs/frontend/bin/RDWP-exe.jsexe
+  local-dir: dist/build/RDWP-exe/RDWP-exe.jsexe
   github-token: $GITHUB_TOKEN
   on:
     branch: master
