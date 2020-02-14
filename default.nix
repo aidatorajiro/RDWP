@@ -1,4 +1,4 @@
-{ mkDerivation, reflex, reflex-dom, matrix, raw-strings-qq, cabal-macosx, jsaddle-warp, jsaddle-webkit2gtk, jsaddle-wkwebview, ghc, stdenv, darwin
+{ mkDerivation, reflex, reflex-dom, matrix, raw-strings-qq, file-embed, cabal-macosx, jsaddle-warp, jsaddle-webkit2gtk, jsaddle-wkwebview, ghc, stdenv, darwin
 , buildPackages
 }:
 
@@ -16,6 +16,7 @@ mkDerivation {
     reflex-dom
     matrix
     raw-strings-qq
+    file-embed
   ] ++ (if ghc.isGhcjs or false then [
   ] else if stdenv.hostPlatform.isiOS then [
     jsaddle-wkwebview
