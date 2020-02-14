@@ -5,7 +5,7 @@
 mkDerivation {
   pname = "RDWP";
   version = "0.1.0.0";
-  src = builtins.filterSource (path: type: !(builtins.elem (baseNameOf path) [ ".git" "dist" ])) ./.;
+  src = builtins.filterSource (path: type: !(builtins.elem (baseNameOf path) [ ".git" "dist" ])) ./frontend;
   isExecutable = true;
   isLibrary = true;
   buildTools = [
