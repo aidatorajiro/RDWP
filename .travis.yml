@@ -1,8 +1,7 @@
 sudo: true
 language: nix
 script:
-- echo 1 | reflex-platform/try-reflex
-- nix-build -E '(import ./reflex-platform {}).ghcjs.callPackage ./. {}'
+- nix-build -E '(import ./reflex-platform {}).ghcjs.callPackage ./. {}' --option extra-binary-caches https://nixcache.reflex-frp.org --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
 - sudo cp result/ghcjs/frontend/bin/RDWP-exe.jsexe/index.html result/ghcjs/frontend/bin/RDWP-exe.jsexe/404.html
 deploy:
   provider: pages
