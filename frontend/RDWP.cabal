@@ -57,6 +57,7 @@ library
       IClub
       Harituke
       Gamen
+      Ubana
   other-modules:
       Paths_RDWP
   default-language: Haskell2010

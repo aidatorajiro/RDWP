@@ -22,6 +22,7 @@ import qualified Mn1
 import qualified Ars
 import qualified IClub
 import qualified Harituke
+import qualified Ubana
 import Elements
 import Text.RawString.QQ
 
@@ -174,7 +175,8 @@ parseLocationPath =
       l "/worry" Mn1.page,
       ln "/ars" Ars.page,
       l "/iclub" IClub.page,
-      l "/harituke" Harituke.page
+      l "/harituke" Harituke.page,
+      l "/ubana" Ubana.page
     ]
 
 -- | route location paths to dom widgets

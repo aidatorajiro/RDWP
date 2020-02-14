@@ -36,4 +36,5 @@ body {
             text "abc"
             assetImg "shori.png" (return ())
             text "def") [1..10]
+    elClass "h2" "headline" (text "虚数クラブ名誉会員「　」さんのお言葉")
     return never
