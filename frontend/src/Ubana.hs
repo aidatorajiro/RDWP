@@ -23,7 +23,7 @@ gethai :: Matrix T.Text -> (Int, Int) -> T.Text
 gethai mat (n, m) = maybe "" id $ safeGet n m mat
 
 coordToMatInd :: (Int, Int) -> (Int, Int)
-coordToMatInd (n, m) = (n `div` 32, m `div` 32)
+coordToMatInd (n, m) = ((n - 200) `div` 32, (m - 200) `div` 32)
 
 projectIndex :: (Int, Int) -> (Int, Int) -> (Int, Int)
 projectIndex root@(r1, r2) indexToProject@(p1, p2) =
@@ -53,7 +53,7 @@ page = do
 
     let evs = leftmost [EvClick <$> domEvent Mouseup overwrap, EvMove <$> domEvent Mousemove overwrap]
 
-    dyn <- foldDyn (\ev st@(tmp, selects, hais) -> case ev of
+    stateDyn <- foldDyn (\ev st@(tmp, selects, hais) -> case ev of
         EvMove coord  -> case selects of
             []     -> st
             root:_ -> (projectCoord root coord, selects, hais)
@@ -62,6 +62,6 @@ page = do
             root:_ -> (projectCoord root coord, projectCoord root coord:selects, hais)
         ) ((0, 0), [], init_hais) evs
 
-    display dyn
+    display stateDyn
 
     return never
