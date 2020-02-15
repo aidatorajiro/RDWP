@@ -45,6 +45,9 @@ page = do
     width: 100%;
     height: 100%;
 }
+#debug {
+    opacity: 0.5;
+}
 |]
 
     (overwrap, _) <- elID' "div" "overwrap" (return ())
@@ -62,6 +65,6 @@ page = do
             root:_ -> (projectCoord root coord, projectCoord root coord:selects, hais)
         ) ((-1234, -1234), [], init_hais) evs
 
-    display stateDyn
+    elID "pre" "debug" $ display stateDyn
 
     return never
