@@ -54,6 +54,10 @@ projectCoord root coord = projectIndex root (coordToMatInd coord)
 page :: MonadWidget t m => m (Event t T.Text)
 page = mdo
     style [r|
+body {
+    background: black;
+    color: white;
+}
 #overwrap {
     position: absolute;
     top: 0px;
@@ -69,6 +73,8 @@ page = mdo
     elClass "pre" "debug" $ display stateDyn
 
     elClass "pre" "debug" $ display cursorStyle
+
+    elDynStyle "div" cursorStyle $ return ()
 
     (overwrap, _) <- elID' "div" "overwrap" (return ())
 
@@ -88,11 +94,10 @@ page = mdo
         ((-1234, -1234), [], init_hais)
         evs
     
-    let cursorStyle = (\st@(tmp, selects, hais) ->
-            let tmp_c = matIndToCoord tmp in
-            case selects of
-                [] -> "left: " <> (T.pack $ show $ fst tmp_c) <> "; top: " <> (T.pack $ show $ snd tmp_c) <> ";"
-                s:ss -> undefined
+    let cursorStyle = (\st@(tmp, _, _) ->
+                let tmp_c = matIndToCoord tmp in
+                let prefix = "position: absolute; background: #FFFFFF; opacity: 0.5; width: " <> (T.pack $ show coeffA) <> "px; height: " <> (T.pack $ show coeffB) <> "px; " in
+                prefix <> "left: " <> (T.pack $ show $ fst tmp_c) <> "px; top: " <> (T.pack $ show $ snd tmp_c) <> "px; "
             ) <$> stateDyn
 
     return never
