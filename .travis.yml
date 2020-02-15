@@ -11,4 +11,4 @@ deploy:
     branch: master
   repo: aidatorajiro/RDWP-dist
   target-branch: master
-  keep-history: true
+  keep-history: false
