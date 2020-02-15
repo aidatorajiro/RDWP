@@ -60,7 +60,7 @@ page = do
         EvClick coord -> case selects of
             []     -> (coordToMatInd coord, [coordToMatInd coord], hais)
             root:_ -> (projectCoord root coord, projectCoord root coord:selects, hais)
-        ) ((0, 0), [], init_hais) evs
+        ) ((-1234, -1234), [], init_hais) evs
 
     display stateDyn
 
