@@ -46,6 +46,9 @@ body {
 body {
     text-align: center;
 }
+.ev_del_count {
+    opacity: 0.6;
+}
 |]
 
 -- | 5-adic arr to Integer
@@ -104,6 +107,8 @@ page = do
     elClass "div" "arrrrr" (text "↓")
     
     elClass "div" "answer_num" (dyn_arr_to_widget (constDyn $ take 20 $ repeat 4))
+
+    elClass "div" "ev_del_count" $ display ev_del_count
 
     return $ fforMaybe (updated $ zipDyn output ev_del_count) (\(out, cnt) -> 
             if length out == 20 then

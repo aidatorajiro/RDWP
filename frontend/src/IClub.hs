@@ -28,6 +28,9 @@ body {
     font-family: "Untitled1", serif;
     font-size: 80px;
 }
+.headline {
+    color: #235711;
+}
 |]
     el "h1" $ text "虚数クラブへようこそ！"
     elClass "div" "i" $ do

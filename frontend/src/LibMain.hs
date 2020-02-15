@@ -173,10 +173,12 @@ parseLocationPath =
       l "/nmnmnmnmn" Nami.page,
       l "/nazo" Nazo.page,
       l "/worry" Mn1.page,
+      l "/skate" Mn1.page,
       ln "/ars" Ars.page,
       l "/iclub" IClub.page,
       l "/harituke" Harituke.page,
-      l "/ubana" Ubana.page
+      l "/ubana" Ubana.page,
+      l "/nannkahenndayo" Ubana.page
     ]
 
 -- | route location paths to dom widgets

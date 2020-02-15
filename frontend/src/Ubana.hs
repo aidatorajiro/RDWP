@@ -20,6 +20,12 @@ offsetA = 200
 offsetB :: Int
 offsetB = 200
 
+coeffA :: Int
+coeffA = 32
+
+coeffB :: Int
+coeffB = 32
+
 mkhais :: MonadWidget t m => Matrix T.Text -> m (Matrix (Element EventResult (DomBuilderSpace m) t))
 mkhais mat = do
     let elems = matrix (nrows mat) (ncols mat) (\nm -> fst <$> (elClass' "div" "haihai" $ text (mat ! nm)))
@@ -30,7 +36,10 @@ gethai :: Matrix T.Text -> (Int, Int) -> T.Text
 gethai mat (n, m) = maybe "" id $ safeGet n m mat
 
 coordToMatInd :: (Int, Int) -> (Int, Int)
-coordToMatInd (n, m) = ((n - offsetA) `div` 32, (m - offsetB) `div` 32)
+coordToMatInd (n, m) = ((n - offsetA) `div` coeffA, (m - offsetB) `div` coeffB)
+
+matIndToCoord :: (Int, Int) -> (Int, Int)
+matIndToCoord (n, m) = (n * coeffA + offsetA, m * coeffB + offsetB)
 
 projectIndex :: (Int, Int) -> (Int, Int) -> (Int, Int)
 projectIndex root@(r1, r2) indexToProject@(p1, p2) =
@@ -52,12 +61,14 @@ page = mdo
     width: 100%;
     height: 100%;
 }
-#debug {
+.debug {
     opacity: 0.5;
 }
 |]
 
-    elID "pre" "debug" $ display stateDyn
+    elClass "pre" "debug" $ display stateDyn
+
+    elClass "pre" "debug" $ display cursorStyle
 
     (overwrap, _) <- elID' "div" "overwrap" (return ())
 
@@ -65,15 +76,23 @@ page = mdo
 
     let evs = leftmost [EvClick <$> domEvent Mouseup overwrap, EvMove <$> domEvent Mousemove overwrap]
 
-    stateDyn <- foldDyn (\ev st@(tmp, selects, hais) -> case ev of
-        EvMove coord  -> case selects of
-            []     -> (coordToMatInd coord, selects, hais)
-            root:_ -> (projectCoord root coord, selects, hais)
-        EvClick coord -> case selects of
-            []     -> (coordToMatInd coord, [coordToMatInd coord], hais)
-            root:_ -> (projectCoord root coord, projectCoord root coord:selects, hais)
-        ) ((-1234, -1234), [], init_hais) evs
+    stateDyn <- foldDyn (\ev st@(tmp, selects, hais) ->
+        case ev of
+            EvMove coord  -> case selects of
+                []     -> (coordToMatInd coord, selects, hais)
+                root:_ -> (projectCoord root coord, selects, hais)
+            EvClick coord -> case selects of
+                []     -> (coordToMatInd coord, [coordToMatInd coord], hais)
+                root:_ -> (projectCoord root coord, projectCoord root coord:selects, hais)
+        )
+        ((-1234, -1234), [], init_hais)
+        evs
     
-    
+    let cursorStyle = (\st@(tmp, selects, hais) ->
+            let tmp_c = matIndToCoord tmp in
+            case selects of
+                [] -> "left: " <> (T.pack $ show $ fst tmp_c) <> "; top: " <> (T.pack $ show $ snd tmp_c) <> ";"
+                s:ss -> undefined
+            ) <$> stateDyn
 
     return never
