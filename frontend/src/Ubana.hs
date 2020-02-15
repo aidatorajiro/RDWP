@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE RecursiveDo #-}
 
 module Ubana where
 
@@ -13,6 +14,12 @@ import Text.RawString.QQ
 
 data HaiEvent x = EvMove x | EvClick x
 
+offsetA :: Int
+offsetA = 200
+
+offsetB :: Int
+offsetB = 200
+
 mkhais :: MonadWidget t m => Matrix T.Text -> m (Matrix (Element EventResult (DomBuilderSpace m) t))
 mkhais mat = do
     let elems = matrix (nrows mat) (ncols mat) (\nm -> fst <$> (elClass' "div" "haihai" $ text (mat ! nm)))
@@ -23,7 +30,7 @@ gethai :: Matrix T.Text -> (Int, Int) -> T.Text
 gethai mat (n, m) = maybe "" id $ safeGet n m mat
 
 coordToMatInd :: (Int, Int) -> (Int, Int)
-coordToMatInd (n, m) = ((n - 200) `div` 32, (m - 200) `div` 32)
+coordToMatInd (n, m) = ((n - offsetA) `div` 32, (m - offsetB) `div` 32)
 
 projectIndex :: (Int, Int) -> (Int, Int) -> (Int, Int)
 projectIndex root@(r1, r2) indexToProject@(p1, p2) =
@@ -36,7 +43,7 @@ projectCoord root coord = projectIndex root (coordToMatInd coord)
 
 -- shisensho kanji&hiragana shudoudemusubu
 page :: MonadWidget t m => m (Event t T.Text)
-page = do
+page = mdo
     style [r|
 #overwrap {
     position: absolute;
@@ -50,6 +57,8 @@ page = do
 }
 |]
 
+    elID "pre" "debug" $ display stateDyn
+
     (overwrap, _) <- elID' "div" "overwrap" (return ())
 
     let init_hais = matrix 10 10 (\(n, m) -> "あ")
@@ -58,13 +67,13 @@ page = do
 
     stateDyn <- foldDyn (\ev st@(tmp, selects, hais) -> case ev of
         EvMove coord  -> case selects of
-            []     -> st
+            []     -> (coordToMatInd coord, selects, hais)
             root:_ -> (projectCoord root coord, selects, hais)
         EvClick coord -> case selects of
             []     -> (coordToMatInd coord, [coordToMatInd coord], hais)
             root:_ -> (projectCoord root coord, projectCoord root coord:selects, hais)
         ) ((-1234, -1234), [], init_hais) evs
-
-    elID "pre" "debug" $ display stateDyn
+    
+    
 
     return never

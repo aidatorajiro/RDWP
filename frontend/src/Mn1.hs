@@ -68,7 +68,7 @@ dyn_arr_to_widget arr = dyn $
         map (\n -> 
             elClass
             "div"
-            (T.pack $ "num" ++ show n)
+            ("num" <> (T.pack $ show n))
             (return ())
         )
     ) <$> arr

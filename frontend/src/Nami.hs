@@ -54,6 +54,6 @@ page = do
           let val = show (floor ((h ! (i, j)) * 100) :: Int) in
           elStyle
           "div"
-          (T.pack $ "top: " ++ show (i * 16 + 60) ++ "px; left: " ++ show (j * 16) ++ "px; background: rgb(" ++ val ++ ", " ++ val ++ ", " ++ val ++ "); position: absolute; width:15px; height: 15px;")
+          ("top: " <> (T.pack $ show (i * 16 + 60)) <> "px; left: " <> (T.pack $ show (j * 16)) <> "px; background: rgb(" <> T.pack val <> ", " <> T.pack val <> ", " <> T.pack val <> "); position: absolute; width:15px; height: 15px;")
           (return ()))) <$> state
   return never

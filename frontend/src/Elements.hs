@@ -5,6 +5,7 @@ module Elements where
 
 import qualified Data.Text as T
 import qualified Data.Map as M
+import Data.Monoid ((<>))
 
 import Reflex.Dom
 
@@ -55,13 +56,13 @@ h1ID' id = fmap fst . elID' "h1" id . text
 -- | span element with absolute pixel position
 spanAbs :: MonadWidget t m => T.Text -> Double -> Double -> m ()
 spanAbs t x y = elAttr "span"
-  (M.singleton "style" $ T.pack $ "position: absolute; top: " ++ show x ++ "px; left: " ++ show y ++ "px;")
+  (M.singleton "style" $ "position: absolute; top: " <> (T.pack $ show x) <> "px; left: " <> (T.pack $ show y) <> "px;")
   (text t)
 
 -- | span element with absolute percentage position
 spanAbsP :: MonadWidget t m => T.Text -> Double -> Double -> m ()
 spanAbsP t x y = elAttr "span"
-  (M.singleton "style" $ T.pack $ "position: absolute; top: " ++ show x ++ "%; left: " ++ show y ++ "%;")
+  (M.singleton "style" $ "position: absolute; top: " <> (T.pack $ show x) <> "%; left: " <> (T.pack $ show y) <> "%;")
   (text t)
 
 -- relative URL to asset URL
