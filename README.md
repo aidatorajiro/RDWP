@@ -9,7 +9,7 @@ $<$>!
 
 ## build
 
-`stack build`
+`stack build --stack-yaml=<stack.linux.yaml or stack.macos.yaml or stack.ghcjs.yaml>`
 
 or
 
