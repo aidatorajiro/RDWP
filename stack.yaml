@@ -1,5 +1,5 @@
-resolver: lts-14.2
-compiler: ghc-8.6.5
+resolver: lts-16.31
+compiler: ghc-8.8.4
 compiler-check: match-exact
 
 packages:
@@ -7,23 +7,27 @@ packages:
 
 extra-deps:
 - git:  https://github.com/reflex-frp/reflex.git
-  commit: 4b04fc4f5aa474406e6f331de5d993154a3a4535
+  commit: 9b721a5192ac3197752839793c43850bd546a21c
 - git: https://github.com/reflex-frp/reflex-dom.git
-  commit: 94c26076a71f229b5bd27128cf6fc0dbcba011ac
+  commit: 2028ff64becdfc28032b7e6a91fcdbc285d39d2f
   subdirs:
     - reflex-dom
     - reflex-dom-core
-- bimap-0.3.3@sha256:232518c0410990665b9c8677eb9318ee355c001d58945ddcbedec3baa30b4160,1475
+- git: https://github.com/reflex-frp/patch.git
+  commit: 064a0e8d839b4302e4cac041051aee04614ccc8a
 - constraints-extras-0.3.0.2@sha256:bf6884be65958e9188ae3c9e5547abfd6d201df021bff8a4704c2c4fe1e1ae5b,1784
 - dependent-map-0.3@sha256:dc745864d5116bbd59ad29100faec74c79e681d35808547023619544c0e9f9b7,1574
 - dependent-sum-0.6.2.0@sha256:bff37c85b38e768b942f9d81c2465b63a96076f1ba006e35612aa357770807b6,1856
-- dependent-sum-template-0.1.0.0@sha256:477de784b63b970d69d8de84753967c2dfd84224a958549c43c770802d18f0df,1605
+- dependent-sum-template-0.1.0.3
 - ghcjs-dom-0.9.4.0@sha256:c2b3d25145e24b66a8a5078c0d750305b577aeff05957cf282d74f6e8d2424dd,32082
 - jsaddle-0.9.7.0@sha256:b848f626aede158a4ac9c1129699a44b7e5fa7d3ed9778b6df3390f2a4706412,4418
 - jsaddle-wkwebview-0.9.7.0@sha256:83a21ef8fba214a8901f769019f48d33e58e024ba2d3738c38de370eb78ca476,1905
 - monoidal-containers-0.6.0.1@sha256:7d776942659eb4d70d8b8da5d734396374a6eda8b4622df9e61e26b24e9c8e40,2501
+- prim-uniq-0.1.0.1@sha256:23f15867b381b49e3f09f69fba318b0ee0e505d5fe0df82f3fcdf3f5c2886291,1201
 - ref-tf-0.4.0.2@sha256:69de3550250e0cd69f45d080359cb314a9487c915024349c75b78732bbee9332,1134
-- witherable-0.3.1@sha256:ed3d5bc9eb1c08fa9704d9e143cdf622e1bd80b847cd5ede8c07da7bc7981ab9,1313
+- witherable-0.3.5@sha256:6590a15735b50ac14dcc138d4265ff1585d5f3e9d3047d5ebc5abf4cd5f50084,1476
 - zenc-0.1.1@sha256:e4be3e5e9fe1a1ade05910909c6e5b5a8eff72e697868b03955c9781b0443947,964
+- constraints-0.11.2@sha256:d028005d93f891b48b61ff0c82c6f868859eb728010dea3e355b0c55d0f57cf9,2219
 - ghcjs-dom-jsaddle-0.9.4.0@sha256:31ddfc5ebcbb4811b0c956fd5fcf106643012b46bb4e0bc2f15d09db1d116fbb,39525
+- these-1.0.1@sha256:7ff0f309978604015d978fb155ac4dc10a98e3d70a99aa2be8f755eb0cca4324,3191
 - jsaddle-dom-0.9.4.0@sha256:e9557e5a6df02bf089acab3e053ee3d4b523acebfe9ede9b5091d12cee760780,75700
