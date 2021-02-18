@@ -1,0 +1,39 @@
+resolver: lts-16.31
+compiler: ghc-8.8.4
+compiler-check: match-exact
+allow-newer: true
+packages:
+- 'frontend'
+
+extra-deps:
+- git:  https://github.com/reflex-frp/reflex.git
+  commit: 9b721a5192ac3197752839793c43850bd546a21c
+- git: https://github.com/reflex-frp/reflex-dom.git
+  commit: 2028ff64becdfc28032b7e6a91fcdbc285d39d2f
+  subdirs:
+    - reflex-dom
+    - reflex-dom-core
+- git: https://github.com/reflex-frp/patch.git
+  commit: 064a0e8d839b4302e4cac041051aee04614ccc8a
+
+- constraints-extras-0.3.0.2@sha256:013b8d0392582c6ca068e226718a4fe8be8e22321cc0634f6115505bf377ad26,1853
+- dependent-map-0.4.0.0@sha256:ca2b131046f4340a1c35d138c5a003fe4a5be96b14efc26291ed35fd08c62221,1657
+- dependent-sum-0.7.1.0@sha256:5599aa89637db434431b1dd3fa7c34bc3d565ee44f0519bfbc877be1927c2531,2068
+- dependent-sum-template-0.1.0.3@sha256:0bbbacdfbd3abf2a15aaf0cf2c27e5bdd159b519441fec39e1e6f2f54424adde,1682
+- ghcjs-dom-0.9.4.0@sha256:c2b3d25145e24b66a8a5078c0d750305b577aeff05957cf282d74f6e8d2424dd,32082
+- jsaddle-0.9.7.1@sha256:711e48fa92c04d373fc18f058743dd9a53aecd048c851a47c932ff7d9bff2c82,4418
+- jsaddle-webkit2gtk-0.9.7.1@sha256:85c917ae405296b37b942fcf542859958e292c0e2fe2bbfb3f4867ac6a1b2963,1483
+- monoidal-containers-0.6.0.1@sha256:ffdfae0fde7a08e9e314667a78d86454d2d23137d85f226ec6e757c190fb28ad,2583
+- prim-uniq-0.2@sha256:7bfd8a729812bf212610b63459b76a086ecd5ce48f48d785c288e082d055d47b,1403
+- ref-tf-0.4.0.2@sha256:69de3550250e0cd69f45d080359cb314a9487c915024349c75b78732bbee9332,1134
+- witherable-0.3.5@sha256:6590a15735b50ac14dcc138d4265ff1585d5f3e9d3047d5ebc5abf4cd5f50084,1476
+- zenc-0.1.1@sha256:e4be3e5e9fe1a1ade05910909c6e5b5a8eff72e697868b03955c9781b0443947,964
+- ghcjs-dom-jsaddle-0.9.4.0@sha256:31ddfc5ebcbb4811b0c956fd5fcf106643012b46bb4e0bc2f15d09db1d116fbb,39525
+- gi-javascriptcore-4.0.22@sha256:525e7087beb8a57d6bf42d37239144b59e8a830bed384ff3939762445826a853,4028
+- gi-webkit2-4.0.26@sha256:813cd65e95fdea83fe44043c06f8330f7f25e6492f473df9a1c7db43ed1f01b0,11288
+- webkit2gtk3-javascriptcore-0.14.4.1@sha256:bef2b02631631524d29fac42bfdd8655d45d7dba211d740af152e9d4bbe08db3,2104
+- gi-soup-2.4.23@sha256:1487ea6a8e4d88f6e998ca23dc466503fe55dd19b0f35da0040bec960ac2877e,8957
+- gtk2hs-buildtools-0.13.8.0@sha256:132f38155fc677430a47ea750918973161c876fb6f281d342ac2f07eb99229ce,5238
+- jsaddle-dom-0.9.4.1@sha256:c769ab7d568c6fa9d0ecc9fa1c83091bfd3277c48e7f109a056cd088f399505f,75700
+- haskell-gi-0.23.0
+- haskell-gi-base-0.23.0

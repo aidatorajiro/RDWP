@@ -1,0 +1,12 @@
+{
+    "name": "Haskell Remote-Container",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "myservice",
+    "workspaceFolder": "/workspace/",
+    "settings": {
+    },
+    "extensions": [
+        "haskell.haskell",
+        "justusadam.language-haskell"
+    ]
+}

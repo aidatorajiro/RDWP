@@ -1,0 +1,8 @@
+version: '2'
+services:
+  myservice:
+    build: .
+    mem_limit: 10000m
+    volumes:
+      - ..:/workspace:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
