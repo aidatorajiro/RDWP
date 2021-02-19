@@ -10,10 +10,10 @@ import Reflex.Dom
 message :: MonadWidget t m => Int -> T.Text -> m (Event t Int)
 message nextpage txt = do
   tickCount <- count =<< getTickEv 0.1
-  let dt = fmap (\n -> T.take n txt) tickCount
+  let dt = fmap (`T.take` txt) tickCount
   elStyle "div" "width:500px;font-size:24px;margin:auto;" (dynText dt)
   (e, _) <- elStyle' "div" "display:inline-block;margin-top:20px;" (text "↪︎")
-  return (nextpage <$ (domEvent Click e))
+  return (nextpage <$ domEvent Click e)
 
 -- bg : 821e0a / 2f1371
 
@@ -25,7 +25,7 @@ page n = elStyle "div" "transform:translateY(-50%);position:absolute;top:50%;wid
     0 -> do
       el "h1" (text "Welcome To Arsnet")
       (e, _) <- elStyle' "h2" "margin-top: 100px; color: #F3C3C3;" (text "ENTER")
-      return $ 1 <$ (domEvent Click e)
+      return $ 1 <$ domEvent Click e
     1 -> message 2 "Congratulations."
     2 -> message 3 "The Toravember decentralized lottery is complete. Your name has pulled."
     3 -> message 4 "For immidiate placement, report to the Ministry of Transaction Verification at East Grestia Interface."

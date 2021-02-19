@@ -31,6 +31,9 @@ body {
 .headline {
     color: #235711;
 }
+.kuhaku {
+    margin-top: 88px;
+}
 |]
     el "h1" $ text "虚数クラブへようこそ！"
     elClass "div" "i" $ do
@@ -39,5 +42,8 @@ body {
             text "abc"
             assetImg "shori.png" (return ())
             text "def") [1..10]
-    mapM_ (\x -> elClass "h2" "headline" (text $ "虚数クラブ名誉会員「" <> x <> "」さんのお言葉")) ["", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "　"]
+    mapM_ (\x -> do
+        elClass "h2" "headline" (text $ "虚数クラブ名誉会員「" <> x <> "」さんのお言葉")
+        elClass "div" "kuhaku" $ return ())
+        ["", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "　"]
     return never

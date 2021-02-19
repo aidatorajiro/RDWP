@@ -106,17 +106,17 @@ page = do
 
     elClass "div" "arrrrr" (text "↓")
     
-    elClass "div" "answer_num" (dyn_arr_to_widget (constDyn $ take 20 $ repeat 4))
+    elClass "div" "answer_num" (dyn_arr_to_widget (constDyn $ replicate 20 4))
 
     elClass "div" "ev_del_count" $ display ev_del_count
 
     return $ fforMaybe (updated $ zipDyn output ev_del_count) (\(out, cnt) -> 
             if length out == 20 then
-                if and $ map (== 4) out then
+                if all (== 4) out then
                     if cnt == 0 then
-                        Just "/skate"
+                        Just "/ars0"
                     else
-                        Just "/iclub"
+                        Just "/skate"
                 else Just "/nannkahenndayo"
             else Nothing
         )
