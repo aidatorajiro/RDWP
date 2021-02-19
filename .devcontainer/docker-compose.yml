@@ -5,4 +5,4 @@ services:
     mem_limit: 10000m
     volumes:
       - ..:/workspace:cached
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    command: /bin/sh -c "/etc/init.d/ssh start; while sleep 1000; do :; done"
