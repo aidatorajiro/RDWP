@@ -23,11 +23,12 @@ import qualified Ars
 import qualified IClub
 import qualified Harituke
 import qualified Ubana
-import Elements
+import Elements ( style )
 import Text.RawString.QQ
+import Data.Either
 
-reset_css :: T.Text
-reset_css = [r|
+resetCss :: T.Text
+resetCss = [r|
   /*
   html5doctor.com Reset Stylesheet
   v1.6.1
@@ -183,7 +184,7 @@ parseLocationPath =
 
 -- | route location paths to dom widgets
 router :: MonadWidget t m => T.Text -> m ( Event t T.Text )
-router s = either (const Error404.page) id (parse parseLocationPath "LocationPath" s)
+router s = fromRight Error404.page (parse parseLocationPath "LocationPath" s)
 
 -- | push browser history state
 pushState :: MonadWidget t m => T.Text -> m ()
@@ -201,7 +202,7 @@ popState = do
 startApp :: IO ()
 startApp = mainWidget $ mdo
   -- set reset css
-  style reset_css
+  style resetCss
 
   -- Get an Event of Event which contains dynamically changing widget.
   ee <- dyn $ router <$> loc

@@ -30,4 +30,4 @@ page = do
     assetImg "4041.png" (return ())
     el "br" (return ())
     (el, _) <- elAttr' "span" (M.singleton "class" "link") (text "★★★")
-    return ("/index" <$ (domEvent Click el))
+    return ("/index" <$ domEvent Click el)

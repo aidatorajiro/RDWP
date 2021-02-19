@@ -53,28 +53,25 @@ body {
 
 -- | 5-adic arr to Integer
 -- | example: [1, 2, 3] ----> 1*5^2 + 2*5 + 3 = 38
-arr_to_num :: [Integer] -> Integer
-arr_to_num = foldl (\x y -> x*5 + y) 0
+arrToNum :: [Integer] -> Integer
+arrToNum = foldl (\x y -> x*5 + y) 0
 
 -- | Integer to 5-adic arr
 -- | example: 38 = 1*5^2 + 2*5 + 3 ----> [1, 2, 3]
-num_to_arr :: Integer -> [Integer]
-num_to_arr n
+numToArr :: Integer -> [Integer]
+numToArr n
     | n < 5 = [n]
-    | otherwise = num_to_arr (n `div` 5) ++ [n `mod` 5]
+    | otherwise = numToArr (n `div` 5) ++ [n `mod` 5]
 
 -- | Dynamic 5-adic arr to widget (white div tiles).
-dyn_arr_to_widget :: MonadWidget t m => Dynamic t [Integer] -> m (Event t ())
-dyn_arr_to_widget arr = dyn $
-    (
-        foldr (\x y -> x >> y) (return ()) .
-        map (\n -> 
-            elClass
-            "div"
-            ("num" <> (T.pack $ show n))
-            (return ())
-        )
-    ) <$> arr
+dynArrToWidget :: MonadWidget t m => Dynamic t [Integer] -> m (Event t ())
+dynArrToWidget arr = dyn $
+    foldr ((>>) . (\n ->
+        elClass
+        "div"
+        ("num" <> T.pack (show n))
+        (return ())
+    )) (return ()) <$> arr
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
@@ -92,25 +89,25 @@ page = do
             _ -> n : arr
         ) [] (leftmost [0 <$ ev0, 1 <$ ev1, 2 <$ ev2, 3 <$ ev3, 4 <$ ev4, 5 <$ ev_del])
 
-    elClass "div" "input_num" (dyn_arr_to_widget input)
-    elClass "div" "input_num" (dyn_arr_to_widget input)
+    elClass "div" "input_num" (dynArrToWidget input)
+    elClass "div" "input_num" (dynArrToWidget input)
 
-    let input_num = arr_to_num <$> input
+    let input_num = arrToNum <$> input
     let output_num = (^2) <$> input_num
     let output = zipDynWith
             (\inp out -> drop (length out - length inp) out)
             input
-            (num_to_arr <$> output_num)
-    
-    elClass "div" "output_num" (dyn_arr_to_widget output)
+            (numToArr <$> output_num)
+
+    elClass "div" "output_num" (dynArrToWidget output)
 
     elClass "div" "arrrrr" (text "↓")
-    
-    elClass "div" "answer_num" (dyn_arr_to_widget (constDyn $ replicate 20 4))
+
+    elClass "div" "answer_num" (dynArrToWidget (constDyn $ replicate 20 4))
 
     elClass "div" "ev_del_count" $ display ev_del_count
 
-    return $ fforMaybe (updated $ zipDyn output ev_del_count) (\(out, cnt) -> 
+    return $ fforMaybe (updated $ zipDyn output ev_del_count) (\(out, cnt) ->
             if length out == 20 then
                 if all (== 4) out then
                     if cnt == 0 then

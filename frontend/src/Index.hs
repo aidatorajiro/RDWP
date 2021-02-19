@@ -30,9 +30,9 @@ page = do
 
   let percentage = flip div 100 <$> tickcnt
       attr_h1 = M.singleton "style" <$> styleAttr
-      attr_div = (\p -> M.singleton "style" $ "height: 1em; width: " <> (T.pack $ show p) <> "%; background: black;") <$> percentage
+      attr_div = (\p -> M.singleton "style" $ "height: 1em; width: " <> T.pack (show p) <> "%; background: black;") <$> percentage
   
   elDynAttr "h1" attr_h1 $ text "Hello, world!"
   elDynAttr "div" attr_div blank
   
-  return $ "/mensae" <$ (ffilter (== 10000) $ updated tickcnt)
+  return $ "/mensae" <$ ffilter (== 10000) (updated tickcnt)

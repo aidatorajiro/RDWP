@@ -11,6 +11,7 @@ import Elements
 import Data.Matrix
 import Data.Monoid ((<>))
 import Text.RawString.QQ
+import Data.Maybe
 
 data HaiEvent x = EvMove x | EvClick x
 
@@ -28,12 +29,11 @@ coeffB = 32
 
 mkhais :: MonadWidget t m => Matrix T.Text -> m (Matrix (Element EventResult (DomBuilderSpace m) t))
 mkhais mat = do
-    let elems = matrix (nrows mat) (ncols mat) (\nm -> fst <$> (elClass' "div" "haihai" $ text (mat ! nm)))
-    folded <- mapM id elems
-    return folded
+    let elems = matrix (nrows mat) (ncols mat) (\nm -> fst <$> elClass' "div" "haihai" (text (mat ! nm)))
+    sequence elems
 
 gethai :: Matrix T.Text -> (Int, Int) -> T.Text
-gethai mat (n, m) = maybe "" id $ safeGet n m mat
+gethai mat (n, m) = fromMaybe "" $ safeGet n m mat
 
 coordToMatInd :: (Int, Int) -> (Int, Int)
 coordToMatInd (n, m) = ((n - offsetA) `div` coeffA, (m - offsetB) `div` coeffB)
@@ -93,11 +93,11 @@ body {
         )
         ((-1234, -1234), [], init_hais)
         evs
-    
+
     let cursorStyle = (\st@(tmp, _, _) ->
                 let tmp_c = matIndToCoord tmp in
-                let prefix = "position: absolute; background: #FFFFFF; opacity: 0.5; width: " <> (T.pack $ show coeffA) <> "px; height: " <> (T.pack $ show coeffB) <> "px; " in
-                prefix <> "left: " <> (T.pack $ show $ fst tmp_c) <> "px; top: " <> (T.pack $ show $ snd tmp_c) <> "px; "
+                let prefix = "position: absolute; background: #FFFFFF; opacity: 0.5; width: " <> T.pack (show coeffA) <> "px; height: " <> T.pack (show coeffB) <> "px; " in
+                prefix <> "left: " <> T.pack (show $ fst tmp_c) <> "px; top: " <> T.pack (show $ snd tmp_c) <> "px; "
             ) <$> stateDyn
 
     return never

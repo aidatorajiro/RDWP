@@ -51,9 +51,9 @@ page = do
       sequence $
       matrix n n
         (\(i, j) ->
-          let val = show (floor ((h ! (i, j)) * 100) :: Int) in
+          let val = show (floor (h ! (i, j) * 100) :: Int) in
           elStyle
           "div"
-          ("top: " <> (T.pack $ show (i * 16 + 60)) <> "px; left: " <> (T.pack $ show (j * 16)) <> "px; background: rgb(" <> T.pack val <> ", " <> T.pack val <> ", " <> T.pack val <> "); position: absolute; width:15px; height: 15px;")
+          ("top: " <> T.pack (show (i * 16 + 60)) <> "px; left: " <> T.pack (show (j * 16)) <> "px; background: rgb(" <> T.pack val <> ", " <> T.pack val <> ", " <> T.pack val <> "); position: absolute; width:15px; height: 15px;")
           (return ()))) <$> state
   return never
