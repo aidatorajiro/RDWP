@@ -12,6 +12,8 @@ $<$>!
 
 ## Use vscode's Remote Container
 
+Please increase docker's memory limit to 11GB.
+
 1. Open project.
 2. Click `><` icon in bottom right corner, and choose `Reopen in Container`.
 3. Open some `hs` file or run `stack build` in the console.

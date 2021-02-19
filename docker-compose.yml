@@ -2,7 +2,7 @@ version: '2'
 services:
   myservice:
     build: .
-    mem_limit: 10000m
+    mem_limit: 11g
     volumes:
-      - ..:/workspace:cached
+      - .:/workspace:cached
     command: /bin/sh -c "/etc/init.d/ssh start; while sleep 1000; do :; done"
