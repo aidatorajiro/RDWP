@@ -1,33 +1,21 @@
-{ mkDerivation, reflex, reflex-dom, matrix, raw-strings-qq, file-embed, cabal-macosx, jsaddle-warp, jsaddle-webkit2gtk, jsaddle-wkwebview, ghc, stdenv, darwin
-, buildPackages
-}:
-
-mkDerivation {
-  pname = "RDWP";
-  version = "0.1.0.0";
-  src = builtins.filterSource (path: type: !(builtins.elem (baseNameOf path) [ ".git" "dist" ])) ./frontend;
-  isExecutable = true;
-  isLibrary = true;
-  buildTools = [
-    cabal-macosx
-  ];
-  buildDepends = [
-    reflex
-    reflex-dom
-    matrix
-    raw-strings-qq
-    file-embed
-  ] ++ (if ghc.isGhcjs or false then [
-  ] else if stdenv.hostPlatform.isiOS then [
-    jsaddle-wkwebview
-    buildPackages.darwin.apple_sdk.libs.xpc
-    (buildPackages.osx_sdk or null)
-  ] else if stdenv.hostPlatform.isMacOS then [
-    jsaddle-wkwebview
-    jsaddle-warp
-  ] else [
-    jsaddle-webkit2gtk
-    jsaddle-warp
-  ]);
-  license = null;
-}
+{system ? builtins.currentSystem, unstable ? import <nixos-unstable> {}} :
+(import ./reflex-platform { inherit system; }).project ({pkgs, ...}: {
+  useWarp = true;
+  packages = {
+    RDWP = ./frontend;
+  };
+  shells = {
+    ghc = ["frontend"];
+    ghcjs = ["frontend"];
+    wasm = ["frontend"];
+  };
+  shellToolOverrides = ghc: super: {
+    haskell-language-server = unstable.haskell-language-server;
+  };
+  overrides = self: super: {
+    mmorph = self.callHackage "mmorph" "1.1.3" {}; # special hack for mmorph
+    matrix = pkgs.haskell.lib.dontCheck super.matrix; # immunity from tests
+    reflex = pkgs.haskell.lib.dontCheck super.reflex; # immunity from tests
+    reflex-dom-core = pkgs.haskell.lib.dontCheck super.reflex-dom-core; # immunity from tests
+  };
+})

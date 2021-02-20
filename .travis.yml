@@ -1,11 +1,11 @@
 language: nix
 script:
-- nix-build -E '(import ./reflex-platform {}).ghcjs.callPackage ./. {}' --option extra-binary-caches https://nixcache.reflex-frp.org --option binary-cache-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" 2>&1 | grep -Ev 'copying|IdnaTest.txt|runTest|Compiling|adding|/nix/store|checking'
+- nix-build -A ghcjs.RDWP --option binary-caches "https://cache.nixos.org https://nixcache.reflex-frp.org" --option binary-cache-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" --option binary-caches-parallel-connections 40 2>&1 | python outlimit.py
 - sudo cp result/bin/RDWP-exe.jsexe/index.html result/bin/RDWP-exe.jsexe/404.html
 deploy:
   provider: pages
   skip-cleanup: true
-  local-dir: result/bin/RDWP-exe.jsexe
+  local-dir: result/bin/RDWP-exe.jsexe/
   github-token:
     secure: "mCF+b0iUw0PQnZ08Xu7Lu+6Dyfhs2ZVanpzxoV1Rx5KXKPgdOSFmdqMct59yUSLKp8pG0ITj6FMmsj7OnT9stbBQBTOQsC6YWqJQTr+o3S8h3exfm9XhNnmOu5BQ8n/0Xvs3HItgmsGbUcKVeysyGBPTNh6pH+/ao9YdqjCxbCByzsD2LTYcNaCbkZqpI+wzVd8H6prO3cmGWJrzdPhP/64achYj6WiEOzb6lYgYdIoO9WxuFCC7Vzi6oj68WM6DrcA+0jaW1eqYa16QRNJUJDTXhe2YQYAUpgNtcWbtBmwgqkzVz/oVSN9bnDl+iKr0on4Ml6IBQ/9sdbStQIh8ik9DUzyizkOeX4Z8/PDUHnbfw7v3Stl3roExpfUJv8K9WUSnLNPDtnRSjOlYalOmkBZ4qQ4lf/8ttlvD3FRRNBNs3hLADsuAnxe+JYCu+JUx/JdDB8K7Qk+7NrSWXkPVbmJVdMiFD0Yew59OvEDsGmHrQyv6ENnWULGwKwiJRxGynhuC1fvFSkz2z/OUydH6MJJrB+LaP0gItDohyhOq5hyN74y69fPHRm97mcF8inUwnXMGXDkj28LDYo44/6ruEpbK/HDHOf7nUmhMcqrmlpJpEuvnFHgm7dlfYPPVtUXQtsxhpmSa5yHQ5B1vFeSuRy38lfINYc6653nzKqWqKYk="
   on:
