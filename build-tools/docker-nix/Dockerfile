@@ -17,7 +17,6 @@ WORKDIR /home/nix
 
 RUN curl -L https://nixos.org/nix/install | sh
 RUN echo 'USER=nix; . /home/nix/.nix-profile/etc/profile.d/nix.sh;' > ~/e.sh
-RUN . ~/e.sh; nix-env -i git
 
 RUN mkdir RDWP
 
