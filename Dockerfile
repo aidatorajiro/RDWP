@@ -10,3 +10,4 @@ RUN echo X11Forwarding yes >> /etc/ssh/sshd_config
 RUN echo X11UseLocalhost no >> /etc/ssh/sshd_config
 RUN echo PermitRootLogin yes >> /etc/ssh/sshd_config
 RUN echo exit | xauth
+RUN echo "root:root" | chpasswd
