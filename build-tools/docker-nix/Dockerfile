@@ -19,7 +19,9 @@ RUN curl -L https://nixos.org/nix/install | sh
 RUN echo 'USER=nix; . /home/nix/.nix-profile/etc/profile.d/nix.sh;' > ~/e.sh
 RUN . ~/e.sh; nix-env -i git
 
-RUN . ~/e.sh; git clone https://github.com/aidatorajiro/RDWP --recursive
+RUN mkdir RDWP
+
+ADD ./ ./RDWP/
 
 WORKDIR RDWP
 

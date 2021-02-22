@@ -15,16 +15,15 @@ $<$>!
 Please increase docker's memory limit to 11GB.
 
 1. Open project.
-2. Click `><` icon in bottom right corner, and choose `Reopen in Container`.
-3. Open some `hs` file or run `stack build` in the console.
-4. Run `passwd` in the console and set the root password.
-5. To run the application, use X11 forwarding. First, access the container via `ssh -X root@0.0.0.0 -p <forwarded port>`. 
-5. `cd /workspace/frontend/assets`.
-5. `/workspace/.stack-work/install/x86_64-linux/*/*/bin/RDWP-exe`
+1. Click `><` icon in bottom right corner, and choose `Reopen in Container`.
+1. Run `passwd` in the console and set the root password.
+1. To run the application, use X11 forwarding. First, install X11 in the *host* computer and access the container via `ssh -X root@0.0.0.0 -p <forwarded port>`.
+1. Then run `cd /workspace/frontend/assets`.
+1. Then run `/workspace/.stack-work/install/x86_64-linux/*/*/bin/RDWP-exe`
 
 ## build
 
-`stack build --stack-yaml=<stack.linux.yaml or stack.macos.yaml or stack.ghcjs.yaml>`
+`stack build --stack-yaml=<stack.yaml or stack.macos.yaml or stack.ghcjs.yaml>`
 
 or
 
@@ -36,3 +35,10 @@ Dependencies for Ubuntu:
 
 `sudo apt install libwebkit2gtk-4.0-dev gobject-introspection libgirepository1.0-dev`
 
+## docker (nix + ghcjs)
+
+`docker build -f build-tools/docker-nix/Dockerfile .`
+
+## docker (stack + ghc + X11 forwarding)
+
+`docker build .`

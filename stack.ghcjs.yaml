@@ -13,9 +13,9 @@ packages:
 
 extra-deps:
 - git:  https://github.com/reflex-frp/reflex.git
-  commit: 59ef31edc761109dbe1fc9489af6c620e6bea31e
+  commit: 9b721a5192ac3197752839793c43850bd546a21c
 - git: https://github.com/reflex-frp/reflex-dom.git
-  commit: 8bde2d72193369c92a995820ca1f56690d3c8ec3
+  commit: 2028ff64becdfc28032b7e6a91fcdbc285d39d2f
   subdirs:
     - reflex-dom
     - reflex-dom-core
