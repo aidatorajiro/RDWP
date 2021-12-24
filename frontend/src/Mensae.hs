@@ -24,4 +24,9 @@ page = do
   h2t "Proof n m := m is proof for (toProp n)"
   h2t "Provable n := exists m. Proof n m"
   p <- elStyle "p" "font-size: 42px;" $ selectTree $ Node "Proof" [Node "toNat" [Node "P" []]]
+
+  let h3t = el "h3" . text
+  h3t "NNK YRWTSTKD WSRT"
+
+  
   return never
