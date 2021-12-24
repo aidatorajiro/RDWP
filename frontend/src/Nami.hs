@@ -56,4 +56,14 @@ page = do
           "div"
           ("top: " <> T.pack (show (i * 16 + 60)) <> "px; left: " <> T.pack (show (j * 16)) <> "px; background: rgb(" <> T.pack val <> ", " <> T.pack val <> ", " <> T.pack val <> "); position: absolute; width:15px; height: 15px;")
           (return ()))) <$> state
-  return never
+  
+  let s = (\(v, h) -> sum (toList h)) <$> state
+  sa <- foldDyn (\b (a1, a2) -> (a2, b)) (-123.456, 789.012) (updated s)
+  let saa = ((uncurry (-)) <$> sa)
+
+  display sa
+  display saa
+
+  let pth = mapMaybe (\a -> if abs a < 0.0001 then Just "/onsen" else Nothing) (updated saa)
+
+  return pth
