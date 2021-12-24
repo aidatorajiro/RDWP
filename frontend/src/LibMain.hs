@@ -23,6 +23,7 @@ import qualified Ars
 import qualified IClub
 import qualified Harituke
 import qualified Ubana
+import qualified Onsen
 import Elements ( style )
 import Text.RawString.QQ
 import Data.Either
@@ -164,8 +165,8 @@ parseLocationPath =
       l path widget = string path >> eof >> return widget
       -- ex. "/testes0", "/testes1", "/testes2", ...
       ln path widget = string path >> fmap (widget . read) (many digit)
-      -- ex. "/testes/a", "/testes/ksk", "/testes/tska", ...
-      ls path widget = string path >> char '/' >> fmap widget (many anyChar)
+      -- ex. "/testes_a", "/testes_ksk", "/testes_tska", ...
+      ls path widget = string path >> char '_' >> fmap widget (many anyChar)
   in choice $ map try [
       l "/index" Index.page,
       l "/" FakeIndex.page,
@@ -176,6 +177,7 @@ parseLocationPath =
       l "/worry" Mn1.page,
       l "/skate" Mn1.page,
       ln "/ars" Ars.page,
+      ln "/onsen" Onsen.page,
       l "/iclub" IClub.page,
       l "/harituke" Harituke.page,
       l "/ubana" Ubana.page,
