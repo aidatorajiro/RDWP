@@ -31,6 +31,6 @@ h1 {
 |]
     el "h1" (text "nlognを讃えよ！")
     elID "div" "imgwrap" $ do
-        elAttr "img" (M.fromList [("src", "assets/qs_expectation.png"), ("id", "expe")]) (return ())
-        elAttr "img" (M.fromList [("src", "assets/qs_mode.png"), ("id", "mode")]) (return ())
+        elAttr "img" (M.fromList [("src", "qs_expectation.png"), ("id", "expe")]) (return ())
+        elAttr "img" (M.fromList [("src", "qs_mode.png"), ("id", "mode")]) (return ())
     return never

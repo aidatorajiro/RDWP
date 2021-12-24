@@ -1,33 +1,34 @@
-resolver: lts-16.31
-compiler: ghc-8.8.4
+resolver: lts-18.19
+compiler: ghc-8.10.7
 compiler-check: match-exact
-
+allow-newer: true
 packages:
 - 'frontend'
 
 extra-deps:
 - git:  https://github.com/reflex-frp/reflex.git
-  commit: 9b721a5192ac3197752839793c43850bd546a21c
+  commit: 90891e177ffb1647324cce4c023b97a82bb59936
 - git: https://github.com/reflex-frp/reflex-dom.git
-  commit: 2028ff64becdfc28032b7e6a91fcdbc285d39d2f
+  commit: 2427018b40ba9726aa959da1e6a0ac6d6a966f09
   subdirs:
     - reflex-dom
     - reflex-dom-core
 - git: https://github.com/reflex-frp/patch.git
   commit: 064a0e8d839b4302e4cac041051aee04614ccc8a
-- constraints-extras-0.3.0.2@sha256:bf6884be65958e9188ae3c9e5547abfd6d201df021bff8a4704c2c4fe1e1ae5b,1784
-- dependent-map-0.3@sha256:dc745864d5116bbd59ad29100faec74c79e681d35808547023619544c0e9f9b7,1574
-- dependent-sum-0.6.2.0@sha256:bff37c85b38e768b942f9d81c2465b63a96076f1ba006e35612aa357770807b6,1856
-- dependent-sum-template-0.1.0.3
+
+- constraints-extras-0.3.0.2@sha256:013b8d0392582c6ca068e226718a4fe8be8e22321cc0634f6115505bf377ad26,1853
+- dependent-map-0.4.0.0@sha256:ca2b131046f4340a1c35d138c5a003fe4a5be96b14efc26291ed35fd08c62221,1657
+- dependent-sum-0.7.1.0@sha256:5599aa89637db434431b1dd3fa7c34bc3d565ee44f0519bfbc877be1927c2531,2068
+- dependent-sum-template-0.1.0.3@sha256:0bbbacdfbd3abf2a15aaf0cf2c27e5bdd159b519441fec39e1e6f2f54424adde,1682
 - ghcjs-dom-0.9.4.0@sha256:c2b3d25145e24b66a8a5078c0d750305b577aeff05957cf282d74f6e8d2424dd,32082
-- jsaddle-0.9.7.0@sha256:b848f626aede158a4ac9c1129699a44b7e5fa7d3ed9778b6df3390f2a4706412,4418
-- jsaddle-wkwebview-0.9.7.0@sha256:83a21ef8fba214a8901f769019f48d33e58e024ba2d3738c38de370eb78ca476,1905
-- monoidal-containers-0.6.0.1@sha256:7d776942659eb4d70d8b8da5d734396374a6eda8b4622df9e61e26b24e9c8e40,2501
-- prim-uniq-0.1.0.1@sha256:23f15867b381b49e3f09f69fba318b0ee0e505d5fe0df82f3fcdf3f5c2886291,1201
+- jsaddle-0.9.7.1@sha256:711e48fa92c04d373fc18f058743dd9a53aecd048c851a47c932ff7d9bff2c82,4418
+- jsaddle-wkwebview-0.9.7.1@sha256:9a3eea0f35ee8b85d6926cd95ca08a6697f75638c689a812fb9740f654b25ffa,1905
+- monoidal-containers-0.6.0.1@sha256:ffdfae0fde7a08e9e314667a78d86454d2d23137d85f226ec6e757c190fb28ad,2583
+- prim-uniq-0.2@sha256:7bfd8a729812bf212610b63459b76a086ecd5ce48f48d785c288e082d055d47b,1403
 - ref-tf-0.4.0.2@sha256:69de3550250e0cd69f45d080359cb314a9487c915024349c75b78732bbee9332,1134
-- witherable-0.3.5@sha256:6590a15735b50ac14dcc138d4265ff1585d5f3e9d3047d5ebc5abf4cd5f50084,1476
+- witherable-0.4.1@sha256:5b4840efe20d16cab6b13fa2f39ed383703cccbc246f5b710591069fcc6884c0,2249
 - zenc-0.1.1@sha256:e4be3e5e9fe1a1ade05910909c6e5b5a8eff72e697868b03955c9781b0443947,964
-- constraints-0.11.2@sha256:d028005d93f891b48b61ff0c82c6f868859eb728010dea3e355b0c55d0f57cf9,2219
 - ghcjs-dom-jsaddle-0.9.4.0@sha256:31ddfc5ebcbb4811b0c956fd5fcf106643012b46bb4e0bc2f15d09db1d116fbb,39525
-- these-1.0.1@sha256:7ff0f309978604015d978fb155ac4dc10a98e3d70a99aa2be8f755eb0cca4324,3191
-- jsaddle-dom-0.9.4.0@sha256:e9557e5a6df02bf089acab3e053ee3d4b523acebfe9ede9b5091d12cee760780,75700
+- indexed-traversable-0.1.1@sha256:e330ec1ab336ee2fb1eff117ebe3480d1663396fecd981f185b7123dc7941ae1,2469
+- indexed-traversable-instances-0.1@sha256:3aaf97040001bbe583e29c2b9c7d41660df265e6565a0d2ac09a3ed5b8bc21be,2874
+- jsaddle-dom-0.9.4.1@sha256:c769ab7d568c6fa9d0ecc9fa1c83091bfd3277c48e7f109a056cd088f399505f,75700
