@@ -1,10 +1,10 @@
-FROM haskell:8.8.4
+FROM haskell:8.10.7
 RUN apt-get update
 RUN apt-get install -y libwebkit2gtk-4.0-dev gobject-introspection libgirepository1.0-dev ssh fonts-takao
 COPY Gtk-3.0.gir /usr/share/gir-1.0/Gtk-3.0.gir
 COPY ./ $HOME/src_temp/
 WORKDIR $HOME/src_temp
-RUN stack build
+RUN stack build --stack-yaml stack.linux.yaml
 RUN rm -rf $HOME/src_temp
 RUN echo X11Forwarding yes >> /etc/ssh/sshd_config
 RUN echo X11UseLocalhost no >> /etc/ssh/sshd_config
