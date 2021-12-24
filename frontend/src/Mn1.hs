@@ -48,6 +48,8 @@ body {
 }
 .ev_del_count {
     opacity: 0.6;
+    font-size: 33px;
+    color: #03928F;
 }
 |]
 
