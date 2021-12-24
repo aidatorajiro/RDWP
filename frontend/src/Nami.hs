@@ -64,6 +64,6 @@ page = do
   display sa
   display saa
 
-  let pth = mapMaybe (\a -> if abs a < 0.01 then Just "/onsen_" else Nothing) (updated saa)
+  let pth = mapMaybe (\a -> if abs a < 0.01 then Just "/onsen0" else Nothing) (updated saa)
 
   return pth
