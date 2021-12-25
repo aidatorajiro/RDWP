@@ -2,6 +2,7 @@
 
 module LibMain ( startApp ) where
 
+import System.Environment
 import GHCJS.DOM ( currentWindowUnchecked )
 import GHCJS.DOM.EventM ( on )
 import GHCJS.DOM.Window ( getHistory )
@@ -11,6 +12,7 @@ import Reflex.Dom
 import Reflex.Dom.Location ( getLocationPath )
 import qualified Data.Text as T
 import Text.Parsec
+import Safe (atMay)
 
 import qualified Index
 import qualified FakeIndex
@@ -27,6 +29,7 @@ import qualified Onsen
 import Elements ( style )
 import Text.RawString.QQ
 import Data.Either
+import Data.Maybe (fromMaybe)
 
 resetCss :: T.Text
 resetCss = [r|
@@ -164,9 +167,9 @@ parseLocationPath =
   let -- ex. "/testes"
       l path widget = string path >> eof >> return widget
       -- ex. "/testes0", "/testes1", "/testes2", ...
-      ln path widget = string path >> fmap (widget . read) (many digit)
+      ln path widget = string path >> fmap (widget . read) (many1 digit)
       -- ex. "/testes_a", "/testes_ksk", "/testes_tska", ...
-      ls path widget = string path >> char '_' >> fmap widget (many anyChar)
+      ls path widget = string path >> fmap widget (many anyChar)
   in choice $ map try [
       l "/index" Index.page,
       l "/" FakeIndex.page,
@@ -202,29 +205,32 @@ popState = do
 
 -- | start the app
 startApp :: IO ()
-startApp = mainWidget $ mdo
-  -- set reset css
-  style resetCss
+startApp = do
+  args <- getArgs
+  mainWidget $ mdo
+    -- set reset css
+    style resetCss
 
-  -- Get an Event of Event which contains dynamically changing widget.
-  ee <- dyn $ router <$> loc
+    -- Get an Event of Event which contains dynamically changing widget.
+    ee <- dyn $ router <$> loc
 
-  -- Using some magic to flatten an Event of Event to get a location update Event from the router.
-  routerEv <- switch <$> hold never ee
+    -- Using some magic to flatten an Event of Event to get a location update Event from the router.
+    routerEv <- switch <$> hold never ee
 
 #ifdef ghcjs_HOST_OS
-  -- Get current value of location.path.
-  initLoc <- getLocationPath
+    -- Get current value of location.path.
+    initLoc <- getLocationPath
 
-  -- Get the browser's popState Event
-  browserEv <- popState
+    -- Get the browser's popState Event
+    browserEv <- popState
 
-  -- Push locations from the router Event to the browser history.
-  widgetHold (return ()) (pushState <$> routerEv)
+    -- Push locations from the router Event to the browser history.
+    widgetHold (return ()) (pushState <$> routerEv)
 
-  -- Define location, then back to the loop.
-  loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
+    -- Define location, then back to the loop.
+    loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
 #else
-  loc <- holdDyn "/" routerEv
+    let initialpath = fromMaybe "/" (atMay args 0)
+    loc <- holdDyn (T.pack initialpath) routerEv
 #endif
-  return ()
+    return ()

@@ -37,6 +37,7 @@ library
     , text
     , time
     , ghcjs-dom
+    , safe
   if impl(ghcjs)
     build-depends:
         ghcjs-base
