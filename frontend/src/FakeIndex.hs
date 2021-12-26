@@ -58,6 +58,10 @@ css = [r|
   width: 30px;
   margin: auto;
 }
+
+h1 {
+  cursor: pointer;
+}
 |]
 
 data SpanType = Dollar | BindL | BindR

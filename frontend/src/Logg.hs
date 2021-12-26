@@ -57,6 +57,7 @@ span.c0 {
 }
 img {
     padding: 8px;
+    cursor: pointer;
 }
 |]
 
