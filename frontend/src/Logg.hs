@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE RecursiveDo #-}
 
 module Logg ( page ) where
 
@@ -64,21 +65,23 @@ img {
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
     style css
-    let l = T.lines (T.take 1000 logg)
-    mapM_ (\x -> elClass "p" "line" $ do
+    
+    (playbtn, _) <- elAttr' "img" (M.singleton "src" "pl.png") (return ())
+    loggcut <- fmap (\n -> T.lines $ T.take 1000 $ T.drop (n*1000) logg) <$> count (domEvent Click playbtn)
+
+    dyn $ mapM_ (\x -> elClass "p" "line" $ do
             T.foldl (\a c -> do
                     let m = T.pack $ show $ ord c `mod` 10
-                    elClass "span" ("c" <> m) (text m)
                     a
+                    elClass "span" ("c" <> m) (text m)
                 ) (return ()) x
-        ) l
-    (playbtn, _) <- elAttr' "img" (M.singleton "src" "pl.png") (return ())
+        ) <$> loggcut
 
     return never
 
 -- log ga bakete detekuru
 logg :: T.Text
-logg= [r|
+logg = [r|
 commit 64b563b321e6098b1c519fa88488edc5d0a65588
 Author: aidatorajiro <kawarusosu@zoho.com>
 Date:   Sat Dec 25 11:37:08 2021 +0900
