@@ -65,6 +65,11 @@ spanAbsP t x y = elAttr "span"
   (M.singleton "style" $ "position: absolute; top: " <> T.pack (show x) <> "%; left: " <> T.pack (show y) <> "%;")
   (text t)
 
+spanAbsP' :: MonadWidget t m => T.Text -> Double -> Double -> m (Element EventResult (DomBuilderSpace m) t)
+spanAbsP' t x y = fst <$> elAttr' "span"
+  (M.singleton "style" $ "position: absolute; top: " <> T.pack (show x) <> "%; left: " <> T.pack (show y) <> "%;")
+  (text t)
+
 -- relative URL to asset URL
 toAssetUrl :: T.Text -> T.Text
 toAssetUrl txt = txt
@@ -76,3 +81,4 @@ assetImg = elAttr "img" . M.singleton "src" . toAssetUrl
 -- | image object
 assetImg' :: MonadWidget t m => T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
 assetImg' = elAttr' "img" . M.singleton "src" . toAssetUrl
+

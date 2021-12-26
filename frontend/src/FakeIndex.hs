@@ -116,7 +116,7 @@ page = do
   style css
   el "div" $ do
     mapM_ (\(t, x, y) -> spanAbsP (spanText t) x y) spanList
-    spanAbsP "$" 10 10
+    lastSpan <- spanAbsP' "$" 10 10
     
     bind   <- h1ID' "bind" "=<<"
     dollar <- h1ID' "dollar" "$"
@@ -127,5 +127,6 @@ page = do
         "/nmnmnmnmn" <$ domEvent Click bind,
         "/iclub"     <$ domEvent Click dollar,
         "/harituke"  <$ domEvent Click fmap,
-        "/worry"     <$ domEvent Click strict
+        "/worry"     <$ domEvent Click strict,
+        "/logg"      <$ domEvent Click lastSpan
       ]

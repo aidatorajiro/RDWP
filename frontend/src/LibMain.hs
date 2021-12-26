@@ -26,6 +26,7 @@ import qualified IClub
 import qualified Harituke
 import qualified Ubana
 import qualified Onsen
+import qualified Logg
 import Elements ( style )
 import Text.RawString.QQ
 import Data.Either
@@ -137,7 +138,6 @@ resetCss = [r|
   }
 
   body {
-    overflow: hidden;
     font-size: 18px;
   }
 
@@ -183,8 +183,8 @@ parseLocationPath =
       ln "/onsen" Onsen.page,
       l "/iclub" IClub.page,
       l "/harituke" Harituke.page,
-      l "/ubana" Ubana.page,
-      l "/nannkahenndayo" Ubana.page
+      l "/nannkahenndayo" Ubana.page,
+      l "/logg" Logg.page
     ]
 
 -- | route location paths to dom widgets
