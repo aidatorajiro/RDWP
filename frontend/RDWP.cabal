@@ -38,6 +38,8 @@ library
     , time
     , ghcjs-dom
     , safe
+    , transformers
+    , extra
   if impl(ghcjs)
     build-depends:
         ghcjs-base
