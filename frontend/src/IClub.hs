@@ -8,6 +8,7 @@ import qualified Data.Text as T
 import Elements
 import Data.Monoid ((<>))
 import Text.RawString.QQ
+import Control.Monad (msum)
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
@@ -36,14 +37,24 @@ body {
 }
 |]
     el "h1" $ text "虚数クラブへようこそ！"
-    elClass "div" "i" $ do
+    mel <- elClass "div" "i" $ do
         text "iiiiiii!"
-        mapM_ (\_ -> elClass "div" "kumi" $ do
+        mapM (\n -> elClass "div" "kumi" $ do
             text "abc"
             assetImg "shori.png" (return ())
-            text "def") [1..10]
+            case n of
+                7 -> do
+                    text "d"
+                    (e, _) <- elStyle' "span" "color: #f2742b; cursor: pointer;" $ text "e"
+                    text "f"
+                    return $ Just e
+                _ -> do
+                    text "def"
+                    return Nothing
+            ) [1..(10 :: Int)]
     mapM_ (\x -> do
         elClass "h2" "headline" (text $ "虚数クラブ名誉会員「" <> x <> "」さんのお言葉")
         elClass "div" "kuhaku" $ return ())
         ["", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "　"]
-    return never
+    
+    return $ "/logg" <$ maybe never (domEvent Click) (msum mel)
