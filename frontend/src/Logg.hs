@@ -66,7 +66,7 @@ page :: MonadWidget t m => m (Event t T.Text)
 page = do
     style css
     
-    (playbtn, _) <- elAttr' "img" (M.singleton "src" "pl.png") (return ())
+    (playbtn, _) <- assetImg' "pl.png" (return ())
     loggcut <- fmap (\n -> T.lines $ T.take 1000 $ T.drop (n*1000) logg) <$> count (domEvent Click playbtn)
 
     dyn $ mapM_ (\x -> elClass "p" "line" $ do
