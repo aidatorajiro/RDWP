@@ -82,3 +82,10 @@ assetImg = elAttr "img" . M.singleton "src" . toAssetUrl
 assetImg' :: MonadWidget t m => T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
 assetImg' = elAttr' "img" . M.singleton "src" . toAssetUrl
 
+-- | image object
+assetImgClass :: MonadWidget t m => T.Text -> T.Text -> m a -> m a
+assetImgClass src cls = elAttr "img" (M.fromList [("src", toAssetUrl src), ("class", cls)])
+
+-- | image object
+assetImgClass' :: MonadWidget t m => T.Text -> T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
+assetImgClass' src cls = elAttr' "img" (M.fromList [("src", toAssetUrl src), ("class", cls)])
