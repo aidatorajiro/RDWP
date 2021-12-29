@@ -34,7 +34,6 @@ page n = do
         e <- simpleShader 500 500 [r|
 precision mediump float;
 varying vec2 vPos;
-uniform vec2 baa;
 void main(void){
   gl_FragColor = vec4(vPos, 0.7, 1.0);
 }
@@ -114,7 +113,6 @@ void main( void ) {
 |] [r|
 attribute vec2 position;
 varying vec2 vPos;
-uniform vec2 baa;
 void main(void){
   vPos = position;
   gl_Position = vec4(position, 0, 1);
