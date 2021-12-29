@@ -20,6 +20,8 @@ import qualified GHCJS.DOM.HTMLCanvasElement as DOM
 import qualified GHCJS.DOM.WebGLRenderingContextBase as CG
 import qualified GHCJS.DOM.CanvasRenderingContext2D as CC
 import qualified JavaScript.TypedArray as DOM
+import Data.List.Extra (allSame)
+import Safe (atMay)
 
 message :: MonadWidget t m => Int -> T.Text -> m (Event t Int)
 message nextpage txt = do
@@ -93,9 +95,11 @@ void main(void){
     CG.flush cgl
   return e
 
--- | width, height, fragmentShader, vertexShader, vertices
-simpleShader :: MonadWidget t m => Int -> Int -> String -> String -> [Float] -> [(String, Either (Either [Int] [Float]) [[Float]])] -> m (Element EventResult GhcjsDomSpace t)
-simpleShader w h shaderString shaderString' vertices uniforms = do
+data UniformData = UniformInt [Int] | UniformFloat [Float] | UniformMatrix [[Float]]
+
+-- | width, height, fragmentShader, vertexShader, attributes, uniforms
+simpleShader :: MonadWidget t m => Int -> Int -> String -> String -> [(Int, [Float])] -> [(String, UniformData)] -> m (Element EventResult GhcjsDomSpace t)
+simpleShader w h fragmentShader vertexShader attributes uniforms = do
   (e, _) <- elStyle' "canvas" ("width:"<>T.pack (show w)<>"px; height:"<>T.pack (show h)<>"px;") (return ())
 
   DOM.liftJSM $ runMaybeT $ do
@@ -104,11 +108,11 @@ simpleShader w h shaderString shaderString' vertices uniforms = do
     cgl <- MaybeT $ DOM.castTo DOM.WebGLRenderingContext c
 
     sh <- CG.createShader cgl CG.FRAGMENT_SHADER
-    CG.shaderSource cgl (Just sh) (shaderString::String)
+    CG.shaderSource cgl (Just sh) (fragmentShader::String)
     CG.compileShader cgl (Just sh)
 
     sh' <- CG.createShader cgl CG.VERTEX_SHADER
-    CG.shaderSource cgl (Just sh') (shaderString'::String)
+    CG.shaderSource cgl (Just sh') (vertexShader::String)
     CG.compileShader cgl (Just sh')
 
     p <- CG.createProgram cgl
@@ -117,23 +121,28 @@ simpleShader w h shaderString shaderString' vertices uniforms = do
     CG.linkProgram cgl (Just p)
     CG.useProgram cgl (Just p)
 
-    bufdata <- MaybeT $
-        new (jsg ("Float32Array" :: String))
-        [vertices]
-        >>= getProp "buffer" . J.Object
-        >>= DOM.castTo DOM.ArrayBuffer
+    mapM_ (\(num, attr) -> do
+      bufdata <- MaybeT $
+          new (jsg ("Float32Array" :: String)) [attr]
+          >>= getProp "buffer" . J.Object
+          >>= DOM.castTo DOM.ArrayBuffer
+      
+      vb <- CG.createBuffer cgl
+      CG.bindBuffer cgl CG.ARRAY_BUFFER (Just vb)
+      CG.bufferData cgl CG.ARRAY_BUFFER (Just bufdata) CG.STATIC_DRAW
+      
+      loc <- CG.getAttribLocation cgl (Just p) ("position" :: String)
+      CG.enableVertexAttribArray cgl (fromIntegral loc)
+      CG.vertexAttribPointer cgl (fromIntegral loc) (fromIntegral num) CG.FLOAT False 0 0
+      ) attributes
     
-    vb <- CG.createBuffer cgl
-    CG.bindBuffer cgl CG.ARRAY_BUFFER (Just vb)
-    CG.bufferData cgl CG.ARRAY_BUFFER (Just bufdata) CG.STATIC_DRAW
-    
-    loc <- CG.getAttribLocation cgl (Just p) ("position" :: String)
-    CG.enableVertexAttribArray cgl (fromIntegral loc)
-    CG.vertexAttribPointer cgl (fromIntegral loc) 3 CG.FLOAT False 0 0
+    let lengths = map (\(a, b) -> length b `div` a) attributes
+
+    numVertices <- MaybeT $ if allSame lengths then return (atMay lengths 0) else return Nothing
 
     uni <- CG.getUniformLocation cgl (Just p) ("unif" :: String)
 
-    CG.drawArrays cgl CG.TRIANGLES 0 (fromIntegral $ length vertices)
+    CG.drawArrays cgl CG.TRIANGLES 0 (fromIntegral numVertices)
     CG.flush cgl
   
   return e
