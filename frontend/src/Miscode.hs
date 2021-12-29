@@ -8,7 +8,7 @@ import Elements
 import Util
 import Reflex.Dom
 import Text.RawString.QQ
-import Language.Javascript.JSaddle (MonadJSM, new, jsg, getProp)
+import Language.Javascript.JSaddle (MonadJSM, new, jsg, getProp, (#))
 import qualified Language.Javascript.JSaddle as J
 import Control.Monad.Trans.Maybe ( MaybeT(MaybeT, runMaybeT) )
 
@@ -95,15 +95,18 @@ void main(void){
     CG.flush cgl
   return e
 
-data UniformData = UniformInt [Int] | UniformFloat [Float] | UniformMatrix [[Float]]
+data UniformData = UniformInt [Int] | UniformFloat [Float] | UniformMatrix [Float]
 
 -- | width, height, fragmentShader, vertexShader, attributes, uniforms
 simpleShader :: MonadWidget t m => Int -> Int -> String -> String -> [(Int, [Float])] -> [(String, UniformData)] -> m (Element EventResult GhcjsDomSpace t)
 simpleShader w h fragmentShader vertexShader attributes uniforms = do
-  (e, _) <- elStyle' "canvas" ("width:"<>T.pack (show w)<>"px; height:"<>T.pack (show h)<>"px;") (return ())
+  (e, _) <- el' "canvas" (return ())
 
   DOM.liftJSM $ runMaybeT $ do
     ce <- MaybeT $ DOM.castTo DOM.HTMLCanvasElement (_element_raw e)
+    DOM.setHeight ce (fromIntegral h)
+    DOM.setWidth ce (fromIntegral w)
+
     c <- MaybeT $ DOM.getContext ce ("webgl" :: String) ([] :: [DOM.JSVal])
     cgl <- MaybeT $ DOM.castTo DOM.WebGLRenderingContext c
 
@@ -135,12 +138,38 @@ simpleShader w h fragmentShader vertexShader attributes uniforms = do
       CG.enableVertexAttribArray cgl (fromIntegral loc)
       CG.vertexAttribPointer cgl (fromIntegral loc) (fromIntegral num) CG.FLOAT False 0 0
       ) attributes
+
+    mapM_ (\(name, uni) -> do
+      loc <- CG.getUniformLocation cgl (Just p) (name :: String)
+      case uni of
+        UniformInt xs -> do
+          arr <- MaybeT $
+            new (jsg ("Int32Array" :: String)) [xs]
+            >>= DOM.castTo DOM.Int32Array
+          let fns = [CG.uniform1iv, CG.uniform2iv, CG.uniform3iv, CG.uniform4iv]
+          (fns !! (length xs - 1)) cgl (Just loc) arr
+        UniformFloat xs -> do
+          arr <- MaybeT $
+            new (jsg ("Float32Array" :: String)) [xs]
+            >>= DOM.castTo DOM.Float32Array
+          let fns = [CG.uniform1fv, CG.uniform2fv, CG.uniform3fv, CG.uniform4fv]
+          --DOM.liftDOM (jsg ("console" :: String) # ("log" :: String) $ [DOM.toJSVal arr])
+          (fns !! (length xs - 1)) cgl (Just loc) arr
+        UniformMatrix xs -> do
+          arr <- MaybeT $
+            new (jsg ("Float32Array" :: String)) [xs]
+            >>= DOM.castTo DOM.Float32Array
+          fn <- MaybeT $ case length xs of
+            4 -> return $ Just CG.uniformMatrix2fv
+            9 -> return $ Just CG.uniformMatrix3fv
+            16 -> return $ Just CG.uniformMatrix4fv
+            _ -> return Nothing
+          fn cgl (Just loc) False arr
+      ) uniforms
     
     let lengths = map (\(a, b) -> length b `div` a) attributes
 
     numVertices <- MaybeT $ if allSame lengths then return (atMay lengths 0) else return Nothing
-
-    uni <- CG.getUniformLocation cgl (Just p) ("unif" :: String)
 
     CG.drawArrays cgl CG.TRIANGLES 0 (fromIntegral numVertices)
     CG.flush cgl
