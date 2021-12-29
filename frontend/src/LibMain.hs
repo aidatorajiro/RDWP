@@ -27,6 +27,8 @@ import qualified Harituke
 import qualified Ubana
 import qualified Onsen
 import qualified Logg
+import qualified Source
+import qualified Dott
 import Elements ( style )
 import Text.RawString.QQ
 import Data.Either
@@ -184,7 +186,9 @@ parseLocationPath =
       l "/iclub" IClub.page,
       l "/harituke" Harituke.page,
       l "/nannkahenndayo" Ubana.page,
-      l "/logg" Logg.page
+      l "/logg" Logg.page,
+      ls "/cf1" Source.page,
+      ls "/dott" Dott.page
     ]
 
 -- | route location paths to dom widgets
