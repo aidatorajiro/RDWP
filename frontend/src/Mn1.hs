@@ -115,7 +115,7 @@ page = do
                     if cnt == 0 then
                         Just "/ars0"
                     else
-                        Just "/skate"
+                        Just "/nazo"
                 else Just "/nannkahenndayo"
             else Nothing
         )
