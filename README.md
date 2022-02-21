@@ -26,15 +26,13 @@ Dependencies for Ubuntu:
 
 `sudo apt install libwebkit2gtk-4.0-dev gobject-introspection libgirepository1.0-dev`
 
-## docker (nix + ghcjs)
+## docker (nix + ghcjs / wasm)
 
 `docker build -f build-tools/docker-nix/Dockerfile -t myimage .`
 
 `docker run -itd --name mycontainer myimage`
 
-For (re-)building,
-
-`sh rebuild.sh`
+`sh build.sh` or `sh build-wasm.sh`
 
 ## docker (stack + ghc + X11 forwarding)
 

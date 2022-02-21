@@ -24,4 +24,4 @@ ADD ./ ./RDWP/
 
 WORKDIR RDWP
 
-RUN . ~/e.sh; nix-build -A ghcjs.RDWP --show-trace
+# RUN . ~/e.sh; nix-build -A ghcjs.RDWP --show-trace
