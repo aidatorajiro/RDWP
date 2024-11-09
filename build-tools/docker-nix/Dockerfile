@@ -1,11 +1,11 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 RUN apt-get update
 RUN apt-get install -y curl xz-utils sudo
-RUN adduser --disabled-password --gecos "" nix
+RUN useradd nix
 RUN echo "nix:nix" | chpasswd
 RUN echo "nix ALL=NOPASSWD: ALL" >> /etc/sudoers
-RUN addgroup nix sudo
+RUN gpasswd -a nix sudo
 RUN mkdir -m 0755 /nix && chown nix:nix /nix
 RUN mkdir /etc/nix
 
