@@ -6,4 +6,4 @@ services:
     ports: ["127.0.0.1:2222:22"]
     volumes:
       - .:/workspace:cached
-    command: /bin/sh -c "/etc/init.d/ssh start; while sleep 1000; do :; done"
+    command: /bin/sh -c "sudo /etc/init.d/ssh start; while sleep 1000; do :; done"

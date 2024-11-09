@@ -1,5 +1,5 @@
-resolver: lts-18.19
-compiler: ghc-8.10.7
+resolver: nightly-2024-10-21
+compiler: ghc-9.8.2
 compiler-check: match-exact
 allow-newer: true
 packages:
@@ -7,24 +7,14 @@ packages:
 
 extra-deps:
 - git:  https://github.com/reflex-frp/reflex.git
-  commit: 90891e177ffb1647324cce4c023b97a82bb59936
+  commit: 58a67d30fd134a1dff61c85f6a50cd5498acf7e7
 - git: https://github.com/reflex-frp/reflex-dom.git
-  commit: 2427018b40ba9726aa959da1e6a0ac6d6a966f09
+  commit: 3ebba468113c0afc43ec7deafbd7479be8db43db
   subdirs:
     - reflex-dom
     - reflex-dom-core
 - git: https://github.com/reflex-frp/patch.git
-  commit: 064a0e8d839b4302e4cac041051aee04614ccc8a
+  commit: 91f44a9091be65b5e9c239eff8ce5b20d4437ee1
+- jsaddle-webkit2gtk-0.9.9.0@sha256:79cd69ad89313de93b99a7efb892e63837e25f1a27c87bdf479c1c3629478843,1523
+- webkit2gtk3-javascriptcore-0.14.4.6@sha256:22367cdb45453e8094483814cc81c569af7028781e299e0ff66cff572cb424e6,2299
 
-- ghcjs-dom-0.9.5.0@sha256:99c51bff259623fdf285120f38d0ac1291d64717d4f77ad107ec6533532cc7e8,32211
-- jsaddle-0.9.8.1@sha256:baa0876b47cc0f0d5ca7037500daeedb9545de2f25521097bfdbf68fe58679e9,4419
-- jsaddle-webkit2gtk-0.9.8.1@sha256:7d67a9949214c9a34341d72fc2f83f945999b20df686c1c8506c6c71a410a4a5,1483
-- monoidal-containers-0.6.2.0@sha256:124941d70df5e2928b4c6db605a1d0464e68c2c6b02e426db24a40194d43821d,2219
-- zenc-0.1.2@sha256:2b32c40a3c11f07f466604526aacad2a535309da11b203334dbf586333c13534,1350
-- ghcjs-dom-jsaddle-0.9.5.0@sha256:7a903b5d8e2b6ef94174def9bf70e3f870ea96c2f68275069d278c6dcdf2f418,39629
-- gi-javascriptcore-4.0.24@sha256:d5a9623342839edd1560e0527d095396e7235cf5249518fe7ab367cd2be34f2c,3993
-- gi-webkit2-4.0.28@sha256:eabf8fba592033bcb5ba0fdfd3aaaa6e2d5a87cd8febe1e19f1dcc825515b351,11905
-- webkit2gtk3-javascriptcore-0.14.4.3@sha256:bb1d205ef29e0230643e95f56f9a86edb76d3c6f83d3ec29207761131d67d508,2124
-- gi-soup-2.4.25@sha256:2a83ecaf1f6ca6a19391dd4ca6623bdc89326881c9849ded59998b0442f96529,8922
-- gtk2hs-buildtools-0.13.8.2@sha256:01c4a6cc3679008bd4caec32b49843acb27a5f48ee2b22484218f097835548f6,5238
-- jsaddle-dom-0.9.5.0@sha256:5a60ba628928ccc03c69118e9f2050805e795684a7a63d77bc9737a3ab86322e,75700
