@@ -10,3 +10,5 @@ chmod -R 755 RDWP-exe.jsexe
 cp RDWP-exe.jsexe/index.html RDWP-exe.jsexe/404.html
 cp frontend/assets/* RDWP-exe.jsexe
 rm jsexe.tar
+docker stop mycontainer
+
