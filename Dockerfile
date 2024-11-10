@@ -41,6 +41,6 @@ COPY ./nvim-config /home/haskell/.config/nvim
 RUN sudo chown -R haskell:haskell ~/.config/nvim/
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 RUN echo "export NVM_DIR=\$HOME/.config/nvm; . \$NVM_DIR/nvm.sh; . ~/.ghcup/env; export XDG_DATA_HOME=\$HOME/.local/share; export XDG_CONFIG_HOME=\$HOME/.config; export PATH=/opt/nvim-linux64/bin:\$PATH" > ~/e.sh
-RUN nvm install 22
+RUN . ~/e.sh; nvm install 22
 RUN curl -fLo /home/haskell/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN . ~/e.sh; nvim +PlugInstall +qall
