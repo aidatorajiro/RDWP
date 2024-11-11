@@ -1,5 +1,5 @@
 {system ? builtins.currentSystem, unstable ? import <nixos-unstable> {}} :
-(import ./reflex-platform-wasm { inherit system; }).project ({pkgs, ...}: {
+(import ./reflex-platform { inherit system; }).project ({pkgs, ...}: {
   packages = {
     RDWP = ./frontend;
   };
