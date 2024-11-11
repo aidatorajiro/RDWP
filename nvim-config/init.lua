@@ -6,6 +6,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'folke/tokyonight.nvim'
 
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons'
+
 call plug#end()
 
 colorscheme tokyonight
@@ -183,3 +186,4 @@ vim.g.loaded_netrwPlugin = 1
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
 
+require("nvim-tree").setup()
