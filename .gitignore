@@ -61,6 +61,4 @@ result
 *.lock
 RDWP-exe.jsexe
 
-/stack.yaml
-
 result-wasm
