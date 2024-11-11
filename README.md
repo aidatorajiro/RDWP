@@ -25,7 +25,7 @@ or
 
 ## run
 
-`run.sh` or `node server.js` or `node server-wasm.js`
+`run.sh` (for desktop) or `node server.js` (for web)
 
 ## build via docker
 
@@ -33,7 +33,7 @@ or
 
 1. `docker build -f build-tools/docker-nix/Dockerfile -t myimage .`
 2. `docker run -itd --name mycontainer myimage`
-3. `sh build.sh` or `sh build-wasm.sh`
+3. `sh build.sh`
 
 ### docker (stack + ghc + X11 forwarding, for development)
 
