@@ -29,6 +29,7 @@ import qualified Onsen
 import qualified Logg
 import qualified Source
 import qualified Dott
+import qualified Hikoki
 import Elements ( style )
 import Text.RawString.QQ
 import Data.Either
@@ -188,7 +189,8 @@ parseLocationPath =
       l "/nannkahenndayo" Ubana.page,
       l "/logg" Logg.page,
       ls "/cf1" Source.page,
-      ls "/dott" Dott.page
+      ls "/dott" Dott.page,
+      return Hikoki.page
     ]
 
 -- | route location paths to dom widgets
