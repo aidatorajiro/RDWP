@@ -20,8 +20,6 @@ RUN echo 'USER=nix; . /home/nix/.nix-profile/etc/profile.d/nix.sh;' > ~/e.sh
 
 RUN mkdir RDWP
 
-ADD ./ ./RDWP/
-
 WORKDIR RDWP
 
 # RUN . ~/e.sh; nix-build -A ghcjs.RDWP --show-trace
