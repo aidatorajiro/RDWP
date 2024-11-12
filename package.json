@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "express": "^4.17.2"
+    "browser-sync": "^3.0.3",
+    "connect-history-api-fallback": "^2.0.0",
+    "express": "^4.21.1"
   }
 }
