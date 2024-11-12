@@ -3,7 +3,7 @@ services:
   myservice:
     build: .
     mem_limit: 11g
-    ports: ["127.0.0.1:2222:22"]
+    ports: ["127.0.0.1:2222:22", "0.0.0.0:11923:11923"]
     volumes:
       - .:/workspace:cached
-    command: /bin/sh -c "sudo /etc/init.d/ssh start; while sleep 1000; do :; done"
+    command: /bin/sh -c "sudo /etc/init.d/ssh start; cd /workspace; . ~/e.sh; yarn; node ./browsersync.js"

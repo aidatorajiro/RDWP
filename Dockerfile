@@ -44,3 +44,6 @@ RUN echo "export NVM_DIR=\$HOME/.nvm; . \$NVM_DIR/nvm.sh; . ~/.ghcup/env; export
 RUN . ~/e.sh; nvm install 22
 RUN curl -fLo /home/haskell/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN . ~/e.sh; nvim +PlugInstall +qall
+
+RUN . ~/e.sh; npm install -g yarn;
+
