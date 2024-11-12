@@ -57,6 +57,7 @@ package-lock.json
 stack-work*
 .stack-work
 result
+.stack-cache
 
 *.lock
 RDWP-exe.jsexe
