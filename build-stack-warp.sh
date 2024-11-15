@@ -1,2 +1,2 @@
-cp ./stack.linux.warp.yaml ./stack.yaml
-stack build --flag reflex-dom:use-warp
+stack build --stack-yaml=./stack.linux.warp.yaml
+

@@ -1,2 +1,1 @@
-cp ./stack.linux.webkit.yaml ./stack.yaml
-stack build
+stack build --stack-yaml=./stack.linux.webkit.yaml

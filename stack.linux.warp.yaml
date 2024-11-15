@@ -17,3 +17,6 @@ extra-deps:
   commit: 91f44a9091be65b5e9c239eff8ce5b20d4437ee1
 - jsaddle-warp-0.9.9.2
 
+flags:
+  reflex-dom:
+    use-warp: true
