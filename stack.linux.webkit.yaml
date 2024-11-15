@@ -1,6 +1,4 @@
-resolver: nightly-2024-10-21
-compiler: ghc-9.8.2
-compiler-check: match-exact
+snapshot: lts-22.41
 allow-newer: true
 packages:
 - 'frontend'
