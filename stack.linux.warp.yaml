@@ -1,0 +1,19 @@
+resolver: nightly-2024-10-21
+compiler: ghc-9.8.2
+compiler-check: match-exact
+allow-newer: true
+packages:
+- 'frontend'
+
+extra-deps:
+- git:  https://github.com/reflex-frp/reflex.git
+  commit: 58a67d30fd134a1dff61c85f6a50cd5498acf7e7
+- git: https://github.com/reflex-frp/reflex-dom.git
+  commit: 3ebba468113c0afc43ec7deafbd7479be8db43db
+  subdirs:
+    - reflex-dom
+    - reflex-dom-core
+- git: https://github.com/reflex-frp/patch.git
+  commit: 91f44a9091be65b5e9c239eff8ce5b20d4437ee1
+- jsaddle-warp-0.9.9.2
+

@@ -24,13 +24,6 @@ RUN . ~/e.sh; ghcup install cabal
 RUN . ~/e.sh; ghcup install stack
 RUN . ~/e.sh; ghcup install hls
 
-# COPY ./ /home/haskell/src_temp
-# RUN sudo chown -R haskell:haskell /home/haskell/src_temp
-# WORKDIR /home/haskell/src_temp
-# RUN stack build --stack-yaml stack.linux.yaml
-# WORKDIR /home/haskell
-# RUN rm -rf ~/src_temp
-
 RUN sudo apt-get install -y git
 RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 RUN sudo rm -rf /opt/nvim
