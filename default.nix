@@ -6,6 +6,5 @@
   shells = {
     ghc = ["frontend"];
     ghcjs = ["frontend"];
-    wasm = ["frontend"];
   };
 })
