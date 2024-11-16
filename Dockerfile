@@ -19,7 +19,7 @@ RUN sudo apt-get install -y build-essential curl libffi-dev libffi8ubuntu1 libgm
 RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 RUN echo ". ~/.ghcup/env; export XDG_DATA_HOME=\$HOME/.local/share; export XDG_CONFIG_HOME=\$HOME/.config; export PATH=/opt/nvim-linux64/bin:\$PATH" > ~/e.sh
 RUN echo ". \$HOME/e.sh" >> ~/.bashrc
-RUN . ~/e.sh; ghcup install ghc 9.8.2
+RUN . ~/e.sh; ghcup install ghc 9.6.6
 RUN . ~/e.sh; ghcup install cabal
 RUN . ~/e.sh; ghcup install stack
 RUN . ~/e.sh; ghcup install hls
