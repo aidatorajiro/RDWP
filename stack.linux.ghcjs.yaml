@@ -13,8 +13,16 @@ extra-deps:
     - reflex-dom-core
 - git: https://github.com/reflex-frp/patch.git
   commit: 91f44a9091be65b5e9c239eff8ce5b20d4437ee1
-- jsaddle-webkit2gtk-0.9.9.0@sha256:79cd69ad89313de93b99a7efb892e63837e25f1a27c87bdf479c1c3629478843,1523
-- webkit2gtk3-javascriptcore-0.14.4.6@sha256:22367cdb45453e8094483814cc81c569af7028781e299e0ff66cff572cb424e6,2299
+- jsaddle-warp-0.9.9.2
 - ghcjs-dom-0.9.9.2@sha256:1169e70e90d046c7208798c22e7c0065ed00df3614c53358afaccae458c49b85,33041
 - ghcjs-dom-jsaddle-0.9.9.0@sha256:3aa78b72a77cbe62eb3532d5b310de39ecd2f6b5dddae82f752095bf5501aecb,39626
 - jsaddle-dom-0.9.9.2@sha256:9bd16266f4e439bc62510c251e3cb198c9b5d154296a839a13829c0bf6157edb,75693
+
+configure-options:
+  $everything:
+    - --with-ghc
+    - javascript-unknown-ghcjs-ghc-9.6.2
+
+flags:
+  reflex-dom:
+    use-warp: true
