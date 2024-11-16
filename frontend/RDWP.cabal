@@ -42,6 +42,7 @@ library
     , safe
     , transformers
     , extra
+    , ghcjs-base
   if impl(ghcjs)
     build-depends:
         ghcjs-base

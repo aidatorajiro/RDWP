@@ -1,0 +1,7 @@
+packages: .
+source-repository-package
+  type: git
+  location: https://github.com/amesgen/reflex-dom
+  tag: e43e0525d643f656a0a5b0f10e13e2a04712cd4e
+  subdir: reflex-dom-core reflex-dom
+
