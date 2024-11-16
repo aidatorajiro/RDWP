@@ -42,11 +42,9 @@ library
     , safe
     , transformers
     , extra
-    , ghcjs-base
-  if impl(ghcjs)
+  if arch(javascript)
     build-depends:
         ghcjs-base
-      , ghcjs-dom-jsffi
   exposed-modules:
       Elements
       Error404
