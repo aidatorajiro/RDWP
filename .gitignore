@@ -58,6 +58,7 @@ stack-work*
 .stack-work
 result
 .stack-cache
+.cabal-cache
 
 *.lock
 RDWP-exe.jsexe

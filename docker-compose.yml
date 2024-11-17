@@ -7,4 +7,5 @@ services:
     volumes:
       - .:/workspace:cached
       - .stack-cache:/home/haskell/.stack
+      - .cabal-cache:/home/haskell/.cabal
     command: /bin/sh -c "sudo /etc/init.d/ssh start; while sleep 1000; do :; done"
