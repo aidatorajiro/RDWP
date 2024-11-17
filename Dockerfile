@@ -30,7 +30,7 @@ RUN bash -c '. ~/e.sh; ghcup install ghc --set 9.6.6'
 RUN bash -c '. ~/e.sh; ghcup install cabal --set 3.12'
 RUN bash -c '. ~/e.sh; ghcup install stack'
 RUN bash -c '. ~/e.sh; ghcup install hls'
-RUN bash -c '. ~/e.sh; emconfigure ghcup install ghc --set javascript-unknown-ghcjs-9.10.0'
+RUN bash -c '. ~/e.sh; emconfigure ghcup install ghc --set javascript-unknown-ghcjs-9.10.0.20240413'
 
 RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 RUN sudo rm -rf /opt/nvim
