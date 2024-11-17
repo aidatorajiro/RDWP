@@ -1,4 +1,4 @@
-cp ./build-tools/patch-ghcup/hsc2hs-ghc /home/haskell/.ghcup/ghc/javascript-unknown-ghcjs-9.10.0.20240413/bin/hsc2hs-ghc-9.10.0.20240413
+cp ./build-tools/patch-ghcup/hsc2hs-ghc ~/.ghcup/ghc/javascript-unknown-ghcjs-9.10.0.20240413/bin/hsc2hs-ghc-9.10.0.20240413
 
 rm -rf RDWP-exe.jsexe result
 
