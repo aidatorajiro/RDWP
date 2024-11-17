@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm -rf RDWP-exe.jsexe result
 
 pushd frontend

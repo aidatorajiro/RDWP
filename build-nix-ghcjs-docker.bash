@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm -rf RDWP-exe.jsexe
 docker start mycontainer
 docker exec mycontainer sh -c "sudo rm -rf /home/nix/RDWP; mkdir /home/nix/RDWP"

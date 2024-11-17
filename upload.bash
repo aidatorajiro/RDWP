@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd RDWP-exe.jsexe
 git init
 echo '.DS_Store' > .gitignore

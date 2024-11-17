@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # For Arch Linux:
 # pacman -S gobject-introspection webkit2gtk webkit2gtk-4.1
