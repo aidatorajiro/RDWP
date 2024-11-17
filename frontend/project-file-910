@@ -1,6 +1,6 @@
 packages: .
 
-with-compiler: javascript-unknown-ghcjs-9.10.0.20240413
+with-compiler: javascript-unknown-ghcjs-ghc-9.10.0.20240413
 with-hc-pkg: javascript-unknown-ghcjs-ghc-pkg-9.10.0.20240413
 
 source-repository-package
