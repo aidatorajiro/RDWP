@@ -38,16 +38,17 @@ import Data.Maybe (fromMaybe)
 import GHC.TypeError (ErrorMessage(Text))
 import System.Directory.Extra (getCurrentDirectory)
 import Control.Monad.IO.Class (liftIO)
+import qualified Control.Monad
 
 resetCss :: T.Text
 resetCss = [r|
-  /*
-  html5doctor.com Reset Stylesheet
-  v1.6.1
-  Last Updated: 2010-09-17
-  Author: Richard Clark - http://richclarkdesign.com
-  Twitter: @rich_clark
-  */
+  
+
+
+
+
+
+
   
   html, body, div, span, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -101,14 +102,14 @@ resetCss = [r|
       background:transparent;
   }
   
-  /* change colours to suit your needs */
+  
   ins {
       background-color:#ff9;
       color:#000;
       text-decoration:none;
   }
   
-  /* change colours to suit your needs */
+  
   mark {
       background-color:#ff9;
       color:#000;
@@ -130,7 +131,7 @@ resetCss = [r|
       border-spacing:0;
   }
   
-  /* change border colour to suit your needs */
+  
   hr {
       display:block;
       height:1px;
@@ -217,40 +218,35 @@ popState = do
 startApp :: IO ()
 startApp = do
   args <- getArgs
-  mainWidget $ mdo
-    -- set reset css
-    style resetCss
-
-    let ws_conf = WS.WebSocketConfig (["never" :: T.Text] <$ never) never True []
+  mainWidget $ do
+    let ws_conf = WS.WebSocketConfig
+              (["never" :: T.Text] <$ never)
+              never
+              True
+              []
     ws <- WS.webSocket "ws://localhost:11923/wsapi" ws_conf
     let ws_recv = WS._webSocket_recv ws
+    
+    mdo
+      -- set reset css
+      style resetCss
 
-    cd <- liftIO getCurrentDirectory
+      -- Get an Event of Event which contains dynamically changing widget.
+      ee <- dyn $ router <$> loc
 
-    -- Get an Event of Event which contains dynamically changing widget.
-    ee <- dyn $ router <$> loc
+      -- Using some magic to flatten an Event of Event to get a location update Event from the router.
+      routerEv <- switch <$> hold never ee
 
-    -- Using some magic to flatten an Event of Event to get a location update Event from the router.
-    routerEv <- switch <$> hold never ee
+      -- Get current value of location.path.
+      initLoc <- getLocationPath
 
-#ifndef RDWP_IS_WEBKIT
+      -- Get the browser's popState Event
+      browserEv <- popState
 
-    -- Get current value of location.path.
-    initLoc <- getLocationPath
+      -- Push locations from the router Event to the browser history.
+      widgetHold (return ()) (pushState <$> routerEv)
 
-    -- Get the browser's popState Event
-    browserEv <- popState
+      -- Define location, then back to the loop.
+      loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
 
-    -- Push locations from the router Event to the browser history.
-    widgetHold (return ()) (pushState <$> routerEv)
-
-    -- Define location, then back to the loop.
-    loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
-
-#else
-
-    let initialpath = fromMaybe "/" (atMay args 0)
-    loc <- holdDyn (T.pack initialpath) routerEv
-
-#endif
-    return ()
+      return ()
