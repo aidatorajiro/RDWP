@@ -39,6 +39,7 @@ import GHC.TypeError (ErrorMessage(Text))
 import System.Directory.Extra (getCurrentDirectory)
 import Control.Monad.IO.Class (liftIO)
 import qualified Control.Monad
+import Control.Concurrent (threadDelay)
 
 resetCss :: T.Text
 resetCss = [r|
@@ -219,14 +220,25 @@ startApp :: IO ()
 startApp = do
   args <- getArgs
   mainWidget $ do
-    let ws_conf = WS.WebSocketConfig
-              (["never" :: T.Text] <$ never)
-              never
-              True
-              []
-    ws <- WS.webSocket "ws://localhost:11923/wsapi" ws_conf
-    let ws_recv = WS._webSocket_recv ws
-    
+    mdo
+      let action = do
+                let ws_conf = WS.WebSocketConfig
+                          (["never" :: T.Text] <$ never)
+                          never
+                          False
+                          []
+                ws <- WS.webSocket "ws://localhost:11923/wsapi" ws_conf
+                let ws_recv = WS._webSocket_recv ws
+                let err_ev = WS._webSocket_error ws
+                return err_ev
+      md <- holdDyn action (action <$ sh'')
+      ee <- dyn md
+      sh <- switchHold never ee
+      sh' <- delay 1 sh
+      cnt <- Reflex.Dom.count sh'
+      let sh'' = gate ((<10) <$> current cnt) sh'
+      return ()
+
     mdo
       -- set reset css
       style resetCss
