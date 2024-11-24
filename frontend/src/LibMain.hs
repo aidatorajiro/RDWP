@@ -1,4 +1,4 @@
-{-# LANGUAGE RecursiveDo, OverloadedStrings, FlexibleContexts, CPP, QuasiQuotes #-}
+{-# LANGUAGE RecursiveDo, OverloadedStrings, FlexibleContexts, QuasiQuotes, CPP #-}
 
 module LibMain ( startApp ) where
 
@@ -13,6 +13,7 @@ import Reflex.Dom.Location ( getLocationPath )
 import qualified Data.Text as T
 import Text.Parsec
 import Safe (atMay)
+import qualified Reflex.Dom.WebSocket as WS
 
 import qualified Index
 import qualified FakeIndex
@@ -34,6 +35,9 @@ import Elements ( style )
 import Text.RawString.QQ
 import Data.Either
 import Data.Maybe (fromMaybe)
+import GHC.TypeError (ErrorMessage(Text))
+import System.Directory.Extra (getCurrentDirectory)
+import Control.Monad.IO.Class (liftIO)
 
 resetCss :: T.Text
 resetCss = [r|
@@ -190,7 +194,7 @@ parseLocationPath =
       l "/logg" Logg.page,
       ls "/cf1" Source.page,
       ls "/dott" Dott.page,
-      return Hikoki.page
+      Hikoki.page <$> many anyChar
     ]
 
 -- | route location paths to dom widgets
@@ -217,13 +221,20 @@ startApp = do
     -- set reset css
     style resetCss
 
+    let ws_conf = WS.WebSocketConfig (["never" :: T.Text] <$ never) never True []
+    ws <- WS.webSocket "ws://localhost:11923/wsapi" ws_conf
+    let ws_recv = WS._webSocket_recv ws
+
+    cd <- liftIO getCurrentDirectory
+
     -- Get an Event of Event which contains dynamically changing widget.
     ee <- dyn $ router <$> loc
 
     -- Using some magic to flatten an Event of Event to get a location update Event from the router.
     routerEv <- switch <$> hold never ee
 
-#ifdef ghcjs_HOST_OS
+#ifndef RDWP_IS_WEBKIT
+
     -- Get current value of location.path.
     initLoc <- getLocationPath
 
@@ -235,8 +246,11 @@ startApp = do
 
     -- Define location, then back to the loop.
     loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
+
 #else
+
     let initialpath = fromMaybe "/" (atMay args 0)
     loc <- holdDyn (T.pack initialpath) routerEv
+
 #endif
     return ()

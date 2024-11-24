@@ -16,6 +16,9 @@ extra-source-files:
     dot.txt
     log.txt
 
+flag is-webkit
+  default: False
+
 source-repository head
   type: git
   location: https://github.com/aidatorajiro/RDWP
@@ -70,6 +73,8 @@ library
       Hikoki
   other-modules:
       Paths_RDWP
+  if flag(is-webkit)
+    ghc-options: -DRDWP_IS_WEBKIT
   default-language: Haskell2010
 
 executable RDWP-exe
