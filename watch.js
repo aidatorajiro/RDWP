@@ -116,7 +116,7 @@ function broadcastReload (wsServer) {
     })
 }
 
-let chokidarState = {
+const chokidarState = {
     __inner_main: false,
     __inner_timeouts: new Set(),
     lock: function () {
@@ -161,16 +161,20 @@ function chokidarCommon (wsServer) {
         chokidarState.lock()
         try {
             const stdout = await doBuild()
+            const execpath = await getExecutablePath()
             console.log(stdout)
 
             if (chokidarState.mainProcess !== null) {
+                // broadcast reload script (takes 3 seconds to invoke location.reload())
                 broadcastReload(wsServer)
-                await sleep(1000)
+                // 3 second left
+                await sleep(1000) // send location.reload() here
+                // 2 second left
                 await killMainProcess()
             }
 
-            const execpath = await getExecutablePath()
             chokidarState.mainProcess = doExec(execpath)
+            // 0 second left
             chokidarState.unlock()
         } catch (e) {
             console.error("ERRORCODE: ", e.error)
