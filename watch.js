@@ -7,10 +7,15 @@ const chokidar = require('chokidar')
 chokidar.watch('frontend').on('change', console.log)
 
 if ( process.env.SERVER_MODE === 'GHCJS' ){
-    const app = express()
-    app.use(express.static('./RDWP-exe.jsexe'))
-    app.use(historyApiFallback())
-    app.listen(11923)
+    const browserSync = require("browser-sync").create();
+
+    browserSync.init({
+        port: 11923,
+        watch: true,
+        server: "./RDWP-exe.jsexe",
+        files: "./RDWP-exe.jsexe/all.js",
+        middleware: [historyApiFallback()]
+    });
 } else if ( process.env.SERVER_MODE === 'WARP' ) {
     const app = express()
     app.use(express.static('./frontend/assets'))
