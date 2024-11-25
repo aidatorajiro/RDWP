@@ -237,7 +237,7 @@ startApp = do
                 never
                 False
                 []
-      ws <- WS.webSocket "ws://localhost:11923/wsapi" ws_conf
+      ws <- WS.textWebSocket "ws://localhost:11923/wsapi" ws_conf
       let ws_recv = WS._webSocket_recv ws
       let err_ev = WS._webSocket_error ws
       return (err_ev, ws_recv)
@@ -252,7 +252,7 @@ startApp = do
 
     let ws_in = ["never" :: T.Text] <$ never
 
-    let reload_action x = Control.Monad.when (x == "RELOAD") $ do
+    let reload_action x = Control.Monad.when (x == "RELOAD-- NOW") $ do
                 -- v <- liftJSM . toJSVal =<< getLocationPath
                 v <- liftJSM . toJSVal =<< sample (current loc)
                 GHCJS.DOM.reload (GHCJS.DOM.Location v)
@@ -313,7 +313,7 @@ startApp = do
     
     widgetHoldNoop ((\x -> 
         let x' = decodeUtf8 x in
-        Control.Monad.when (x' == "SHUTDOWN")
+        Control.Monad.when (x' == "SHUTDOWN NOW")
         (liftIO $ exitWith ExitSuccess)) <$> ws_recv)
 
     -- Define location, then back to the loop.
