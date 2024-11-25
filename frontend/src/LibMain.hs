@@ -40,6 +40,13 @@ import System.Directory.Extra (getCurrentDirectory)
 import Control.Monad.IO.Class (liftIO)
 import qualified Control.Monad
 import Control.Concurrent (threadDelay)
+import Util (tryActions, flatEventMaybe, widgetHoldNoop)
+import qualified JSDOM.Generated.Location as GHCJS.DOM
+import Language.Javascript.JSaddle (ToJSVal(toJSVal))
+import JSDOM.Types (liftJSM)
+import qualified Data.ByteString as BS
+import Data.Text.Encoding (decodeUtf8)
+import System.Exit (exitWith, ExitCode (ExitSuccess))
 
 resetCss :: T.Text
 resetCss = [r|
@@ -219,46 +226,99 @@ popState = do
 startApp :: IO ()
 startApp = do
   args <- getArgs
-  mainWidget $ do
-    mdo
-      let action = do
-                let ws_conf = WS.WebSocketConfig
-                          (["never" :: T.Text] <$ never)
-                          never
-                          False
-                          []
-                ws <- WS.webSocket "ws://localhost:11923/wsapi" ws_conf
-                let ws_recv = WS._webSocket_recv ws
-                let err_ev = WS._webSocket_error ws
-                return err_ev
-      md <- holdDyn action (action <$ sh'')
-      ee <- dyn md
-      sh <- switchHold never ee
-      sh' <- delay 1 sh
-      cnt <- Reflex.Dom.count sh'
-      let sh'' = gate ((<10) <$> current cnt) sh'
-      return ()
+  mainWidget $ mdo
+    -- set reset css
+    style resetCss
 
-    mdo
-      -- set reset css
-      style resetCss
+    -- try connecting to the websocket server
+    ws_recv <- tryActions 1 10 $ do
+      let ws_conf = WS.WebSocketConfig
+                ws_in
+                never
+                False
+                []
+      ws <- WS.webSocket "ws://localhost:11923/wsapi" ws_conf
+      let ws_recv = WS._webSocket_recv ws
+      let err_ev = WS._webSocket_error ws
+      return (err_ev, ws_recv)
 
-      -- Get an Event of Event which contains dynamically changing widget.
-      ee <- dyn $ router <$> loc
+#ifndef RDWP_IS_WEBKIT
+    -- For Warp / GHCJS, browser state is managed by the browser.
+    -- A separate websocket server can send RELOAD command, after the source code change.
+    -- Therefore initLoc             => getLocationPath
+    --           browserEv           => popState
+    --           widgetHold routerEv => pushState
+    --           reload page         => RELOAD command from the websocket
 
-      -- Using some magic to flatten an Event of Event to get a location update Event from the router.
-      routerEv <- switch <$> hold never ee
+    let ws_in = ["never" :: T.Text] <$ never
 
-      -- Get current value of location.path.
-      initLoc <- getLocationPath
+    let reload_action x = Control.Monad.when (x == "RELOAD") $ do
+                initLoc <- getLocationPath
+                v <- liftJSM $ toJSVal initLoc
+                GHCJS.DOM.reload (GHCJS.DOM.Location v)
+                return ()
+    
+    widgetHoldNoop (reload_action <$> ws_recv)
 
-      -- Get the browser's popState Event
-      browserEv <- popState
+    -- Get an Event of Event which contains dynamically changing widget.
+    ee <- dyn $ router <$> loc
 
-      -- Push locations from the router Event to the browser history.
-      widgetHold (return ()) (pushState <$> routerEv)
+    -- Using some magic to flatten an Event of Event to get a location update Event from the router.
+    routerEv <- switch <$> hold never ee
 
-      -- Define location, then back to the loop.
-      loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
+    -- Get current value of location.path.
+    initLoc <- getLocationPath
 
-      return ()
+    -- Get the browser's popState Event
+    browserEv <- popState
+
+    -- Push locations from the router Event to the browser history.
+    widgetHoldNoop (pushState <$> routerEv)
+
+    -- Define location, then back to the loop.
+    loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
+
+    return ()
+#else
+    -- For Webkit GTK, browser state is managed by the websocket server (separate process).
+    -- The websocket server sends MOVEPAGE command to change pages.
+    -- The browser sends MOVEPAGE command to the websocket server to notify the page change as well.
+    -- Also the websocket app is responsible for reloading binary. If the source code is updated, it will send SHUTDOWN command.
+    --
+    --
+    -- Therefore, initLoc              => "",
+    --            browserEv            => MOVEPAGE read from websocket
+    --                       routerEv  => MOVEPAGE sent to   websocket
+    --            shutdown the process => SHUTDOWN read from websocket
+    --
+    --
+
+    -- Get an Event of Event which contains dynamically changing widget.
+    ee <- dyn $ router <$> loc
+
+    -- Using some magic to flatten an Event of Event to get a location update Event from the router.
+    routerEv <- switch <$> hold never ee
+
+    -- input to the websocket
+    let ws_in = (\x -> ["MOVEPAGE " <> x]) <$> routerEv
+
+    -- Get current value of location.path (default to the top page)
+    initLoc <- return ""
+
+    -- Read location change from the websocket server
+    let browserEv = (\x ->
+            let t = decodeUtf8 x in
+              if T.take 9 t == "MOVEPAGE "
+                then Just (T.drop 9 t)
+                else Nothing) <$> ws_recv
+    
+    widgetHoldNoop ((\x -> 
+        let x' = decodeUtf8 x in
+        Control.Monad.when (x' == "SHUTDOWN")
+        (liftIO $ exitWith ExitSuccess)) <$> ws_recv)
+
+    -- Define location, then back to the loop.
+    loc <- holdDyn initLoc (leftmost [routerEv, flatEventMaybe browserEv])
+    
+    return ()
+#endif

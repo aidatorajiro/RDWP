@@ -45,6 +45,8 @@ library
     , safe
     , transformers
     , extra
+    , jsaddle-dom
+    , witherable
   if arch(javascript)
     build-depends:
         ghcjs-base
