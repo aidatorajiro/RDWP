@@ -230,6 +230,7 @@ startApp = do
     -- set reset css
     style resetCss
 
+#ifndef ghcjs_HOST_OS
     -- try connecting to the websocket server
     ws_recv <- tryActions 1 10 $ do
       let ws_conf = WS.WebSocketConfig
@@ -241,6 +242,7 @@ startApp = do
       let ws_recv = WS._webSocket_recv ws
       let err_ev = WS._webSocket_error ws
       return (err_ev, ws_recv)
+#endif
 
 #ifndef RDWP_IS_WEBKIT
     -- For Warp / GHCJS, browser state is managed by the browser.
@@ -250,6 +252,7 @@ startApp = do
     --           widgetHold routerEv => pushState
     --           reload page         => RELOAD command from the websocket
 
+#ifndef ghcjs_HOST_OS
     let ws_in = ["never" :: T.Text] <$ never
 
     let reload_action x = Control.Monad.when (x == "RELOAD-- NOW") $ do
@@ -258,7 +261,8 @@ startApp = do
                 GHCJS.DOM.reload (GHCJS.DOM.Location v)
     
     widgetHoldNoop (reload_action <$> ws_recv)
-
+#endif
+    
     -- Get an Event of Event which contains dynamically changing widget.
     ee <- dyn $ router <$> loc
 
