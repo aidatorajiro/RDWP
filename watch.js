@@ -123,6 +123,7 @@ let chokidarState = {
         this.__inner_main = true
         this.__inner_timeouts.forEach((x) => {
             clearTimeout(x)
+            this.__inner_timeouts.delete(x)
         })
     },
     unlock: function () {
