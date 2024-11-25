@@ -5,7 +5,7 @@ module LibMain ( startApp ) where
 import System.Environment
 import GHCJS.DOM ( currentWindowUnchecked )
 import GHCJS.DOM.EventM ( on )
-import GHCJS.DOM.Window ( getHistory )
+import GHCJS.DOM.Window ( getHistory, getLocation )
 import qualified GHCJS.DOM.History as History
 import qualified GHCJS.DOM.WindowEventHandlers as WindowEventHandlers
 import Reflex.Dom
@@ -256,9 +256,10 @@ startApp = do
     let ws_in = ["never" :: T.Text] <$ never
 
     let reload_action x = Control.Monad.when (x == "RELOAD-- NOW") $ do
-                -- v <- liftJSM . toJSVal =<< getLocationPath
-                v <- liftJSM . toJSVal =<< sample (current loc)
-                GHCJS.DOM.reload (GHCJS.DOM.Location v)
+                -- v <- liftJSM . toJSVal =<< sample (current loc)
+                w <- currentWindowUnchecked
+                l <- getLocation w
+                GHCJS.DOM.reload l
     
     widgetHoldNoop (reload_action <$> ws_recv)
 #endif
