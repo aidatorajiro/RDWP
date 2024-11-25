@@ -253,10 +253,9 @@ startApp = do
     let ws_in = ["never" :: T.Text] <$ never
 
     let reload_action x = Control.Monad.when (x == "RELOAD") $ do
-                initLoc <- getLocationPath
-                v <- liftJSM $ toJSVal initLoc
+                -- v <- liftJSM . toJSVal =<< getLocationPath
+                v <- liftJSM . toJSVal =<< sample (current loc)
                 GHCJS.DOM.reload (GHCJS.DOM.Location v)
-                return ()
     
     widgetHoldNoop (reload_action <$> ws_recv)
 
