@@ -42,7 +42,7 @@ import qualified Control.Monad
 import Control.Concurrent (threadDelay)
 import Util (tryActions, flatEventMaybe, widgetHoldNoop)
 import qualified JSDOM.Generated.Location as GHCJS.DOM
-import Language.Javascript.JSaddle (ToJSVal(toJSVal))
+import Language.Javascript.JSaddle (ToJSVal(toJSVal), eval)
 import JSDOM.Types (liftJSM)
 import qualified Data.ByteString as BS
 import Data.Text.Encoding (decodeUtf8)
@@ -256,10 +256,8 @@ startApp = do
     let ws_in = ["never" :: T.Text] <$ never
 
     let reload_action x = Control.Monad.when (x == "RELOAD-- NOW") $ do
-                -- v <- liftJSM . toJSVal =<< sample (current loc)
-                w <- currentWindowUnchecked
-                l <- getLocation w
-                GHCJS.DOM.reload l
+                liftJSM $ eval ("setTimeout(function () { location.reload() }, 3000)" :: String)
+                return ()
     
     widgetHoldNoop (reload_action <$> ws_recv)
 #endif
