@@ -17,25 +17,64 @@ GHCUp recommended.
 
 linux only
 
-`stack build` for desktop app
+### WARP
 
-or
+1. `cp stack.linux.warp.yaml stack.yaml`
+2. `stack build`
 
-`nix-build -A ghcjs.RDWP --option extra-binary-caches https://nixcache.reflex-frp.org --option binary-cache-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="` for web
+### GHCJS 8
 
-## run
+Install nix first.
 
-`run.sh` (for desktop) or `node server.js` (for web)
+1. `./build-nix-ghcjs-bare.bash`
 
-## build via docker
+### GHCJS 9
+
+See <https://www.haskell.org/ghcup/guide/#ghc-js-cross-bindists-experimental> to setup experimental GHCJS. We need `javascript-unknown-ghcjs-ghc-9.10.0.20240413`.
+
+1. `./build-cabal-910.bash`
+
+### WEBKIT
+
+1. `cp stack.linux.warp.yaml stack.yaml`
+2. `stack build`
+
+## run locally
+
+linux only
+
+### WARP
+
+Hot reload using custom websocket server.
+
+1. `SERVER_MODE=WARP node ./watch.js`
+
+Or without hot reloading: `./run-warp.bash`
+
+Access to `http://localhost:11923` via Google Chrome. (Firefox not supported)
+
+### GHCJS 8 and 9
+
+Hot reload using browser-sync.
+
+1. `yarn install`
+2. `SERVER_MODE=GHCJS node ./watch.js`
+
+### WEBKIT
+
+1. `./run-webkit.bash`
+
+hot reloading is WIP.
+
+## docker
 
 ### docker (nix + ghcjs / wasm, for production)
 
 1. `docker build -f build-tools/docker-nix/Dockerfile -t myimage .`
 2. `docker run -itd --name mycontainer myimage`
-3. `sh build.sh`
+3. `./build-nix-ghcjs-docker.bash`
 
-### docker (stack + ghc + X11 forwarding, for development)
+### docker (stack + ghcup + X11 forwarding, for development)
 
 1. `docker-compose up`
 
