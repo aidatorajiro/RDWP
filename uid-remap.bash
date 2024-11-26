@@ -9,11 +9,11 @@ if [ -d "/workspace" ]; then
     gid=$(stat -c "%g" /workspace)
 
     if [ "$uid" -ne 0 ]; then
-        if [ "$(id -g $USER)" -ne $gid ]; then
-            getent group $gid >/dev/null 2>&1 || groupmod -g $gid $USER
-        fi
         if [ "$(id -u $USER)" -ne $uid ]; then
             usermod -u $uid $USER
+        fi
+        if [ "$(id -g $USER)" -ne $gid ]; then
+            getent group $gid >/dev/null 2>&1 || groupmod -g $gid $USER
         fi
     fi
 
