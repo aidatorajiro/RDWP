@@ -58,4 +58,10 @@ deploy-job:
     - echo "$GIT_CREDENTIALS" > ~/.git-credentials
     - git config --global user.name "$GIT_CONFIG_USERNAME"
     - git config --global user.email "$GIT_CONFIG_EMAIL"
-    - ./upload.bash
+    - cd RDWP-exe.jsexe
+    - git init
+    - git branch -m $GIT_BRANCH
+    - git remote add origin "$GIT_URL"
+    - git add .
+    - git commit -m 'Initial commit'
+    - git push --force origin $GIT_BRANCH
