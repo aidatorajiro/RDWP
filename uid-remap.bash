@@ -19,7 +19,7 @@ if [ -d "/workspace" ]; then
 
     ghcup_uid=$(stat -c "%u" $HOME/.ghcup)
     ghcup_gid=$(stat -c "%g" $HOME/.ghcup)
-    if [ $ghcup_uid -ne $gid ] || [ $ghcup_gid -ne $uid ]; then
+    if [ $ghcup_uid -ne $uid ] || [ $ghcup_gid -ne $gid ]; then
         chown -R $uid:$gid $HOME
     fi
 fi
