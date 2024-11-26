@@ -53,5 +53,9 @@ deploy-job:
   stage: deploy
   environment: production
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - git config --global credential.helper store
+    - ls ./RDWP-exe.jsexe
+    - echo "$GIT_CREDENTIALS" > ~/.git-credentials
+    - git config --global user.name "$GIT_CONFIG_USERNAME"
+    - git config --global user.email "$GIT_CONFIG_EMAIL"
+    - ./upload.bash
