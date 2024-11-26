@@ -47,3 +47,6 @@ RUN curl -fLo /home/haskell/.local/share/nvim/site/autoload/plug.vim --create-di
 RUN bash -c '. ~/e.sh; nvim +PlugInstall +qall'
 RUN bash -c '. ~/e.sh; npm install -g yarn;'
 
+USER root
+COPY ./uid-remap.bash /root
+ENTRYPOINT ["/root/uid-remap.bash"]
