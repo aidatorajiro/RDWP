@@ -8,6 +8,8 @@ if [ -d "/workspace" ]; then
     uid=$(stat -c "%u" /workspace/Dockerfile)
     gid=$(stat -c "%g" /workspace/Dockerfile)
 
+    echo WORKSPACE UID $uid GID $gid
+
     if [ "$uid" -ne 0 ]; then
         if [ "$(id -u $USER)" -ne $uid ]; then
             usermod -u $uid $USER
@@ -19,6 +21,9 @@ if [ -d "/workspace" ]; then
 
     ghcup_uid=$(stat -c "%u" $HOME/.ghcup)
     ghcup_gid=$(stat -c "%g" $HOME/.ghcup)
+
+    echo CONTAINER DATA UID $ghcup_uid GID $ghcup_gid
+
     if [ $ghcup_uid -ne $uid ] || [ $ghcup_gid -ne $gid ]; then
         chown -R $uid:$gid $HOME
     fi
