@@ -16,7 +16,12 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
-image: docker:27.3.1-dind
+default:
+  image: docker:27.3.1
+  services:
+    - docker:27.3.1-dind
+  before_script:
+    - docker info
 
 stages:          # List of stages for jobs, and their order of execution
   - build
