@@ -23,7 +23,7 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - sudo apt install docker
+    - apt install docker
     - docker build .
 
 deploy-job:      # This job runs in the deploy stage.
