@@ -41,7 +41,7 @@ build-job:
     - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:latest
-    - docker run -v "$(pwd)":/workspace -v "$(pwd)"/.cabal-cache:/home/haskell/.cabal $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA bash -c ". ~/e.sh; cd /workspace; ./build-cabal-910.bash"
+    - mkdir .cabal-cache; docker run -v "$(pwd)":/workspace -v "$(pwd)"/.cabal-cache:/home/haskell/.cabal $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA bash -c ". ~/e.sh; cd /workspace; cabal update; ./build-cabal-910.bash"
   artifacts:
     paths:
       - ./RDWP-exe.jsexe

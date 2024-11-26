@@ -5,8 +5,8 @@ export HOME=/home/$USER
 
 if [ -d "/workspace" ]; then
 
-    uid=$(stat -c "%u" /workspace)
-    gid=$(stat -c "%g" /workspace)
+    uid=$(stat -c "%u" /workspace/Dockerfile)
+    gid=$(stat -c "%g" /workspace/Dockerfile)
 
     if [ "$uid" -ne 0 ]; then
         if [ "$(id -u $USER)" -ne $uid ]; then
