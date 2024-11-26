@@ -16,6 +16,7 @@ if [ -d "/workspace" ]; then
         fi
         if [ "$(id -g $USER)" -ne $gid ]; then
             getent group $gid >/dev/null 2>&1 || groupmod -g $gid $USER
+            chgrp -R $gid $HOME
         fi
     fi
 
@@ -23,10 +24,6 @@ if [ -d "/workspace" ]; then
     ghcup_gid=$(stat -c "%g" $HOME/.ghcup)
 
     echo CONTAINER DATA UID $ghcup_uid GID $ghcup_gid
-
-    if [ $ghcup_uid -ne $uid ] || [ $ghcup_gid -ne $gid ]; then
-        chown -R $uid:$gid $HOME
-    fi
 fi
 
 exec setpriv --reuid=$USER --regid=$USER --init-groups "$@"
