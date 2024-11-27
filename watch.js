@@ -1,29 +1,61 @@
-const express = require('express')
-const historyApiFallback = require("connect-history-api-fallback")
-const proxy = require('http-proxy-middleware')
+const express = require('express');
+const historyApiFallback = require("connect-history-api-fallback");
+const proxy = require('http-proxy-middleware');
 const ws = require('ws');
-const chokidar = require('chokidar')
+const chokidar = require('chokidar');
 const { execFile, spawn } = require('node:child_process');
-const winston = require('winston')
+const winston = require('winston');
 
-const logger = winston.createLogger({
-    format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.printf(({ level, message }) => {
-            let x = "";
-            let l = message.split("\n")
-            for (let i = 0; i < l.length; i++) {
-                if (i === l.length - 1) {
-                    x += `${level}| ${l[i]}`
-                } else {
-                    x += `${level}| ${l[i]}\n`
-                }
+(async () => {
+
+const chalk = (await import('chalk')).default;
+
+const defaultFormat = winston.format.combine(
+    winston.format.colorize(),
+    winston.format.printf(({ level, label, message }) => {
+        let x = "";
+        let l = message.split("\n")
+        for (let i = 0; i < l.length; i++) {
+            if (i === l.length - 1) {
+                x += `${label}| ${level}| ${l[i]}`
+            } else {
+                x += `${label}| ${level}| ${l[i]}\n`
             }
-            return x;
-        })
-    ),
+        }
+        return x;
+    })
+)
+
+const defaultLoggerOptions = {
+    format: defaultFormat,
     transports: [ new winston.transports.Console() ]
+}
+
+const logger_meta = winston.createLogger({
+    ...defaultLoggerOptions,
+    format: winston.format.combine(
+        winston.format.label({label: chalk.hex('#FFA500')('meta')}),
+        defaultFormat
+    )
 });
+
+const logger_exec = winston.createLogger({
+    ...defaultLoggerOptions,
+    format: winston.format.combine(
+        winston.format.label({label: chalk.hex('#0020FF')('exec')}),
+        defaultFormat
+    )
+});
+
+const logger_net = winston.createLogger({
+    ...defaultLoggerOptions,
+    format: winston.format.combine(
+        winston.format.label({label: chalk.hex('#D02000')('net')}),
+        defaultFormat
+    )
+});
+
+
 
 function getYaml () {
     let yaml;
@@ -60,15 +92,15 @@ function doExec (path) {
     })
 
     s.stdout.on('data', (data) => {
-        logger.info(`${data}`);
+        logger_exec.info(`${data}`);
     });
     
     s.stderr.on('data', (data) => {
-        logger.error(`${data}`);
+        logger_exec.error(`${data}`);
     });
     
     s.on('close', (code, signal) => {
-        logger.info(`child process exited with code ${code} signal ${signal}`);
+        logger_exec.info(`child process exited with code ${code} signal ${signal}`);
     });
 
     return s
@@ -113,12 +145,12 @@ function appCommon () {
 function wsCommon (server) {
     const wsServer = new ws.Server({ noServer: true });
     wsServer.on('connection', socket => {
-      socket.on('error', logger.error);
-      socket.on('message', logger.info);
+      socket.on('error', logger_net.error);
+      socket.on('message', logger_net.info);
     });
     server.on('upgrade', (request, socket, head) => {
         if (request.url === '/wsapi') {
-            logger.info('client connected...')
+            logger_net.info('client connected...')
             wsServer.handleUpgrade(request, socket, head, socket => {
                 socket.send('CONNECT- HELLO')
                 wsServer.emit('connection', socket, request);
@@ -183,14 +215,14 @@ function chokidarCommon (wsServer) {
         if (chokidarState.isLocked()) { return; }
         chokidarState.lock()
         try {
-            logger.info("Start Build...")
+            logger_meta.info("Start Build...")
             const stdout = await doBuild()
-            logger.info(stdout)
-            logger.info("Build Complete! Running Executable...")
+            logger_exec.info(stdout)
+            logger_meta.info("Build Complete! Running Executable...")
             const execpath = await getExecutablePath()
 
             if (chokidarState.mainProcess !== null) {
-                logger.info("Terminating Previous Process...")
+                logger_meta.info("Terminating Previous Process...")
                 // broadcast reload script (takes 3 seconds to invoke location.reload())
                 broadcastReload(wsServer)
                 // 3 second left
@@ -199,16 +231,16 @@ function chokidarCommon (wsServer) {
                 await killMainProcess()
             }
 
-            logger.info('Launching New Process...')
+            logger_meta.info('Launching New Process...')
             chokidarState.mainProcess = doExec(execpath)
             // 0 second left
             chokidarState.unlock()
         } catch (e) {
             if (e.type === "ExecError") {
-                logger.error(e.error)
-                logger.error(e.stderr)
+                logger_exec.error(e.error)
+                logger_exec.error(e.stderr)
             } else {
-                logger.error(e)
+                logger_meta.error(e)
             }
             chokidarState.unlock()
         }
@@ -230,3 +262,5 @@ if ( process.env.SERVER_MODE === 'GHCJS' ){
     const wsServer = wsCommon(server)
     chokidarCommon(wsServer)
 }
+
+})();
