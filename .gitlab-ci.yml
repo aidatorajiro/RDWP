@@ -37,7 +37,7 @@ build-job:
     - docker pull taw3/ghcjs-devenv:latest
     - mkdir .cabal-cache || true
     - chown -R 1000:1000 ./
-    - docker run -v "$(pwd)":/workspace -v "$(pwd)"/.cabal-cache:/home/haskell/.cabal $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA bash -c ". ~/e.sh; cd /workspace; cabal update; ./build-cabal-910.bash"
+    - docker run -v "$(pwd)":/workspace -v "$(pwd)"/.cabal-cache:/home/haskell/.cabal taw3/ghcjs-devenv:latest bash -c ". ~/e.sh; cd /workspace; cabal update; ./build-cabal-910.bash"
     - chown -R 0:0 ./
   artifacts:
     paths:
