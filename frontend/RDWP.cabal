@@ -73,6 +73,7 @@ library
       Miscode
       Dott
       Hikoki
+      Router
   other-modules:
       Paths_RDWP
   if flag(is-webkit)
