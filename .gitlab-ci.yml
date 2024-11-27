@@ -48,6 +48,9 @@ build-job:
     expire_in: 1 day
 
 deploy-job:
+  rules:
+    - changes:
+      - frontend/**/*
   stage: deploy
   environment: production
   script:
