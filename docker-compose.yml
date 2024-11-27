@@ -5,7 +5,7 @@ services:
     mem_limit: 11g
     ports: ["127.0.0.1:2222:22"]
     volumes:
-      - .:/workspace:cached
-      - .stack-cache:/home/haskell/.stack
-      - .cabal-cache:/home/haskell/.cabal
+      - .:/workspace
+      - .stack-cache:/home/haskell/.stack:delegated
+      - .cabal-cache:/home/haskell/.cabal:delegated
     command: /bin/sh -c "sudo /etc/init.d/ssh start; while sleep 1000; do :; done"
