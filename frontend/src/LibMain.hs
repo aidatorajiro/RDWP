@@ -209,6 +209,7 @@ startApp = do
     --           reload page         => RELOAD command from the websocket
 
 #ifndef ghcjs_HOST_OS
+    -- TODO: its too pretentious to use Event here; better brought up to the top as a process separated from mainWidget?
     let ws_in = ["never" :: T.Text] <$ never
 
     let reload_action x = Control.Monad.when (x == "RELOAD-- NOW") $ do

@@ -9,6 +9,7 @@ import Elements
 import Data.Monoid ((<>))
 import Text.RawString.QQ
 import Control.Monad (msum)
+import Data.Maybe (fromMaybe)
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
@@ -47,14 +48,19 @@ body {
                     text "d"
                     (e, _) <- elStyle' "span" "color: #f2742b; cursor: pointer;" $ text "e"
                     text "f"
-                    return $ Just e
+                    return ("/logg" <$ domEvent Click e)
+                3 -> do
+                    text "d"
+                    (e, _) <- elStyle' "span" "color: #f22b74; cursor: pointer;" $ text "e"
+                    text "f"
+                    return ("/hikoki" <$ domEvent Click e)
                 _ -> do
                     text "def"
-                    return Nothing
+                    return never
             ) [1..(10 :: Int)]
     mapM_ (\x -> do
         elClass "h2" "headline" (text $ "虚数クラブ名誉会員「" <> x <> "」さんのお言葉")
         elClass "div" "kuhaku" $ return ())
         ["", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "　"]
-    
-    return $ "/logg" <$ maybe never (domEvent Click) (msum mel)
+
+    return $ leftmost mel
