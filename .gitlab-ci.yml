@@ -17,12 +17,9 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
 default:
-  image: docker:27.3.1
+  image: docker:27
   services:
-    - docker:27.3.1-dind
-  before_script:
-    - docker info
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker:27-dind
 
 stages:
   - build
@@ -37,10 +34,7 @@ build-job:
       paths:
         - ./.cabal-cache
   script:
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker pull taw3/ghcjs-devenv:latest
     - mkdir .cabal-cache || true
     - chown -R 1000:1000 ./
     - docker run -v "$(pwd)":/workspace -v "$(pwd)"/.cabal-cache:/home/haskell/.cabal $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA bash -c ". ~/e.sh; cd /workspace; cabal update; ./build-cabal-910.bash"
