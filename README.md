@@ -86,7 +86,7 @@ hot reloading is WIP.
 
 #### Use nvim
 
-1. `docker exec -it rdwp-myservice-1 bash` or `ssh haskell@localhost -p2222` (password: haskell)
+1. `docker exec -it rdwp-myservice-1 /root/uid-remap.bash bash` or `ssh haskell@localhost -p2222` (password: haskell)
 2. `cd /workspace/frontend; nvim .`
 3. Happy editing!
 
