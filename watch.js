@@ -4,8 +4,8 @@ const proxy = require('http-proxy-middleware')
 const ws = require('ws');
 const chokidar = require('chokidar')
 const { execFile, spawn } = require('node:child_process');
-
 const winston = require('winston')
+
 const logger = winston.createLogger({
     format: winston.format.combine(
         winston.format.colorize(),
@@ -35,13 +35,17 @@ function getYaml () {
     return yaml;
 }
 
+function makeExecError ({error, stderr}) {
+    return {type: "ExecError", error, stderr}
+}
+
 function doBuild () {
     return new Promise((res, rej) => {
         execFile("stack", ["build", "--stack-yaml=" + getYaml()], (error, stdout, stderr) => {
             if (error === null) {
                 res(stdout)
             } else {
-                rej({error, stderr})
+                rej(makeExecError({error, stderr}))
             }
         })
     })
@@ -56,11 +60,11 @@ function doExec (path) {
     })
 
     s.stdout.on('data', (data) => {
-        logger.info(`stdout: ${data}`);
+        logger.info(`${data}`);
     });
     
     s.stderr.on('data', (data) => {
-        logger.error(`stderr: ${data}`);
+        logger.error(`${data}`);
     });
     
     s.on('close', (code, signal) => {
@@ -76,7 +80,7 @@ function getExecutablePath () {
             if (error === null) {
                 res(stdout.replace("\n", ""))
             } else {
-                rej({error, stderr})
+                rej(makeExecError({error, stderr}))
             }
         })
     })
@@ -200,8 +204,12 @@ function chokidarCommon (wsServer) {
             // 0 second left
             chokidarState.unlock()
         } catch (e) {
-            logger.error(e.error)
-            logger.error(e.stderr)
+            if (e.type === "ExecError") {
+                logger.error(e.error)
+                logger.error(e.stderr)
+            } else {
+                logger.error(e)
+            }
             chokidarState.unlock()
         }
     })
