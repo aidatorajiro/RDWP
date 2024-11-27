@@ -27,6 +27,9 @@ stages:
 
 build-job:
   stage: build
+  rules:
+    - changes:
+      - frontend/**/*
   cache:
     - key:
         files:
