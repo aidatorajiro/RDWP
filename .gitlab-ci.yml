@@ -48,6 +48,7 @@ build-job:
   artifacts:
     paths:
       - ./RDWP-exe.jsexe
+    expire_in: 1 day
 
 deploy-job:
   stage: deploy
