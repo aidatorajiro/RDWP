@@ -5,6 +5,26 @@ const ws = require('ws');
 const chokidar = require('chokidar')
 const { execFile, spawn } = require('node:child_process');
 
+const winston = require('winston')
+const logger = winston.createLogger({
+    format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.printf(({ level, message }) => {
+            let x = "";
+            let l = message.split("\n")
+            for (let i = 0; i < l.length; i++) {
+                if (i === l.length - 1) {
+                    x += `${level}| ${l[i]}`
+                } else {
+                    x += `${level}| ${l[i]}\n`
+                }
+            }
+            return x;
+        })
+    ),
+    transports: [ new winston.transports.Console() ]
+});
+
 function getYaml () {
     let yaml;
     if ( process.env.SERVER_MODE === 'WARP' ) {
@@ -36,15 +56,15 @@ function doExec (path) {
     })
 
     s.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
+        logger.info(`stdout: ${data}`);
     });
     
     s.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
+        logger.error(`stderr: ${data}`);
     });
     
-    s.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
+    s.on('close', (code, signal) => {
+        logger.info(`child process exited with code ${code} signal ${signal}`);
     });
 
     return s
@@ -89,12 +109,12 @@ function appCommon () {
 function wsCommon (server) {
     const wsServer = new ws.Server({ noServer: true });
     wsServer.on('connection', socket => {
-      socket.on('error', console.error);
-      socket.on('message', console.log);
+      socket.on('error', logger.error);
+      socket.on('message', logger.info);
     });
     server.on('upgrade', (request, socket, head) => {
         if (request.url === '/wsapi') {
-            console.log('/wsapi connected...')
+            logger.info('client connected...')
             wsServer.handleUpgrade(request, socket, head, socket => {
                 socket.send('CONNECT- HELLO')
                 wsServer.emit('connection', socket, request);
@@ -142,7 +162,6 @@ const chokidarState = {
 function killMainProcess () {
     return new Promise((res, rej) => {
         chokidarState.mainProcess.on('close', (code, signal) => {
-            console.log(`child process terminated due to receipt of signal ${signal} code ${code}`);
             res()
         })
         chokidarState.mainProcess.kill()
@@ -160,11 +179,14 @@ function chokidarCommon (wsServer) {
         if (chokidarState.isLocked()) { return; }
         chokidarState.lock()
         try {
+            logger.info("Start Build...")
             const stdout = await doBuild()
+            logger.info(stdout)
+            logger.info("Build Complete! Running Executable...")
             const execpath = await getExecutablePath()
-            console.log(stdout)
 
             if (chokidarState.mainProcess !== null) {
+                logger.info("Terminating Previous Process...")
                 // broadcast reload script (takes 3 seconds to invoke location.reload())
                 broadcastReload(wsServer)
                 // 3 second left
@@ -173,12 +195,13 @@ function chokidarCommon (wsServer) {
                 await killMainProcess()
             }
 
+            logger.info('Launching New Process...')
             chokidarState.mainProcess = doExec(execpath)
             // 0 second left
             chokidarState.unlock()
         } catch (e) {
-            console.error("ERRORCODE: ", e.error)
-            console.error(e.stderr)
+            logger.error(e.error)
+            logger.error(e.stderr)
             chokidarState.unlock()
         }
     })
