@@ -2,20 +2,22 @@
 
 module LibMain ( startApp ) where
 
-import System.Environment
+
+import qualified GHCJS.DOM.History as History
+import qualified GHCJS.DOM.WindowEventHandlers as WindowEventHandlers
+import qualified Data.Text as T
+import qualified Reflex.Dom.WebSocket as WS
+import qualified Error404
+import qualified Control.Monad
+import qualified Data.ByteString as BS
+import System.Environment ( getArgs )
 import GHCJS.DOM ( currentWindowUnchecked )
 import GHCJS.DOM.EventM ( on )
 import GHCJS.DOM.Window ( getHistory, getLocation )
-import qualified GHCJS.DOM.History as History
-import qualified GHCJS.DOM.WindowEventHandlers as WindowEventHandlers
 import Reflex.Dom
 import Reflex.Dom.Location ( getLocationPath )
-import qualified Data.Text as T
-import Text.Parsec
+import Text.Parsec ( parse )
 import Safe (atMay)
-import qualified Reflex.Dom.WebSocket as WS
-
-import qualified Error404
 import Router (parseLocationPath)
 import Elements ( style )
 import Text.RawString.QQ ( r )
@@ -24,13 +26,10 @@ import Data.Maybe (fromMaybe)
 import GHC.TypeError (ErrorMessage(Text))
 import System.Directory.Extra (getCurrentDirectory)
 import Control.Monad.IO.Class (liftIO)
-import qualified Control.Monad
 import Control.Concurrent (threadDelay)
 import Util (tryActions, flatEventMaybe, widgetHoldNoop)
-import qualified JSDOM.Generated.Location as GHCJS.DOM
 import Language.Javascript.JSaddle (ToJSVal(toJSVal), eval)
 import JSDOM.Types (liftJSM)
-import qualified Data.ByteString as BS
 import Data.Text.Encoding (decodeUtf8)
 import System.Exit (exitWith, ExitCode (ExitSuccess))
 
