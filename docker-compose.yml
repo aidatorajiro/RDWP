@@ -1,7 +1,7 @@
 version: '2'
 services:
   myservice:
-    image: taw3/ghcjs-devenv
+    image: taw3/ghcjs-devenv:latest
     mem_limit: 11g
     ports: ["127.0.0.1:2222:22"]
     volumes:

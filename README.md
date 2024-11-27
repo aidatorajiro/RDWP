@@ -76,6 +76,12 @@ hot reloading is WIP.
 
 ### docker (stack + ghcup + X11 forwarding, for development)
 
+1. `mkdir .stack-cache`
+1. `mkdir .cabal-cache`
+1. `mkdir -p .stack-cache/hooks/`
+1. `curl https://raw.githubusercontent.com/haskell/ghcup-hs/master/scripts/hooks/stack/ghc-install.sh > .stack-cache/hooks/ghc-install.sh`
+1. `chmod +x .stack-cache/hooks/ghc-install.sh`
+1. `echo "system-ghc: false" >> .stack-cache/config.yaml`
 1. `docker-compose up`
 
 #### Use nvim
