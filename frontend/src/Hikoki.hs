@@ -7,9 +7,12 @@ import Elements
 import qualified Data.Text as T
 import qualified Data.Map as M
 import Text.RawString.QQ
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, fromJust)
 import Language.Javascript.JSaddle (eval, liftJSM)
 import Util (getTickEv)
+import JSDOM (currentWindow)
+import JSDOM.Generated.Element (getClientWidth)
+import JSDOM.Custom.Window (getInnerWidth)
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
@@ -37,15 +40,13 @@ body {
     el "p" $ do
         mapM_ (\x -> assetImgClass ("hikoki_" <> T.pack (show x) <> ".jpg") "hikokix" (return ())) [1..16]
 
-        re_evt <- getTickEv 3
-        let rd_monad = resizeDetector $ do
-                            el "p" (text "　　　　　　　")
-                            return ()
-        wh <- widgetHold (return (never, ())) (rd_monad <$ re_evt)
-        wh' <- switchHold never $ fst <$> updated wh
-        wh'' <- holdDyn (Nothing, Nothing) wh'
-        
-        let soretext = (\x -> take (floor $ x / 7) $ cycle "それがどうした　") . max 300 . fromMaybe 300 . fst <$> wh''
+        every_3_sec <- getTickEv 3
+        let getwidth_monad = do
+                w <- liftJSM currentWindow
+                liftJSM $ getInnerWidth (fromJust w)
+        width_dyn <- widgetHold getwidth_monad (getwidth_monad <$ every_3_sec)
+
+        let soretext = (\x -> take (x `div` 7) $ cycle "それがどうした　") . max 300 <$> width_dyn
         elClass "p" "soresore" (dynText $ T.pack <$> soretext)
         assetImgClass "hikoki_17.jpg" "hikokiy" (return ())
     return never
