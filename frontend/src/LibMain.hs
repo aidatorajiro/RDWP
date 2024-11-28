@@ -32,6 +32,7 @@ import Language.Javascript.JSaddle (ToJSVal(toJSVal), eval)
 import JSDOM.Types (liftJSM)
 import Data.Text.Encoding (decodeUtf8)
 import System.Exit (exitWith, ExitCode (ExitSuccess))
+import JSDOM.Generated.Location (getHostname)
 
 resetCss :: T.Text
 resetCss = [r|
@@ -194,7 +195,8 @@ startApp = do
                 never
                 False
                 []
-      ws <- WS.textWebSocket "ws://localhost:11923/wsapi" ws_conf
+      lh <- getLocationHost
+      ws <- WS.textWebSocket ("ws://" <> lh <> "/wsapi") ws_conf
       let ws_recv = WS._webSocket_recv ws
       let err_ev = WS._webSocket_error ws
       return (err_ev, ws_recv)

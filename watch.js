@@ -118,6 +118,14 @@ function getExecutablePath () {
     })
 }
 
+function getHostname () {
+  if ( process.env.SERVER_HOST === undefined ) {
+    return "localhost"
+  } else {
+    return process.env.SERVER_HOST
+  }
+}
+
 function appCommon () {
     if ( process.env.SERVER_MODE === 'WARP' ) {
         const app = express()
@@ -133,11 +141,11 @@ function appCommon () {
             },
             ws: true
         }))
-        const server = app.listen(11923)
+        const server = app.listen(11923, getHostname())
         return app, server
     } else if ( process.env.SERVER_MODE === 'WEBKIT' ) {
         const app = express()
-        const server = app.listen(11923)
+        const server = app.listen(11923, getHostname())
         return app, server
     }
 }
@@ -211,6 +219,7 @@ function sleep (time) {
 }
 
 function chokidarCommon (wsServer) {
+    // TODO: implement for webkit
     chokidar.watch('frontend').on('change', async () => {
         if (chokidarState.isLocked()) { return; }
         chokidarState.lock()
