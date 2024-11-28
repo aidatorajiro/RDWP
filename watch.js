@@ -10,16 +10,25 @@ const winston = require('winston');
 
 const chalk = (await import('chalk')).default;
 
+const labelColors = {
+  meta: chalk.hex('#FFA000'),
+  exec: chalk.hex('#00A0FF'),
+  net: chalk.hex('#D02000'),
+  info: chalk.bgHex('#102080'),
+  error: chalk.bgRed
+}
+
 const defaultFormat = winston.format.combine(
-    winston.format.colorize(),
     winston.format.printf(({ level, label, message }) => {
+        label = labelColors[label](label.padStart(5, ' '))
+        level = labelColors[level](level.padStart(5, ' '))
         let x = "";
         let l = message.split("\n")
         for (let i = 0; i < l.length; i++) {
             if (i === l.length - 1) {
-                x += `${label}| ${level}| ${l[i]}`
+                x += `${label}|${level}|${l[i]}`
             } else {
-                x += `${label}| ${level}| ${l[i]}\n`
+                x += `${label}|${level}|${l[i]}\n`
             }
         }
         return x;
@@ -27,14 +36,13 @@ const defaultFormat = winston.format.combine(
 )
 
 const defaultLoggerOptions = {
-    format: defaultFormat,
     transports: [ new winston.transports.Console() ]
 }
 
 const logger_meta = winston.createLogger({
     ...defaultLoggerOptions,
     format: winston.format.combine(
-        winston.format.label({label: chalk.hex('#FFA500')('meta')}),
+        winston.format.label({label: ('meta')}),
         defaultFormat
     )
 });
@@ -42,7 +50,7 @@ const logger_meta = winston.createLogger({
 const logger_exec = winston.createLogger({
     ...defaultLoggerOptions,
     format: winston.format.combine(
-        winston.format.label({label: chalk.hex('#0020FF')('exec')}),
+        winston.format.label({label: ('exec')}),
         defaultFormat
     )
 });
@@ -50,7 +58,7 @@ const logger_exec = winston.createLogger({
 const logger_net = winston.createLogger({
     ...defaultLoggerOptions,
     format: winston.format.combine(
-        winston.format.label({label: chalk.hex('#D02000')('net')}),
+        winston.format.label({label: ('net')}),
         defaultFormat
     )
 });
