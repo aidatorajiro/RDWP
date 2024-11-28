@@ -53,6 +53,8 @@ Or without hot reloading: `./run-warp.bash`
 
 Access to `http://localhost:11923` via Google Chrome. (Firefox not supported)
 
+You can also change the hostname by specifying `SERVER_HOST`
+
 ### GHCJS 8 and 9
 
 Hot reload using browser-sync.
