@@ -12,7 +12,7 @@ import Language.Javascript.JSaddle (eval, liftJSM)
 import Util (getTickEv)
 import JSDOM (currentWindow)
 import JSDOM.Generated.Element (getClientWidth)
-import JSDOM.Custom.Window (getInnerWidth)
+import JSDOM.Custom.Window (getInnerWidth, getOuterWidth)
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
@@ -39,11 +39,10 @@ body {
     assetImgClass "hikoki.jpg" "hikoki" (return ())
     el "p" $ do
         mapM_ (\x -> assetImgClass ("hikoki_" <> T.pack (show x) <> ".jpg") "hikokix" (return ())) [1..16]
-
         every_3_sec <- getTickEv 3
         let getwidth_monad = do
                 w <- liftJSM currentWindow
-                liftJSM $ getInnerWidth (fromJust w)
+                liftJSM $ getOuterWidth (fromJust w)
         width_dyn <- widgetHold getwidth_monad (getwidth_monad <$ every_3_sec)
 
         let soretext = (\x -> take (x `div` 7) $ cycle "それがどうした　") . max 300 <$> width_dyn
