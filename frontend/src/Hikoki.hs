@@ -17,7 +17,7 @@ import JSDOM.Custom.Window (getInnerWidth, getOuterWidth)
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
     style [r|
-.hikoki {width: 100%; height: 100%;}
+.hikoki {display: block; width: 100vw; height: 100vw; filter: url(#nanika);}
 .hikokix {
 
 }
@@ -31,21 +31,30 @@ page = do
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-body {
+body,html {
     background: #310710;
+    width: 100%;
+    height: 100%;
+    font-size: 24px;
 }
 |]
-    let txt = "あかがみに目を細めると死のもじが"
-    assetImgClass "hikoki.jpg" "hikoki" (return ())
-    el "p" $ do
-        mapM_ (\x -> assetImgClass ("hikoki_" <> T.pack (show x) <> ".jpg") "hikokix" (return ())) [1..16]
-        every_3_sec <- getTickEv 3
-        let getwidth_monad = do
-                w <- liftJSM currentWindow
-                liftJSM $ getOuterWidth (fromJust w)
-        width_dyn <- widgetHold getwidth_monad (getwidth_monad <$ every_3_sec)
+    let txt = ["あ", "か", "が", "み", "に", "目", "を", "細", "め", "る", "と", "死", "の", "も", "じ", "が"] :: [T.Text]
 
-        let soretext = (\x -> take (x `div` 7) $ cycle "それがどうした　") . max 300 <$> width_dyn
-        elClass "p" "soresore" (dynText $ T.pack <$> soretext)
-        assetImgClass "hikoki_17.jpg" "hikokiy" (return ())
+    baseSVG 0 0 $ do
+        elID' "filter" "nanika" $ do
+            return ()
+
+    assetImgClass "hikoki.jpg" "hikoki" (return ())
+    elClass' "p" "hikokiwrap" $ do
+        mapM_ (\x -> elAttr' "img" (M.fromList [("src", "hikoki_" <> T.pack (show x) <> ".jpg"), ("class", "hikokix"), ("alt", txt !! (x-1))]) (return ())) ([1..16] :: [Int])
+    
+    every_3_sec <- getTickEv 3
+    let getwidth_monad = do
+          w <- liftJSM currentWindow
+          liftJSM $ getOuterWidth (fromJust w)
+    width_dyn <- widgetHold getwidth_monad (getwidth_monad <$ every_3_sec)
+
+    let soretext = (\x -> take (x `div` 7) $ cycle "それがどうした　") . max 300 <$> width_dyn
+    elClass "p" "soresore" (dynText $ T.pack <$> soretext)
+    assetImgClass "hikoki_17.jpg" "hikokiy" (return ())
     return never

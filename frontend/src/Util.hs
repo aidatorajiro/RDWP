@@ -1,19 +1,39 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecursiveDo #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 module Util where
 
-import Control.Monad.Trans (liftIO)
+import Control.Monad.Trans (liftIO, MonadIO)
 import Data.Time
 import System.Random
 
 import qualified Data.ByteString as B
 
 import Reflex.Dom
-import Language.Javascript.JSaddle (JSM, JSVal, jsg, (#))
+import Language.Javascript.JSaddle (JSM, JSVal, jsg, (#), function)
 import Control.Monad (void)
 import qualified Witherable as W
 import Data.Maybe (fromJust, isJust)
+import Control.Monad.Fix (MonadFix)
+
+-- | dimming function using sin function
+-- | deltatime = time delta for each tick
+-- | speed = change speed
+timeElapsed :: (Reflex t, MonadHold t m, MonadIO m, PostBuild t m, PerformEvent t m, TriggerEvent t m, MonadIO (Performable m), MonadFix m) => NominalDiffTime -> m (Dynamic t Double)
+timeElapsed deltatime = do
+  ct <- liftIO getCurrentTime
+  ev <- tickLossy deltatime ct
+  cnt <- count ev
+  return $ (\x -> x * realToFrac deltatime) <$> cnt
+
+-- | dimming function using sin function
+-- | deltatime = time delta for each tick
+-- | speed = change speed
+dim :: (Reflex t, MonadHold t m, MonadIO m, PostBuild t m, PerformEvent t m, TriggerEvent t m, MonadIO (Performable m), MonadFix m) => NominalDiffTime -> Double -> m (Dynamic t Double)
+dim deltatime speed = do
+  cnt <- timeElapsed deltatime
+  return (sin . (*speed) <$> cnt)
 
 -- | widgetHold with no operation at init state
 widgetHoldNoop :: (Adjustable t m, MonadHold t m) => Event t (m ()) -> m (Dynamic t ())

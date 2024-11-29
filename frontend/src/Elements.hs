@@ -9,6 +9,11 @@ import Data.Monoid ((<>))
 
 import Reflex.Dom
 
+-- | A base svg tag with width, height and xmlns.
+baseSVG :: DomBuilder t m => Int -> Int -> m a -> m a
+baseSVG width height mon = do
+    elAttr "svg" (M.fromList [("width", T.pack $ show width), ("height", T.pack $ show height), ("xmlns", "http://www.w3.org/2000/svg")]) mon
+
 -- | A style tag.
 style :: MonadWidget t m => T.Text -> m ()
 style = el "style" . text

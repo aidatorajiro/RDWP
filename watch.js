@@ -14,8 +14,8 @@ const labelColors = {
   meta: chalk.hex('#FFA000'),
   exec: chalk.hex('#00A0FF'),
   net: chalk.hex('#D02000'),
-  info: chalk.bgHex('#102080'),
-  error: chalk.bgRed
+  info: chalk.bgHex('#102080').white,
+  error: chalk.bgRed.white
 }
 
 const defaultFormat = winston.format.combine(
