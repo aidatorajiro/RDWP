@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedLists #-}
 {-# LANGUAGE RankNTypes #-}
 
 module Elements where
@@ -9,10 +10,46 @@ import Data.Monoid ((<>))
 
 import Reflex.Dom
 
+-- | the SVG namespace URL.
+svgNS :: Maybe T.Text
+svgNS = Just "http://www.w3.org/2000/svg"
+
 -- | A base svg tag with width, height and xmlns.
-baseSVG :: DomBuilder t m => Int -> Int -> m a -> m a
+baseSVG :: (PostBuild t m, DomBuilder t m) => Int -> Int -> m a -> m a
 baseSVG width height mon = do
-    elAttr "svg" (M.fromList [("width", T.pack $ show width), ("height", T.pack $ show height), ("xmlns", "http://www.w3.org/2000/svg")]) mon
+    elDynAttrNS svgNS "svg" (constDyn $ M.fromList [("width", T.pack $ show width), ("height", T.pack $ show height), ("xmlns", "http://www.w3.org/2000/svg")]) mon
+
+-- | a svg element
+svgElDynAttr :: (PostBuild t m, DomBuilder t m) => T.Text -> Dynamic t (M.Map T.Text T.Text) -> m a -> m a
+svgElDynAttr = elDynAttrNS svgNS
+
+-- | a svg element with event result
+svgElDynAttr' :: (PostBuild t m, DomBuilder t m) => T.Text -> Dynamic t (M.Map T.Text T.Text) ->  m a -> m (Element EventResult (DomBuilderSpace m) t, a)
+svgElDynAttr' = elDynAttrNS' svgNS
+
+-- | a svg element
+svgEl :: (PostBuild t m, DomBuilder t m) => T.Text -> m a -> m a
+svgEl tagname = elDynAttrNS svgNS tagname (constDyn [])
+
+-- | a svg element with event result
+svgEl' :: (PostBuild t m, DomBuilder t m) => T.Text -> T.Text ->  m a -> m (Element EventResult (DomBuilderSpace m) t, a)
+svgEl' tagname idname = elDynAttrNS' svgNS tagname (constDyn [("id", idname)])
+
+-- | a svg element
+svgElAttr :: (PostBuild t m, DomBuilder t m) => T.Text -> M.Map T.Text T.Text -> m a -> m a
+svgElAttr tagname attr = elDynAttrNS svgNS tagname (constDyn attr)
+
+-- | a svg element with event result
+svgElAttr' :: (PostBuild t m, DomBuilder t m) => T.Text -> M.Map T.Text T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
+svgElAttr' tagname attr = elDynAttrNS' svgNS tagname (constDyn attr)
+
+-- | a svg element
+svgElID :: (PostBuild t m, DomBuilder t m) => T.Text -> T.Text -> m a -> m a
+svgElID tagname idname = elDynAttrNS svgNS tagname (constDyn [("id", idname)])
+
+-- | a svg element with event result
+svgElID' :: (PostBuild t m, DomBuilder t m) => T.Text -> T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
+svgElID' tagname idname = elDynAttrNS' svgNS tagname (constDyn [("id", idname)])
 
 -- | A style tag.
 style :: MonadWidget t m => T.Text -> m ()
@@ -89,8 +126,8 @@ assetImg' = elAttr' "img" . M.singleton "src" . toAssetUrl
 
 -- | image object
 assetImgClass :: MonadWidget t m => T.Text -> T.Text -> m a -> m a
-assetImgClass src cls = elAttr "img" (M.fromList [("src", toAssetUrl src), ("class", cls)])
+assetImgClass src cls = elAttr "img" [("src", toAssetUrl src), ("class", cls)]
 
 -- | image object
 assetImgClass' :: MonadWidget t m => T.Text -> T.Text -> m a -> m (Element EventResult (DomBuilderSpace m) t, a)
-assetImgClass' src cls = elAttr' "img" (M.fromList [("src", toAssetUrl src), ("class", cls)])
+assetImgClass' src cls = elAttr' "img" [("src", toAssetUrl src), ("class", cls)]
