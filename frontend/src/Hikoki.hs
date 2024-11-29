@@ -50,7 +50,14 @@ page = do
                 return ()
 
     style [r|
-.hikoki {display: block; width: 100vw; height: 100vw; filter: url(#boyaketekuru); mask: url(#kakononoroi);}
+.hikoki {
+    display: block;
+    width: 100vw;
+    height: 100vw;
+    filter: url(#boyaketekuru);
+    mask: url(#kakononoroi);
+    -webkit-mask: url(#kakononoroi);
+}
 .hikokix {
 
 }
@@ -84,3 +91,5 @@ body,html {
     elClass "p" "soresore" (dynText $ T.pack <$> soretext)
     assetImgClass "hikoki_17.jpg" "hikokiy" (return ())
     return never
+
+
