@@ -7,15 +7,26 @@ import Elements
 import qualified Data.Text as T
 import qualified Data.Map as M
 import Text.RawString.QQ
-import Data.Maybe (fromMaybe, fromJust)
-import Language.Javascript.JSaddle (eval, liftJSM)
+import Data.Maybe (fromMaybe, fromJust, isJust)
+import Language.Javascript.JSaddle (liftJSM)
 import Util (getTickEv)
 import JSDOM (currentWindow)
 import JSDOM.Generated.Element (getClientWidth)
 import JSDOM.Custom.Window (getInnerWidth, getOuterWidth)
+import Control.Monad (when)
+
+svgFilter :: T.Text
+svgFilter = [r|
+
+|]
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
+    baseSVG 0 0 $ do
+        svgEl "defs" $
+            svgElID "filter" "nanika" $ do
+                svgElAttr "feGaussianBlur" (M.fromList [("stdDeviation", "20")]) $ return ()
+
     style [r|
 .hikoki {display: block; width: 100vw; height: 100vw; filter: url(#nanika);}
 .hikokix {
@@ -40,9 +51,6 @@ body,html {
 |]
     let txt = ["あ", "か", "が", "み", "に", "目", "を", "細", "め", "る", "と", "死", "の", "も", "じ", "が"] :: [T.Text]
 
-    baseSVG 0 0 $ do
-        elID' "filter" "nanika" $ do
-            return ()
 
     assetImgClass "hikoki.jpg" "hikoki" (return ())
     elClass' "p" "hikokiwrap" $ do
