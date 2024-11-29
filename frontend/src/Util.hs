@@ -17,6 +17,7 @@ import qualified Witherable as W
 import Data.Maybe (fromJust, isJust)
 import Control.Monad.Fix (MonadFix)
 
+
 -- | dimming function using sin function
 -- | deltatime = time delta for each tick
 -- | speed = change speed
