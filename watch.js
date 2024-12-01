@@ -139,8 +139,9 @@ function appCommon () {
         const app = express()
         app.use(express.static('./frontend/assets'))
         app.use(historyApiFallback({
-            index: '/'
+            index: '/index-warp.html'
         }))
+        app.use(express.static('./index-warp'))
         app.use(proxy.createProxyMiddleware({
             target: 'http://localhost:11924/',
             changeOrigin: true,
