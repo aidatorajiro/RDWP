@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes, OverloadedLists #-}
+{-# LANGUAGE OverloadedStrings, QuasiQuotes, OverloadedLists, TemplateHaskell #-}
 
 module Hikoki ( page ) where
 
@@ -12,11 +12,21 @@ import Language.Javascript.JSaddle (liftJSM)
 import Util (getTickEv, dim)
 import JSDOM (currentWindow)
 import JSDOM.Generated.Element (getClientWidth)
-import JSDOM.Custom.Window (getInnerWidth, getOuterWidth)
+import JSDOM.Custom.Window (getInnerWidth, getOuterWidth, deviceOrientation)
 import Control.Monad (when)
+import Data.FileEmbed (embedStringFile, makeRelativeToProject)
+
+angou :: T.Text
+angou = T.pack $(makeRelativeToProject "assets/hikoki_angou.txt" >>= embedStringFile)
 
 page :: MonadWidget t m => m (Event t T.Text)
 page = do
+    elClass "div" "takusan" $ mapM_ (\i -> do
+            elClass "div" "takusan-in" $ do
+                assetImg (T.pack $ "hikoki_komak_" <> show i <> ".png") (return ())
+            return ())
+        ([1..18] :: [Int])
+
     let getFilePath x = "hikoki_" <> T.pack (show x) <> ".jpg"
 
     every_3_sec <- getTickEv 3
@@ -50,6 +60,14 @@ page = do
                 return ()
 
     style [r|
+@font-face {
+  font-family: "Saitamaar";
+  src: url("/Saitamaar.woff2") format("woff2"),
+    url("/Saitamaar.woff") format("woff"),
+    url("/Saitamaar.ttf") format("ttf");
+  font-display: swap;
+}
+
 .hikoki {
     display: block;
     width: 100vw;
@@ -64,7 +82,8 @@ page = do
 .hikokiy {
     display: block;
     margin: auto;
-    margin-top: 20vw
+    margin-top: 20vw;
+    width: 30vw;
 }
 .soresore {
     background: -webkit-linear-gradient(0deg, white, black, white, black, white, black, white, black, white, black, white, black, white, black, white, black);
@@ -74,8 +93,32 @@ page = do
 body,html {
     background: #310710;
     width: 100%;
-    height: 100%;
+    height: 0;
     font-size: 24px;
+}
+.angou {
+    margin-top: 350vh;
+    color: white;
+    word-break: break-all;
+    font-family: Saitamaar;
+}
+.takusan {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -10000;
+}
+.takusan-in {
+  width: 15vw;
+}
+.takusan-in > img {
+  width: 50%;
+  margin: auto;
+  display: block;
+  margin-bottom: 15vw;
 }
 |]
     let txt = ["あ", "か", "が", "み", "に", "目", "を", "細", "め", "る", "と", "死", "の", "も", "じ", "が"] :: [T.Text]
@@ -90,6 +133,11 @@ body,html {
     let soretext = (\x -> take (x `div` 7) $ cycle "それがどうした　") . max 300 <$> width_dyn
     elClass "p" "soresore" (dynText $ T.pack <$> soretext)
     assetImgClass "hikoki_17.jpg" "hikokiy" (return ())
+    
+    elClass "p" "angou" (text angou)
+
+        
+
     return never
 
 
