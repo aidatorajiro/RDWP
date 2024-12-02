@@ -137,11 +137,15 @@ function getHostname () {
 function appCommon () {
     if ( process.env.SERVER_MODE === 'WARP' ) {
         const app = express()
+        // existing static files
         app.use(express.static('./frontend/assets'))
+        // requests that has no dots AND its contents type is html -> /index-warp.html
         app.use(historyApiFallback({
             index: '/index-warp.html'
         }))
+        // /index-warp.html
         app.use(express.static('./index-warp'))
+        // all other requests that is not /wsapi (eg. /jsaddle.js, websocket /, sync xhr requests) -> proxy
         app.use(proxy.createProxyMiddleware({
             target: 'http://localhost:11924/',
             changeOrigin: true,
@@ -151,6 +155,7 @@ function appCommon () {
             ws: true
         }))
         const server = app.listen(11923, getHostname())
+        // /wsapi : custom websocket server
         return app, server
     } else if ( process.env.SERVER_MODE === 'WEBKIT' ) {
         const app = express()
