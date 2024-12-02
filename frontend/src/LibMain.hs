@@ -214,6 +214,7 @@ startApp = do
     -- TODO: its too pretentious to use Event here; better brought up to the top as a process separated from mainWidget?
     let ws_in = ["never" :: T.Text] <$ never
 
+    -- after server shutdown, every haskell code will not work, so push reload action to the most basic level of javascript engine via eval and setTimeout.
     let reload_action x = Control.Monad.when (x == "RELOAD-- NOW") $ do
                 liftJSM $ eval ("setTimeout(function () { location.reload() }, 3000)" :: String)
                 return ()
