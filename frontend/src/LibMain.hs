@@ -33,6 +33,7 @@ import JSDOM.Types (liftJSM)
 import Data.Text.Encoding (decodeUtf8)
 import System.Exit (exitWith, ExitCode (ExitSuccess))
 import JSDOM.Generated.Location (getHostname)
+import Data.Time.Calendar.Julian (julianMonthLength)
 
 resetCss :: T.Text
 resetCss = [r|
@@ -222,22 +223,22 @@ startApp = do
     widgetHoldNoop (reload_action <$> ws_recv)
 #endif
     
-    -- Get an Event of Event which contains dynamically changing widget.
+    -- Get an Event of Event which contains dynamically changing widget. Here, the outer Event is the notification of change of the monad, the inner Event is page change command fired from the monad. They are basically the same, but the outer Event fires later than the inner Event, and the outer Event is holistic, meaning it has actions other than the page itself (the initial state and the browser go back/forth actions)
     ee <- dyn $ router <$> loc
 
-    -- Using some magic to flatten an Event of Event to get a location update Event from the router.
+    -- Using some magic to flatten an Event of Event to get a location update Event from the router. "hold" means to create a Behavior, which means it has values all the time, but we cannot listen to its change, unlike Dynamic. Then we use "switch" func to get a plain Event from the Behavior-Event nest. "switch" takes the current Event value right after the inner Event fires, switching from one Event to another infinitely. In short, this code merges the page change command from the page monad into the final location Dynamic we need, which has the page change command itself and other browser actions.
     routerEv <- switch <$> hold never ee
 
-    -- Get current value of location.path.
+    -- Get current value of location.path
     initLoc <- getLocationPath
 
     -- Get the browser's popState Event
     browserEv <- popState
 
-    -- Push locations from the router Event to the browser history.
+    -- Push locations from the router Event to the browser history, whenever the page change happens.
     widgetHoldNoop (pushState <$> routerEv)
 
-    -- Define location, then back to the loop.
+    -- Define the location Dynamic, then back to the loop, causing the process above infinitely.
     loc <- holdDyn initLoc (leftmost [routerEv, browserEv])
 
     return ()
@@ -255,10 +256,8 @@ startApp = do
     --
     --
 
-    -- Get an Event of Event which contains dynamically changing widget.
     ee <- dyn $ router <$> loc
 
-    -- Using some magic to flatten an Event of Event to get a location update Event from the router.
     routerEv <- switch <$> hold never ee
 
     -- input to the websocket
@@ -279,7 +278,6 @@ startApp = do
         Control.Monad.when (x' == "SHUTDOWN NOW")
         (liftIO $ exitWith ExitSuccess)) <$> ws_recv)
 
-    -- Define location, then back to the loop.
     loc <- holdDyn initLoc (leftmost [routerEv, flatEventMaybe browserEv])
     
     return ()
