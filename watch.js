@@ -184,7 +184,7 @@ function wsCommon (server) {
 
 function broadcastReload (wsServer) {
     wsServer.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
+        if (client.readyState === ws.OPEN) {
             if ( process.env.SERVER_MODE === 'WARP' ) {
                 client.send("RELOAD-- NOW");
             } else if ( process.env.SERVER_MODE === 'WEBKIT' ) {
