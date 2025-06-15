@@ -3,9 +3,9 @@ version:        0.1.0.0
 description:    Please see the README on Github at <https://github.com/aidatorajiro/RDWP#readme>
 homepage:       https://github.com/aidatorajiro/RDWP#readme
 bug-reports:    https://github.com/aidatorajiro/RDWP/issues
-author:         Torajiro Aida
+author:         Tora
 maintainer:     kawarusosu@zoho.com
-copyright:      2018 Torajiro Aida
+copyright:      2025 tora
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
@@ -74,6 +74,7 @@ library
       Dott
       Hikoki
       Router
+      Shishi
   other-modules:
       Paths_RDWP
   if flag(is-webkit)

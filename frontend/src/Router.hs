@@ -21,6 +21,7 @@ import qualified Logg
 import qualified Source
 import qualified Dott
 import qualified Hikoki
+import qualified Shishi
 
 -- | parse URL Location Path
 parseLocationPath :: MonadWidget t m => Parsec T.Text () (m (Event t T.Text))
@@ -48,5 +49,6 @@ parseLocationPath =
       l "/logg" Logg.page,
       ls "/cf1" Source.page,
       ls "/dott" Dott.page,
-      l "/hikoki" Hikoki.page
+      l "/hikoki" Hikoki.page,
+      ln "/shishi" Shishi.page
     ]
