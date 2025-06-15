@@ -4,7 +4,7 @@ packages:
 - 'frontend'
 
 extra-deps:
-- git:  https://github.com/reflex-frp/reflex.git
+- git: https://github.com/reflex-frp/reflex.git
   commit: 58a67d30fd134a1dff61c85f6a50cd5498acf7e7
 - git: https://github.com/reflex-frp/reflex-dom.git
   commit: 3ebba468113c0afc43ec7deafbd7479be8db43db

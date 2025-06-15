@@ -33,14 +33,14 @@ build-job:
   cache:
     - key:
         files:
-        - ./frontend/project-file-910
+        - ./frontend/project-file-jsbackend
       paths:
         - ./.cabal-cache
   script:
-    - docker pull taw3/ghcjs-devenv:latest
+    - docker pull taw3/ghcjs-devenv:996e94a43e9dcf0cf744f84c550ce33a0c3695b8
     - mkdir .cabal-cache || true
     - chown -R 1000:1000 ./
-    - docker run -v "$(pwd)":/workspace -v "$(pwd)"/.cabal-cache:/home/haskell/.cabal taw3/ghcjs-devenv:latest bash -c ". ~/e.sh; cd /workspace; cabal update; ./build-cabal-910.bash"
+    - docker run -v "$(pwd)":/workspace -v "$(pwd)"/.cabal-cache:/home/haskell/.cabal taw3/ghcjs-devenv:latest bash -c ". ~/e.sh; cd /workspace; cabal update; ./build-cabal-jsbackend.bash"
     - chown -R 0:0 ./
   artifacts:
     paths:
