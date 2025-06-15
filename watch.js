@@ -147,7 +147,7 @@ function appCommon () {
         app.use(express.static('./index-warp'))
         // all other requests that is not /wsapi (eg. /jsaddle.js, websocket /, sync xhr requests) -> proxy
         app.use(proxy.createProxyMiddleware({
-            target: 'http://localhost:11924/',
+            target: 'http://' + getHostname() + ':11924/',
             changeOrigin: true,
             pathFilter: function (x) {
                 return !(x.match(/^\/wsapi$/))
